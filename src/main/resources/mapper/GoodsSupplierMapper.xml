@@ -5,8 +5,6 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
     <result column="supplier_id" jdbcType="INTEGER" property="supplierId" />
-    <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
-    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
     <result column="import_price" jdbcType="DECIMAL" property="importPrice" />
     <result column="purchase_link" jdbcType="VARCHAR" property="purchaseLink" />
     <result column="supplier_goods_code" jdbcType="VARCHAR" property="supplierGoodsCode" />
@@ -76,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, goods_id, supplier_id, supplier_code, supplier_name, import_price, purchase_link, 
-    supplier_goods_code, is_same, status, creator, create_time, modifier, modify_time
+    id, goods_id, supplier_id, import_price, purchase_link, supplier_goods_code, is_same, 
+    status, creator, create_time, modifier, modify_time
   </sql>
   <select id="selectByExample" parameterType="com.binger.goods.domain.GoodsSupplierExample" resultMap="BaseResultMap">
     select
@@ -122,16 +120,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into goods_supplier (goods_id, supplier_id, supplier_code, 
-      supplier_name, import_price, purchase_link, 
-      supplier_goods_code, is_same, status, 
-      creator, create_time, modifier, 
-      modify_time)
-    values (#{goodsId,jdbcType=INTEGER}, #{supplierId,jdbcType=INTEGER}, #{supplierCode,jdbcType=VARCHAR}, 
-      #{supplierName,jdbcType=VARCHAR}, #{importPrice,jdbcType=DECIMAL}, #{purchaseLink,jdbcType=VARCHAR}, 
-      #{supplierGoodsCode,jdbcType=VARCHAR}, #{isSame,jdbcType=BIT}, #{status,jdbcType=BIT}, 
-      #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR}, 
-      #{modifyTime,jdbcType=TIMESTAMP})
+    insert into goods_supplier (goods_id, supplier_id, import_price, 
+      purchase_link, supplier_goods_code, is_same, 
+      status, creator, create_time, 
+      modifier, modify_time)
+    values (#{goodsId,jdbcType=INTEGER}, #{supplierId,jdbcType=INTEGER}, #{importPrice,jdbcType=DECIMAL}, 
+      #{purchaseLink,jdbcType=VARCHAR}, #{supplierGoodsCode,jdbcType=VARCHAR}, #{isSame,jdbcType=BIT}, 
+      #{status,jdbcType=BIT}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifier,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.binger.goods.domain.GoodsSupplier">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -144,12 +140,6 @@
       </if>
       <if test="supplierId != null">
         supplier_id,
-      </if>
-      <if test="supplierCode != null">
-        supplier_code,
-      </if>
-      <if test="supplierName != null">
-        supplier_name,
       </if>
       <if test="importPrice != null">
         import_price,
@@ -185,12 +175,6 @@
       </if>
       <if test="supplierId != null">
         #{supplierId,jdbcType=INTEGER},
-      </if>
-      <if test="supplierCode != null">
-        #{supplierCode,jdbcType=VARCHAR},
-      </if>
-      <if test="supplierName != null">
-        #{supplierName,jdbcType=VARCHAR},
       </if>
       <if test="importPrice != null">
         #{importPrice,jdbcType=DECIMAL},
@@ -230,6 +214,22 @@
   <update id="updateByExampleSelective" parameterType="map">
     update goods_supplier
     <set>
+      <if test="record.createTime != null">
+        <if test="record.createTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          create_time= null,
+        </if>
+        <if test="record.createTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          create_time= #{record.createTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="record.modifyTime != null">
+        <if test="record.modifyTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          modify_time= null,
+        </if>
+        <if test="record.modifyTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          modify_time= #{record.modifyTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
       <if test="record.goodsId != null">
         <if test="record.goodsId == -99999">
           goods_id= null,
@@ -252,22 +252,6 @@
         </if>
         <if test="record.importPrice != -99999">
           import_price= #{record.importPrice,jdbcType=DECIMAL},
-        </if>
-      </if>
-      <if test="record.supplierCode != null">
-        <if test="record.supplierCode == 'erpsetnull'">
-          supplier_code= null,
-        </if>
-        <if test="record.supplierCode != 'erpsetnull'">
-          supplier_code= #{record.supplierCode,jdbcType=VARCHAR},
-        </if>
-      </if>
-      <if test="record.supplierName != null">
-        <if test="record.supplierName == 'erpsetnull'">
-          supplier_name= null,
-        </if>
-        <if test="record.supplierName != 'erpsetnull'">
-          supplier_name= #{record.supplierName,jdbcType=VARCHAR},
         </if>
       </if>
       <if test="record.purchaseLink != null">
@@ -302,22 +286,6 @@
           modifier= #{record.modifier,jdbcType=VARCHAR},
         </if>
       </if>
-      <if test="record.createTime != null">
-        <if test="record.createTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
-          create_time= null,
-        </if>
-        <if test="record.createTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
-          create_time= #{record.createTime,jdbcType=TIMESTAMP},
-        </if>
-      </if>
-      <if test="record.modifyTime != null">
-        <if test="record.modifyTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
-          modify_time= null,
-        </if>
-        <if test="record.modifyTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
-          modify_time= #{record.modifyTime,jdbcType=TIMESTAMP},
-        </if>
-      </if>
       <if test="record.isSame != null">
         is_same= #{record.isSame,jdbcType=BIT},
       </if>
@@ -334,8 +302,6 @@
     set id = #{record.id,jdbcType=INTEGER},
       goods_id = #{record.goodsId,jdbcType=INTEGER},
       supplier_id = #{record.supplierId,jdbcType=INTEGER},
-      supplier_code = #{record.supplierCode,jdbcType=VARCHAR},
-      supplier_name = #{record.supplierName,jdbcType=VARCHAR},
       import_price = #{record.importPrice,jdbcType=DECIMAL},
       purchase_link = #{record.purchaseLink,jdbcType=VARCHAR},
       supplier_goods_code = #{record.supplierGoodsCode,jdbcType=VARCHAR},
@@ -352,6 +318,22 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.binger.goods.domain.GoodsSupplier">
     update goods_supplier
     <set>
+      <if test="createTime != null">
+        <if test="createTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          create_time= null,
+        </if>
+        <if test="createTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          create_time= #{createTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="modifyTime != null">
+        <if test="modifyTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          modify_time= null,
+        </if>
+        <if test="modifyTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          modify_time= #{modifyTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
       <if test="goodsId != null">
         <if test="goodsId == -99999">
           goods_id= null,
@@ -374,22 +356,6 @@
         </if>
         <if test="importPrice != -99999">
           import_price= #{importPrice,jdbcType=DECIMAL},
-        </if>
-      </if>
-      <if test="supplierCode != null">
-        <if test="supplierCode == 'erpsetnull'">
-          supplier_code= null,
-        </if>
-        <if test="supplierCode != 'erpsetnull'">
-          supplier_code= #{supplierCode,jdbcType=VARCHAR},
-        </if>
-      </if>
-      <if test="supplierName != null">
-        <if test="supplierName == 'erpsetnull'">
-          supplier_name= null,
-        </if>
-        <if test="supplierName != 'erpsetnull'">
-          supplier_name= #{supplierName,jdbcType=VARCHAR},
         </if>
       </if>
       <if test="purchaseLink != null">
@@ -424,22 +390,6 @@
           modifier= #{modifier,jdbcType=VARCHAR},
         </if>
       </if>
-      <if test="createTime != null">
-        <if test="createTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
-          create_time= null,
-        </if>
-        <if test="createTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
-          create_time= #{createTime,jdbcType=TIMESTAMP},
-        </if>
-      </if>
-      <if test="modifyTime != null">
-        <if test="modifyTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
-          modify_time= null,
-        </if>
-        <if test="modifyTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
-          modify_time= #{modifyTime,jdbcType=TIMESTAMP},
-        </if>
-      </if>
       <if test="isSame != null">
         is_same= #{isSame,jdbcType=BIT},
       </if>
@@ -453,8 +403,6 @@
     update goods_supplier
     set goods_id = #{goodsId,jdbcType=INTEGER},
       supplier_id = #{supplierId,jdbcType=INTEGER},
-      supplier_code = #{supplierCode,jdbcType=VARCHAR},
-      supplier_name = #{supplierName,jdbcType=VARCHAR},
       import_price = #{importPrice,jdbcType=DECIMAL},
       purchase_link = #{purchaseLink,jdbcType=VARCHAR},
       supplier_goods_code = #{supplierGoodsCode,jdbcType=VARCHAR},

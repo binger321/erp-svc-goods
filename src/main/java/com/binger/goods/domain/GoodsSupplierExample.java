@@ -109,7 +109,7 @@ public class GoodsSupplierExample {
     }
 
     /**
-     * goods_supplier 2017-12-14
+     * goods_supplier 2018-04-25
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -329,146 +329,6 @@ public class GoodsSupplierExample {
 
         public Criteria andSupplierIdNotBetween(Integer value1, Integer value2) {
             addCriterion("supplier_id not between", value1, value2, "supplierId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierCodeIsNull() {
-            addCriterion("supplier_code is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierCodeIsNotNull() {
-            addCriterion("supplier_code is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierCodeEqualTo(String value) {
-            addCriterion("supplier_code =", value, "supplierCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierCodeNotEqualTo(String value) {
-            addCriterion("supplier_code <>", value, "supplierCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierCodeGreaterThan(String value) {
-            addCriterion("supplier_code >", value, "supplierCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierCodeGreaterThanOrEqualTo(String value) {
-            addCriterion("supplier_code >=", value, "supplierCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierCodeLessThan(String value) {
-            addCriterion("supplier_code <", value, "supplierCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierCodeLessThanOrEqualTo(String value) {
-            addCriterion("supplier_code <=", value, "supplierCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierCodeLike(String value) {
-            addCriterion("supplier_code like", value, "supplierCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierCodeNotLike(String value) {
-            addCriterion("supplier_code not like", value, "supplierCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierCodeIn(List<String> values) {
-            addCriterion("supplier_code in", values, "supplierCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierCodeNotIn(List<String> values) {
-            addCriterion("supplier_code not in", values, "supplierCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierCodeBetween(String value1, String value2) {
-            addCriterion("supplier_code between", value1, value2, "supplierCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierCodeNotBetween(String value1, String value2) {
-            addCriterion("supplier_code not between", value1, value2, "supplierCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierNameIsNull() {
-            addCriterion("supplier_name is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierNameIsNotNull() {
-            addCriterion("supplier_name is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierNameEqualTo(String value) {
-            addCriterion("supplier_name =", value, "supplierName");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierNameNotEqualTo(String value) {
-            addCriterion("supplier_name <>", value, "supplierName");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierNameGreaterThan(String value) {
-            addCriterion("supplier_name >", value, "supplierName");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierNameGreaterThanOrEqualTo(String value) {
-            addCriterion("supplier_name >=", value, "supplierName");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierNameLessThan(String value) {
-            addCriterion("supplier_name <", value, "supplierName");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierNameLessThanOrEqualTo(String value) {
-            addCriterion("supplier_name <=", value, "supplierName");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierNameLike(String value) {
-            addCriterion("supplier_name like", value, "supplierName");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierNameNotLike(String value) {
-            addCriterion("supplier_name not like", value, "supplierName");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierNameIn(List<String> values) {
-            addCriterion("supplier_name in", values, "supplierName");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierNameNotIn(List<String> values) {
-            addCriterion("supplier_name not in", values, "supplierName");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierNameBetween(String value1, String value2) {
-            addCriterion("supplier_name between", value1, value2, "supplierName");
-            return (Criteria) this;
-        }
-
-        public Criteria andSupplierNameNotBetween(String value1, String value2) {
-            addCriterion("supplier_name not between", value1, value2, "supplierName");
             return (Criteria) this;
         }
 
@@ -1064,7 +924,7 @@ public class GoodsSupplierExample {
     }
 
     /**
-     * goods_supplier 2017-12-14
+     * goods_supplier 2018-04-25
      */
     public static class Criterion {
         private String condition;
@@ -1155,7 +1015,7 @@ public class GoodsSupplierExample {
     public static class SelectiveField {
         private Set<String> fields;
 
-        private static String allFields = "id,goods_id,supplier_id,supplier_code,supplier_name,import_price,purchase_link,supplier_goods_code,is_same,status,creator,create_time,modifier,modify_time";
+        private static String allFields = "id,goods_id,supplier_id,import_price,purchase_link,supplier_goods_code,is_same,status,creator,create_time,modifier,modify_time";
 
         private SelectiveField() {
             fields = new HashSet<>();
@@ -1177,16 +1037,6 @@ public class GoodsSupplierExample {
 
         public SelectiveField supplierId() {
             fields.add("supplier_id");
-            return this;
-        }
-
-        public SelectiveField supplierCode() {
-            fields.add("supplier_code");
-            return this;
-        }
-
-        public SelectiveField supplierName() {
-            fields.add("supplier_name");
             return this;
         }
 

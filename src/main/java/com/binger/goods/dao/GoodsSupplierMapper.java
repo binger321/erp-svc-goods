@@ -2,8 +2,10 @@ package com.binger.goods.dao;
 
 import com.binger.goods.domain.GoodsSupplier;
 import com.binger.goods.domain.GoodsSupplierExample;
-import java.util.List;
+import com.binger.goods.dto.ret.SupplierSimpleRetDto;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface GoodsSupplierMapper {
     long countByExample(GoodsSupplierExample example);
@@ -31,4 +33,11 @@ public interface GoodsSupplierMapper {
     int updateByPrimaryKeySelective(GoodsSupplier record);
 
     int updateByPrimaryKey(GoodsSupplier record);
+
+    /**
+     * 根据goodsId查询对应得供应商
+     * @param goodsId
+     * @return
+     */
+    List<SupplierSimpleRetDto> listSupplierByGoodsId(@Param("goodsId") Integer goodsId);
 }

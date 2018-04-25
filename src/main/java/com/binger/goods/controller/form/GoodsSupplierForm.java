@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,28 +31,11 @@ public class GoodsSupplierForm {
     private Integer supplierId;
 
     /**
-     * 供应商编码
-     */
-    @ApiModelProperty(value="供应商编码",required = true)
-    private String supplierCode;
-
-    /**
-     * 供应商名称
-     */
-    @ApiModelProperty(value="供应商名称",required = true)
-    private String supplierName;
-
-    /**
      *
      */
     @ApiModelProperty(value="进价",required = false)
     private BigDecimal importPrice;
 
-    /**
-     * 采购链接
-     */
-    @ApiModelProperty(value="采购链接",required = false)
-    private String purchaseLink;
 
     /**
      * 供应商货号

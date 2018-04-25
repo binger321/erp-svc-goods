@@ -1,5 +1,10 @@
 package com.binger.goods.service;
 
+import com.binger.goods.domain.GoodsSupplier;
+import com.binger.goods.vo.SupplierSimpleVo;
+
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: zhuyubin
@@ -9,4 +14,11 @@ package com.binger.goods.service;
  * Description:
  */
 public interface GoodsSupplierService {
+    List<SupplierSimpleVo> listSupplierByGoodsId(Integer goodsId);
+
+    SupplierSimpleVo updateGoodsSupplier(GoodsSupplier goodsSupplier, Integer id);
+
+    SupplierSimpleVo insertGoodsSupplier(GoodsSupplier goodsSupplier);
+
+    void deleteGoodsSupplier(Integer id);
 }

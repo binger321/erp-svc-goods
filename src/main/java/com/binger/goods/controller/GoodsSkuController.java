@@ -17,5 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController(value = "商品SkuAPI")
 @RequestMapping(value = "erp-svc-goods/goodsSku")
 public class GoodsSkuController {
-
+//    @ApiOperation("列表")
+//    @RequestMapping(value = "/list", method = RequestMethod.POST)
+//    public ServerResponse<List<GoodsSkuDetailVo>> list(@RequestBody )
 }

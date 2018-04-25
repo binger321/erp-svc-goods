@@ -1,5 +1,12 @@
 package com.binger.goods.service;
 
+import com.binger.goods.domain.GoodsStyle;
+import com.binger.goods.domain.GoodsStyleExample;
+import com.binger.goods.vo.GoodsStyleDetailVo;
+import com.binger.goods.vo.GoodsStyleVo;
+
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: zhuyubin
@@ -9,4 +16,15 @@ package com.binger.goods.service;
  * Description:
  */
 public interface GoodsStyleService {
+    long countByExample(GoodsStyleExample example);
+
+    List<GoodsStyleVo> list(GoodsStyleExample example);
+
+    GoodsStyle findById(Integer id);
+
+    GoodsStyleDetailVo updateById(GoodsStyle goodsStyle, Integer id);
+
+    GoodsStyleDetailVo insert(GoodsStyle goodsStyle);
+
+    int deleteById(Integer id);
 }

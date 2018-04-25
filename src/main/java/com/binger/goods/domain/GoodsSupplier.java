@@ -31,21 +31,9 @@ public class GoodsSupplier implements Serializable {
     private Integer supplierId;
 
     /**
-     * 供应商编码
+     * 进购价
      */
-    @ApiModelProperty(value="供应商编码",required = true)
-    private String supplierCode;
-
-    /**
-     * 供应商名称
-     */
-    @ApiModelProperty(value="供应商名称",required = true)
-    private String supplierName;
-
-    /**
-     * 
-     */
-    @ApiModelProperty(value="",required = false)
+    @ApiModelProperty(value="进购价",required = false)
     private BigDecimal importPrice;
 
     /**
@@ -150,48 +138,16 @@ public class GoodsSupplier implements Serializable {
     }
 
     /**
-     * 供应商编码
-     * @return supplier_code 供应商编码
-     */
-    public String getSupplierCode() {
-        return supplierCode;
-    }
-
-    /**
-     * 供应商编码
-     * @param supplierCode 供应商编码
-     */
-    public void setSupplierCode(String supplierCode) {
-        this.supplierCode = supplierCode == null ? null : supplierCode.trim();
-    }
-
-    /**
-     * 供应商名称
-     * @return supplier_name 供应商名称
-     */
-    public String getSupplierName() {
-        return supplierName;
-    }
-
-    /**
-     * 供应商名称
-     * @param supplierName 供应商名称
-     */
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName == null ? null : supplierName.trim();
-    }
-
-    /**
-     * 
-     * @return import_price 
+     * 进购价
+     * @return import_price 进购价
      */
     public BigDecimal getImportPrice() {
         return importPrice;
     }
 
     /**
-     * 
-     * @param importPrice 
+     * 进购价
+     * @param importPrice 进购价
      */
     public void setImportPrice(BigDecimal importPrice) {
         this.importPrice = importPrice;
@@ -340,8 +296,6 @@ public class GoodsSupplier implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getGoodsId() == null ? other.getGoodsId() == null : this.getGoodsId().equals(other.getGoodsId()))
             && (this.getSupplierId() == null ? other.getSupplierId() == null : this.getSupplierId().equals(other.getSupplierId()))
-            && (this.getSupplierCode() == null ? other.getSupplierCode() == null : this.getSupplierCode().equals(other.getSupplierCode()))
-            && (this.getSupplierName() == null ? other.getSupplierName() == null : this.getSupplierName().equals(other.getSupplierName()))
             && (this.getImportPrice() == null ? other.getImportPrice() == null : this.getImportPrice().equals(other.getImportPrice()))
             && (this.getPurchaseLink() == null ? other.getPurchaseLink() == null : this.getPurchaseLink().equals(other.getPurchaseLink()))
             && (this.getSupplierGoodsCode() == null ? other.getSupplierGoodsCode() == null : this.getSupplierGoodsCode().equals(other.getSupplierGoodsCode()))
@@ -360,8 +314,6 @@ public class GoodsSupplier implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getGoodsId() == null) ? 0 : getGoodsId().hashCode());
         result = prime * result + ((getSupplierId() == null) ? 0 : getSupplierId().hashCode());
-        result = prime * result + ((getSupplierCode() == null) ? 0 : getSupplierCode().hashCode());
-        result = prime * result + ((getSupplierName() == null) ? 0 : getSupplierName().hashCode());
         result = prime * result + ((getImportPrice() == null) ? 0 : getImportPrice().hashCode());
         result = prime * result + ((getPurchaseLink() == null) ? 0 : getPurchaseLink().hashCode());
         result = prime * result + ((getSupplierGoodsCode() == null) ? 0 : getSupplierGoodsCode().hashCode());
@@ -383,8 +335,6 @@ public class GoodsSupplier implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", goodsId=").append(goodsId);
         sb.append(", supplierId=").append(supplierId);
-        sb.append(", supplierCode=").append(supplierCode);
-        sb.append(", supplierName=").append(supplierName);
         sb.append(", importPrice=").append(importPrice);
         sb.append(", purchaseLink=").append(purchaseLink);
         sb.append(", supplierGoodsCode=").append(supplierGoodsCode);
