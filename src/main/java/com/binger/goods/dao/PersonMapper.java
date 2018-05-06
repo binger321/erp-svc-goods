@@ -1,0 +1,34 @@
+package com.binger.goods.dao;
+
+import com.binger.goods.domain.Person;
+import com.binger.goods.domain.PersonExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+
+public interface PersonMapper {
+    long countByExample(PersonExample example);
+
+    int deleteByExample(PersonExample example);
+
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(Person record);
+
+    int insertSelective(Person record);
+
+    List<Person> selectByExampleWithColSelected(PersonExample example);
+
+    List<Person> selectByExample(PersonExample example);
+
+    Person selectByPrimaryKeyWithColSelected(@Param("id") Integer id, @Param("selectiveField") PersonExample.SelectiveField selectiveField);
+
+    Person selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") Person record, @Param("example") PersonExample example);
+
+    int updateByExample(@Param("record") Person record, @Param("example") PersonExample example);
+
+    int updateByPrimaryKeySelective(Person record);
+
+    int updateByPrimaryKey(Person record);
+}
