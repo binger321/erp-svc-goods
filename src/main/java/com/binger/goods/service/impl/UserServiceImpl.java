@@ -10,6 +10,7 @@ import com.binger.goods.vo.UserVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import java.util.List;
 
@@ -27,9 +28,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserVo> listByExample(UserExample userExample) {
         List<User> userList = userMapper.selectByExample(userExample);
-        if(userList != null) {
+        if (userList != null) {
             return DozerUtils.convertList(userList, UserVo.class);
-        }else {
+        } else {
             throw BusinessException.create("数据不存在");
         }
     }
@@ -37,9 +38,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserVo findById(Integer id) {
         User user = userMapper.selectByPrimaryKey(id);
-        if(null != user){
-            return DozerUtils.convert(user,UserVo.class);
-        }else {
+        if (null != user) {
+            return DozerUtils.convert(user, UserVo.class);
+        } else {
             throw BusinessException.create("不存在该用户ID,请确认后输入");
         }
     }
@@ -50,60 +51,75 @@ public class UserServiceImpl implements UserService {
         if (user1 == null) {
             throw BusinessException.create("无法找到该用户");
         }
-        user.setId(id);
-
-        UserExample example = new UserExample();
-        UserExample.Criteria criteria = example.createCriteria();
-        criteria.andIdNotEqualTo(user.getId());
-        List<User> list = userMapper.selectByExample(example);
-        boolean isUpdate = true;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getUserCode().equals(user.getUserCode()))
-                isUpdate = false;
-        }
-        if (isUpdate) {
-            long count = userMapper.updateByPrimaryKey(user);
-            if (count > 0) {
-                return DozerUtils.convert(userMapper.selectByPrimaryKey(id), UserVo.class);
-            } else {
-                throw BusinessException.create("修改失败，可能重复操作");
-            }
+        user.setUserPassword(DigestUtils.md5DigestAsHex(user.getUserPassword().getBytes()));
+        checkUserUnique(user, id);
+        long count = userMapper.updateByPrimaryKey(user);
+        if (count > 0) {
+            return DozerUtils.convert(userMapper.selectByPrimaryKey(id), UserVo.class);
         } else {
-            throw BusinessException.create("用户编号已存在");
+            throw BusinessException.create("修改失败，可能重复操作");
         }
     }
 
-        @Override
-        public UserVo add (User user){
-            if (StringUtils.isEmpty(user.getUserCode())) {
-                throw BusinessException.create("用户编号不能为空");
-            }
-            UserExample example = new UserExample();
-            UserExample.Criteria criteria = example.createCriteria();
-            criteria.andUserCodeLike(user.getUserCode());
-            long count = userMapper.countByExample(example);
-            if (count > 0) {
-                throw BusinessException.create("用户编号已存在！");
-            } else {
-                long result = userMapper.insert(user);
-                if (result > 0) {
-                    return DozerUtils.convert(userMapper.selectByPrimaryKey(user.getId()), UserVo.class);
-                } else {
-                    throw BusinessException.create("新增失败！");
-                }
-            }
+    @Override
+    public UserVo add(User user) {
+        checkUserUnique(user, null);
+        user.setUserPassword(DigestUtils.md5DigestAsHex(user.getUserPassword().getBytes()));
+        long result = userMapper.insert(user);
+        if (result > 0) {
+            return DozerUtils.convert(userMapper.selectByPrimaryKey(user.getId()), UserVo.class);
+        } else {
+            throw BusinessException.create("新增失败！");
         }
+
+    }
+
+    private void checkUserUnique(User user, Integer id) {
+        UserExample example = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        criteria.andUserCodeEqualTo(user.getUserCode());
+        if (id != null) {
+            criteria.andIdNotEqualTo(id);
+        }
+        long count = userMapper.countByExample(example);
+        if (count > 0) {
+            throw BusinessException.create("用户编号已存在！");
+        }
+
+        example.clear();
+        UserExample.Criteria criteria1 = example.createCriteria();
+        criteria1.andUserNameEqualTo(user.getUserName());
+        if (id != null) {
+            criteria.andIdNotEqualTo(id);
+        }
+        count = userMapper.countByExample(example);
+        if (count > 0) {
+            throw BusinessException.create("用户名已存在！");
+        }
+
+        example.clear();
+        UserExample.Criteria criteria2 = example.createCriteria();
+        criteria2.andPersonIdEqualTo(user.getPersonId());
+        if (id != null) {
+            criteria.andIdNotEqualTo(id);
+        }
+        count = userMapper.countByExample(example);
+        if (count > 0) {
+            throw BusinessException.create("该人员已有对应的用户！");
+        }
+    }
+
 
     @Override
     public Integer deleteById(Integer id) {
         User user = userMapper.selectByPrimaryKey(id);
-        if(user == null){
+        if (user == null) {
             throw BusinessException.create("未找到该用户，可能已被删除");
         }
         int count = userMapper.deleteByPrimaryKey(id);
-        if(count>0){
+        if (count > 0) {
             return count;
-        }else {
+        } else {
             throw BusinessException.create("删除失败");
         }
     }

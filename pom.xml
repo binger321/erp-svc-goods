@@ -44,11 +44,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!--注册到eureka-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-eureka-server</artifactId>
 			<version>1.4.0.RELEASE</version>
 		</dependency>
+
 		 <!--swagger-ui-->
 		<dependency>
 		<groupId>io.springfox</groupId>
@@ -72,13 +74,24 @@
 			<version>${mybatis-spring-boot.version}</version>
 		</dependency>
 
+		<!--junit-->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.binger</groupId>
 			<artifactId>common-util</artifactId>
 			<version>${common-util.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>

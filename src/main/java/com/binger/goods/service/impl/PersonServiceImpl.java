@@ -3,11 +3,13 @@ package com.binger.goods.service.impl;
 import com.binger.common.exception.BusinessException;
 import com.binger.common.util.DozerUtils;
 import com.binger.goods.dao.PersonMapper;
+import com.binger.goods.dao.UserMapper;
 import com.binger.goods.domain.Person;
 import com.binger.goods.domain.PersonExample;
+import com.binger.goods.domain.User;
+import com.binger.goods.domain.UserExample;
 import com.binger.goods.service.PersonService;
 import com.binger.goods.vo.PersonVo;
-import com.binger.goods.vo.SupplierVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,9 @@ import java.util.List;
 public class PersonServiceImpl implements PersonService {
     @Autowired
     private PersonMapper personMapper;
+
+    @Autowired
+    private UserMapper userMapper;
     @Override
     public Long count(PersonExample personExample) {
         return personMapper.countByExample(personExample);
@@ -100,6 +105,14 @@ public class PersonServiceImpl implements PersonService {
         if(person == null){
             throw BusinessException.create("未找到该人员，可能已被删除");
         }
+        UserExample example = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        criteria.andPersonIdEqualTo(id);
+        long userCount = userMapper.countByExample(example);
+        if (userCount > 0) {
+            BusinessException.create("需先删除人员对应的用户，再删除人员");
+        }
+
         int count = personMapper.deleteByPrimaryKey(id);
         if(count>0){
             return count;

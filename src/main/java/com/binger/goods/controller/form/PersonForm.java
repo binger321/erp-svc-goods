@@ -69,27 +69,4 @@ public class PersonForm {
     @ApiModelProperty(value="入职时间",required = false)
     private Date entryTime;
 
-    /**
-     * 创建人
-     */
-    @ApiModelProperty(value="创建人",required = false)
-    private String creator;
-
-    /**
-     * 创建时间
-     */
-    @ApiModelProperty(value="创建时间",required = false)
-    private Date createTime;
-
-    /**
-     * 修改人
-     */
-    @ApiModelProperty(value="修改人",required = false)
-    private String modifier;
-
-    /**
-     * 修改时间
-     */
-    @ApiModelProperty(value="修改时间",required = false)
-    private Date modifyTime;
 }

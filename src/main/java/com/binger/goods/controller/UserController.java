@@ -82,8 +82,17 @@ public class UserController {
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public ServerResponse<UserVo> add(@RequestBody UserForm userForm){
         User user = DozerUtils.convert(userForm,User.class);
+        if (StringUtils.isBlank(user.getUserName())) {
+            return ServerResponse.createByError("用户名不能为空");
+        }
+        if (StringUtils.isBlank(user.getUserCode())) {
+            return ServerResponse.createByError("用户编号不能为空");
+        }
+        if (user.getPersonId() == null) {
+            return ServerResponse.createByError("人员不能为空");
+        }
         UserVo userVo = userService.add(user);
-        return ServerResponse.createBySuccess(Const.SUCCESS_MSG,userVo);
+        return ServerResponse.createBySuccess(Const.SUCCESS_MSG, userVo);
     }
 
     @ApiOperation(value = "根据ID删除人员")
