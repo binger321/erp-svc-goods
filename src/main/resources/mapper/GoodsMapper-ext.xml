@@ -63,43 +63,42 @@
             <if test="queryDto.isProduction != null">
                 AND g.is_production = ${queryDto.isProduction}
             </if>
-            <if test="queryDto.limit != null">
-                <if test="queryDto.offset != null">
-                    limit ${queryDto.offset}, ${queryDto.limit}
-                </if>
-                <if test="queryDto.offset == null">
-                    limit ${queryDto.limit}
-                </if>
-            </if>
         </where>
     </sql>
     <select id="countGoodsIndexDto" parameterType="com.binger.goods.dto.query.GoodsIndexListQueryDto" resultType="long">
         SELECT COUNT(1)
         FROM goods g
-        LEFT JOIN goods_sku sku ON g.id = sku.good_id
+        LEFT JOIN goods_sku sku ON g.id = sku.goods_id
         LEFT JOIN goods_supplier s ON g.id = s.goods_id
         <include refid="GoodsIndexQueryDto_Where_Clause"/>
-        GROUP BY g.id;
+        GROUP BY g.id
     </select>
     <select id="listGoodsIndex" parameterType="com.binger.goods.dto.query.GoodsIndexListQueryDto" resultMap="GoodsIndexDto">
         SELECT
-        g.id,
-        g.goods_code,
-        g.goods_name,
-        g.goods_Type,
-        g.main_img_url,
-        g.brand_id,
-        brand.brand_name,
-        g.weight,
-        s.supplier_id,
-        s.supplier_name,
-        g.cost_price,
+        g.id ,
+        g.goods_code ,
+        g.goods_name ,
+        g.goods_Type ,
+        g.main_img_url ,
+        g.brand_id ,
+        brand.brand_name ,
+        g.weight ,
+        gs.supplier_id ,
+        gs.supplier_name ,
+        g.cost_price ,
         g.is_production
         FROM goods g
         LEFT JOIN goods_sku sku ON g.id = sku.goods_id
         LEFT JOIN goods_brand brand ON g.brand_id = brand.id
-        LEFT JOIN goods_supplier s ON g.id = s.goods_id
+        LEFT JOIN goods_supplier gs ON g.id = gs.goods_id
         <include refid="GoodsIndexQueryDto_Where_Clause"/>
-        GROUP BY g.id;
+        <if test="queryDto.limit != null">
+            <if test="queryDto.offset != null">
+                limit ${queryDto.offset}, ${queryDto.limit}
+            </if>
+            <if test="queryDto.offset == null">
+                limit ${queryDto.limit}
+            </if>
+        </if>
     </select>
 </mapper>

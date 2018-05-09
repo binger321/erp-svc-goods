@@ -8,7 +8,6 @@ import com.binger.common.util.QueryUtils;
 import com.binger.common.vo.SplitStringVo;
 import com.binger.goods.controller.form.GoodsForm;
 import com.binger.goods.controller.query.GoodsQuery;
-import com.binger.goods.domain.GoodsExample;
 import com.binger.goods.dto.query.GoodsIndexListQueryDto;
 import com.binger.goods.service.GoodsService;
 import com.binger.goods.vo.GoodsDetailVo;
@@ -16,10 +15,10 @@ import com.binger.goods.vo.GoodsVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
-import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +37,9 @@ import java.util.List;
 @RequestMapping(value = "/erp-svc-goods/goods")
 public class GoodsController {
     private static final Logger logger = LoggerFactory.getLogger(GoodsController.class);
+
+    @Value("${spring.application.name}")
+    private String name;
 
     @Autowired
     GoodsService goodsService;
