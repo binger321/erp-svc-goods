@@ -2,8 +2,11 @@ package com.binger.goods.dao;
 
 import com.binger.goods.domain.GoodsSku;
 import com.binger.goods.domain.GoodsSkuExample;
-import java.util.List;
+import com.binger.goods.dto.query.GoodsSkuQueryDto;
+import com.binger.goods.dto.ret.GoodsSkuRetDto;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface GoodsSkuMapper {
     long countByExample(GoodsSkuExample example);
@@ -31,4 +34,25 @@ public interface GoodsSkuMapper {
     int updateByPrimaryKeySelective(GoodsSku record);
 
     int updateByPrimaryKey(GoodsSku record);
+
+    /**
+     * 根据条件计数
+     * @param queryDto
+     * @return
+     */
+    long countByQueryDto(@Param("queryDto") GoodsSkuQueryDto queryDto);
+
+    /**
+     * 根据dto查询skuList
+     * @param queryDto
+     * @return
+     */
+    List<GoodsSkuRetDto> listSkuByDto(@Param("queryDto") GoodsSkuQueryDto queryDto);
+
+    /**
+     * 根据id查询sku
+     * @param id
+     * @return
+     */
+    GoodsSkuRetDto findSkuById(@Param("id") Integer id);
 }

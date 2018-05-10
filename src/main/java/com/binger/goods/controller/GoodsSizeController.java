@@ -9,16 +9,12 @@ import com.binger.goods.controller.query.GoodsSizeQuery;
 import com.binger.goods.domain.GoodsSize;
 import com.binger.goods.domain.GoodsSizeExample;
 import com.binger.goods.service.GoodsSizeService;
-import com.binger.goods.vo.GoodsDetailVo;
 import com.binger.goods.vo.GoodsSizeDetailVo;
 import com.binger.goods.vo.GoodsSizeVo;
-import com.mysql.fabric.Server;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +36,7 @@ public class GoodsSizeController {
     GoodsSizeService goodsSizeService;
     @ApiOperation(value = "尺寸列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ServerResponse<List<GoodsSizeVo>> listGoodsSizes(@RequestBody GoodsSizeQuery goodsSizeQuery,
+    public ServerResponse<List<GoodsSizeVo>> listGoodsSizes(@RequestBody(required = false) GoodsSizeQuery goodsSizeQuery,
                                                            @RequestParam(required = false) Integer pageNo,
                                                            @RequestParam(required = false) Integer pageSize){
         GoodsSizeExample goodsSizeExample = new GoodsSizeExample();

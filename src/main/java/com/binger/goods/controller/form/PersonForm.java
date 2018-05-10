@@ -4,8 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.Date;
-
 @ApiModel(value = "人员form")
 @Data
 public class PersonForm {
@@ -56,17 +54,5 @@ public class PersonForm {
      */
     @ApiModelProperty(value="0离职, 1在职",required = false)
     private Integer status;
-
-    /**
-     * 离职时间
-     */
-    @ApiModelProperty(value="离职时间",required = false)
-    private Date blockTime;
-
-    /**
-     * 入职时间
-     */
-    @ApiModelProperty(value="入职时间",required = false)
-    private Date entryTime;
 
 }

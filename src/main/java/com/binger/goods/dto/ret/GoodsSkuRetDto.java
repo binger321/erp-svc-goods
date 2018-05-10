@@ -1,6 +1,5 @@
-package com.binger.goods.vo;
+package com.binger.goods.dto.ret;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -9,14 +8,14 @@ import java.math.BigDecimal;
 /**
  * Created with IntelliJ IDEA.
  * User: zhuyubin
- * Date: 2017/12/19 0019
- * Time: 16:24
+ * Date: 2018/5/10
+ * Time: 上午9:43
  * To change this template use File | Settings | File Templates.
- * Description:
+ * Description: dto
  */
 @Data
-@ApiModel("SkuCode")
-public class GoodsSkuDetailVo {
+public class GoodsSkuRetDto {
+
     /**
      * ID
      */
@@ -123,5 +122,4 @@ public class GoodsSkuDetailVo {
      */
     @ApiModelProperty(value="备注")
     private String comments;
-
 }

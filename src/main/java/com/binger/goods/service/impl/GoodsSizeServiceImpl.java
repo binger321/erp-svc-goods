@@ -51,7 +51,7 @@ public class GoodsSizeServiceImpl implements GoodsSizeService{
             throw BusinessException.create("没有找到该尺寸。");
         }
         goodsSize.setId(id);
-        goodsSizeMapper.updateByPrimaryKey(goodsSize);
+        goodsSizeMapper.updateByPrimaryKeySelective(goodsSize);
         return DozerUtils.convert(goodsSizeMapper.selectByPrimaryKey(id),GoodsSizeDetailVo.class);
     }
 

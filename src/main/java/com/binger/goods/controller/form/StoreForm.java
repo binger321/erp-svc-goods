@@ -58,34 +58,5 @@ public class StoreForm {
     @ApiModelProperty(value="状态（启用、停用）",required = false)
     private Boolean status;
 
-    /**
-     * 停用时间
-     */
-    @ApiModelProperty(value="停用时间",required = false)
-    private Date blockTime;
-
-    /**
-     * 创建人
-     */
-    @ApiModelProperty(value="创建人",required = false)
-    private String creator;
-
-    /**
-     * 创建时间
-     */
-    @ApiModelProperty(value="创建时间",required = false)
-    private Date createTime;
-
-    /**
-     * 修改人
-     */
-    @ApiModelProperty(value="修改人",required = false)
-    private String modifier;
-
-    /**
-     * 修改时间
-     */
-    @ApiModelProperty(value="修改时间",required = false)
-    private Date modifyTime;
 
 }

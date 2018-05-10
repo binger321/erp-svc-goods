@@ -23,6 +23,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Autowired
     private UserMapper userMapper;
+
     @Override
     public Long count(PersonExample personExample) {
         return personMapper.countByExample(personExample);
@@ -32,9 +33,9 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<PersonVo> listByExample(PersonExample personExample) {
         List<Person> personList = (personMapper.selectByExample(personExample));
-        if(personList != null) {
+        if (personList != null) {
             return DozerUtils.convertList(personList, PersonVo.class);
-        }else {
+        } else {
             throw BusinessException.create("该数据不存在");
         }
     }
@@ -42,67 +43,64 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public PersonVo findById(Integer id) {
         Person person = personMapper.selectByPrimaryKey(id);
-        if(null != person){
-            return DozerUtils.convert(person,PersonVo.class);
-        }else{
+        if (null != person) {
+            return DozerUtils.convert(person, PersonVo.class);
+        } else {
             throw BusinessException.create("不存在该人员ID，请确认后输入");
         }
     }
 
     @Override
     public PersonVo updateById(Person person, Integer id) {
+        checkPersonUnique(person, id);
         Person person1 = personMapper.selectByPrimaryKey(id);
-        if(person1 == null){
+        if (person1 == null) {
             throw BusinessException.create("无法找到该人员");
         }
         person.setId(id);
+        personMapper.updateByPrimaryKeySelective(person);
+        Person person2 = personMapper.selectByPrimaryKey(id);
+        if (person2 != null) {
+            return DozerUtils.convert(person2, PersonVo.class);
+        } else {
+            return null;
+        }
+    }
 
+    private void checkPersonUnique(Person person, Integer id) {
         PersonExample example = new PersonExample();
         PersonExample.Criteria criteria = example.createCriteria();
-        criteria.andIdNotEqualTo(person.getId());
-        List<Person> list = personMapper.selectByExample(example);
-        boolean isUpdate = true;
-        for(int i =0;i < list.size();i++){
-            if(list.get(i).getPersonCode().equals(person.getPersonCode()))
-                isUpdate = false;
+        criteria.andPersonCodeEqualTo(person.getPersonCode());
+        if (id != null) {
+            criteria.andIdNotEqualTo(id);
         }
-        if(isUpdate) {
-            long count = personMapper.updateByPrimaryKey(person);
-            if (count > 0) {
-                return DozerUtils.convert(personMapper.selectByPrimaryKey(id), PersonVo.class);
-            } else {
-                throw BusinessException.create("修改失败，可能重复操作");
-            }
-        }else{
+        long count = personMapper.countByExample(example);
+        if (count > 0) {
             throw BusinessException.create("人员编号已存在");
         }
     }
+
 
     @Override
     public PersonVo add(Person person) {
         if (StringUtils.isEmpty(person.getPersonCode())) {
             throw BusinessException.create("人员编号不能为空");
         }
-        PersonExample example = new PersonExample();
-        PersonExample.Criteria criteria = example.createCriteria();
-        criteria.andPersonCodeEqualTo(person.getPersonCode());
-        long count = personMapper.countByExample(example);
-        if(count > 0){
-            throw BusinessException.create("人员编号已存在！");
-        }else {
-            long result = personMapper.insert(person);
-            if (result > 0) {
-                return DozerUtils.convert(personMapper.selectByPrimaryKey(person.getId()), PersonVo.class);
-            } else {
-                throw BusinessException.create("新增失败！");
-            }
+        checkPersonUnique(person, null);
+        personMapper.insert(person);
+        Person person1 = personMapper.selectByPrimaryKey(person.getId());
+        if (person1 != null) {
+            return DozerUtils.convert(person1, PersonVo.class);
+        } else {
+            throw BusinessException.create("新增失败！");
         }
+
     }
 
     @Override
     public Integer deleteById(Integer id) {
         Person person = personMapper.selectByPrimaryKey(id);
-        if(person == null){
+        if (person == null) {
             throw BusinessException.create("未找到该人员，可能已被删除");
         }
         UserExample example = new UserExample();
@@ -114,9 +112,9 @@ public class PersonServiceImpl implements PersonService {
         }
 
         int count = personMapper.deleteByPrimaryKey(id);
-        if(count>0){
+        if (count > 0) {
             return count;
-        }else {
+        } else {
             throw BusinessException.create("删除失败");
         }
     }

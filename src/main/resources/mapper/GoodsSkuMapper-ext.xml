@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.binger.goods.dao.GoodsSkuMapper">
+    <resultMap id="GoodsSkuMap" type="com.binger.goods.dto.ret.GoodsSkuRetDto">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
+        <result column="goods_code" property="goodsCode" jdbcType="VARCHAR"/>
+        <result column="sku_code" property="skuCode" jdbcType="VARCHAR"/>
+        <result column="sku_name" property="skuName" jdbcType="VARCHAR"/>
+        <result column="img_id" property="imgId" jdbcType="INTEGER"/>
+        <result column="color_id" property="colorId" jdbcType="INTEGER"/>
+        <result column="color_code" property="colorCode" jdbcType="VARCHAR"/>
+        <result column="color_name" property="colorName" jdbcType="VARCHAR"/>
+        <result column="size_id" property="sizeId" jdbcType="INTEGER"/>
+        <result column="size_code" property="sizeCode" jdbcType="VARCHAR"/>
+        <result column="size_name" property="sizeName" jdbcType="VARCHAR"/>
+        <result column="weight" property="weight" jdbcType="DECIMAL"/>
+        <result column="stock_alarm_num" property="stockAlarmNum" jdbcType="INTEGER"/>
+        <result column="is_production" property="isProduction" jdbcType="INTEGER"/>
+        <result column="cost_price" property="costPrice" jdbcType="DECIMAL"/>
+        <result column="status" property="status" jdbcType="BIT"/>
+        <result column="comments" property="comments" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="countByQueryDto" resultType="long">
+        SELECT
+        COUNT (1)
+        FROM goods_sku sku
+        LEFT JOIN goods g ON sku.goods_id = g.id
+        LEFT JOIN goods_size size ON sku.size_id = size.id
+        LEFT JOIN goods_color color ON sku.color_id = color.id
+        <include refid="GoodsSkuQueryDto_Where_Clause"/>
+    </select>
+
+    <select id="listSkuByDto" resultMap="GoodsSkuMap">
+        SELECT
+        sku.id,
+        sku.goods_id,
+        g.goods_code,
+        sku.sku_code,
+        sku.sku_name,
+        sku.img_id,
+        sku.color_id,
+        color.color_code,
+        color.color_name,
+        sku.size_id,
+        sku.sku_code,
+        sku.sku_name,
+        sku.weight,
+        sku.stock_alarm_num,
+        sku.is_production,
+        sku.cost_price,
+        sku.status,
+        sku.comments
+        FROM goods_sku sku
+        LEFT JOIN goods g ON sku.goods_id = g.id
+        LEFT JOIN goods_size size ON sku.size_id = size.id
+        LEFT JOIN goods_color color ON sku.color_id = color.id
+        <include refid="GoodsSkuQueryDto_Where_Clause"/>
+        <if test="queryDto.limit != null">
+            <if test="queryDto.offset != null">
+                limit #{queryDto.offset}, #{queryDto.limit}
+            </if>
+            <if test="queryDto.offset == null">
+                limit #{queryDto.limit}
+            </if>
+        </if>
+    </select>
+
+    <select id="findSkuById" parameterType="integer" resultMap="GoodsSkuMap">
+        SELECT
+        sku.id,
+        sku.goods_id,
+        g.goods_code,
+        sku.sku_code,
+        sku.sku_name,
+        sku.img_id,
+        sku.color_id,
+        color.color_code,
+        color.color_name,
+        sku.size_id,
+        sku.sku_code,
+        sku.sku_name,
+        sku.weight,
+        sku.stock_alarm_num,
+        sku.is_production,
+        sku.cost_price,
+        sku.status,
+        sku.comments
+        FROM goods_sku sku
+        LEFT JOIN goods g ON sku.goods_id = g.id
+        LEFT JOIN goods_size size ON sku.size_id = size.id
+        LEFT JOIN goods_color color ON sku.color_id = color.id
+        where sku.id = #{id}
+    </select>
+
+    <sql id="GoodsSkuQueryDto_Where_Clause">
+        <where>
+            sku.status = TRUE
+            <if test="queryDto.goodsCode != null">
+                AND goods.goods_code LIKE '%${queryDto.goodsCode}%'
+            </if>
+            <if test="queryDto.skuCode != null">
+                AND goods_sku.sku_code LIKE '%${queryDto.skuCode}%'
+            </if>
+            <if test="queryDto.colorCode = null">
+                AND goods_color.color_code LIKE '%${queryDto.colorCode}%'
+            </if>
+            <if test="queryDto.sizeCode != null">
+                AND goods_size.size_code LIKE '%${queryDto.sizeCode}%'
+            </if>
+        </where>
+    </sql>
+</mapper>

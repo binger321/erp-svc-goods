@@ -1,5 +1,6 @@
-package com.binger.goods.controller.query;
+package com.binger.goods.dto.query;
 
+import com.binger.common.QueryDtoBase;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -7,14 +8,14 @@ import lombok.Data;
 /**
  * Created with IntelliJ IDEA.
  * User: zhuyubin
- * Date: 2017/12/19 0019
- * Time: 17:12
+ * Date: 2018/5/10
+ * Time: 上午9:12
  * To change this template use File | Settings | File Templates.
- * description:商品Sku2
+ * Description:
  */
 @Data
-@ApiModel(value = "商品SkuQuery", description = "商品Sku")
-public class GoodsSkuQuery {
+@ApiModel("商品SkuQuery")
+public class GoodsSkuQueryDto extends QueryDtoBase{
     /**
      * 商品code
      */

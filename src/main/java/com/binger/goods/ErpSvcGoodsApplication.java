@@ -48,7 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.binger")
 @MapperScan("com.binger.goods.dao")
 @EnableDiscoveryClient
 public class ErpSvcGoodsApplication {
@@ -61,37 +61,38 @@ public class ErpSvcGoodsApplication {
     @EnableGlobalMethodSecurity(prePostEnabled = true)
     public static class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-        final static String[] IGNORE_RESOURCE_URL = new String[]{"/v2/api-docs","/configuration/ui","/swagger-resources.*",
-                "/configuration/security","/swagger-ui.html","/webjars/.*","/auth/login.*"
-    };
+        final static String[] IGNORE_RESOURCE_URL = new String[]{"/v2/api-docs", "/configuration/ui", "/swagger-resources.*",
+                "/configuration/security", "/swagger-ui.html", "/webjars/.*", "/auth/login.*", "/erp-svc-goods/goodsSku/detail/*"
+        };
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.sessionManagement().disable()
-                .authorizeRequests().regexMatchers(IGNORE_RESOURCE_URL).permitAll().and()
-                .authorizeRequests().anyRequest().authenticated().and()
-                .csrf().disable().exceptionHandling().accessDeniedHandler(new AccessDeniedHandler() {
-            @Override
-            public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-                response.setContentType("application/json");
-                response.setStatus(HttpServletResponse.SC_OK);
-                response.getOutputStream().println(MyEasyJsonUtil.json2string(new ServerResponse<>(401, "未授权")));
-            }
-        })
-                .and().addFilterAfter(ssoFilter(), UsernamePasswordAuthenticationFilter.class).addFilterBefore(new OncePerRequestFilter() {
-            @Override
-            protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-                try {
-                    filterChain.doFilter(request, response);
-                } catch (Exception e) {
-                    // custom error response class used across my project
-                    response.setStatus(HttpStatus.OK.value());
-                    response.setContentType("application/json;charset=utf-8");
-                    response.getWriter().write(MyEasyJsonUtil.json2string(new ServerResponse<>(401, "未授权")));
+        @Override
+        public void configure(HttpSecurity http) throws Exception {
+            http.sessionManagement().disable()
+                    .authorizeRequests().regexMatchers(IGNORE_RESOURCE_URL).permitAll().and()
+                    .authorizeRequests().anyRequest().authenticated().and()
+                    .csrf().disable().exceptionHandling().accessDeniedHandler(
+                    new AccessDeniedHandler() {
+                        @Override
+                        public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+                            response.setContentType("application/json");
+                            response.setStatus(HttpServletResponse.SC_OK);
+                            response.getOutputStream().println(MyEasyJsonUtil.json2string(new ServerResponse<>(401, "未授权")));
+                        }
+                    })
+                    .and().addFilterAfter(ssoFilter(), UsernamePasswordAuthenticationFilter.class).addFilterBefore(new OncePerRequestFilter() {
+                @Override
+                protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+                    try {
+                        filterChain.doFilter(request, response);
+                    } catch (Exception e) {
+                        // custom error response class used across my project
+                        response.setStatus(HttpStatus.OK.value());
+                        response.setContentType("application/json;charset=utf-8");
+                        response.getWriter().write(MyEasyJsonUtil.json2string(new ServerResponse<>(401, "未授权")));
+                    }
                 }
-            }
-        }, MyOAuth2ClientAuthFilter.class);
-    }
+            }, MyOAuth2ClientAuthFilter.class);
+        }
 
         @Autowired
         private OAuth2ClientContext oauth2ClientContext;
@@ -183,7 +184,7 @@ public class ErpSvcGoodsApplication {
 
                 String token = (String) preAuthenticatedAuthenticationToken.getPrincipal();
                 Authentication authentication = tokenServices.loadAuthentication(token);
-                if (authentication instanceof OAuth2Authentication) {//获取子不语授权对象
+                if (authentication instanceof OAuth2Authentication) {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                     OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) authentication;
                     for (GrantedAuthority grantedAuthority : oAuth2Authentication.getUserAuthentication().getAuthorities()) {

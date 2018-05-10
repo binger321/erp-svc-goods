@@ -69,7 +69,7 @@
         SELECT COUNT(1)
         FROM goods g
         LEFT JOIN goods_sku sku ON g.id = sku.goods_id
-        LEFT JOIN goods_supplier s ON g.id = s.goods_id
+        LEFT JOIN goods_supplier gs ON g.id = s.goods_id
         <include refid="GoodsIndexQueryDto_Where_Clause"/>
         GROUP BY g.id
     </select>
@@ -83,14 +83,15 @@
         g.brand_id ,
         brand.brand_name ,
         g.weight ,
-        gs.supplier_id ,
-        gs.supplier_name ,
+        s.supplier_id ,
+        s.supplier_name ,
         g.cost_price ,
         g.is_production
         FROM goods g
         LEFT JOIN goods_sku sku ON g.id = sku.goods_id
         LEFT JOIN goods_brand brand ON g.brand_id = brand.id
         LEFT JOIN goods_supplier gs ON g.id = gs.goods_id
+        LEFT JOIN supplier s ON gs.supplier_id = s.id
         <include refid="GoodsIndexQueryDto_Where_Clause"/>
         <if test="queryDto.limit != null">
             <if test="queryDto.offset != null">

@@ -1,0 +1,1634 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.binger.goods.dao.SaleOrdersMainMapper">
+  <resultMap id="BaseResultMap" type="com.binger.goods.domain.SaleOrdersMain">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_sale_code" jdbcType="VARCHAR" property="orderSaleCode" />
+    <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+    <result column="order_time" jdbcType="TIMESTAMP" property="orderTime" />
+    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="exchange_rate" jdbcType="DECIMAL" property="exchangeRate" />
+    <result column="order_ori_mny" jdbcType="DECIMAL" property="orderOriMny" />
+    <result column="store_id" jdbcType="INTEGER" property="storeId" />
+    <result column="order_loc_mny" jdbcType="DECIMAL" property="orderLocMny" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="order_cate" jdbcType="INTEGER" property="orderCate" />
+    <result column="ship_mark" jdbcType="INTEGER" property="shipMark" />
+    <result column="ship_mark_time" jdbcType="TIMESTAMP" property="shipMarkTime" />
+    <result column="ship_mark_qty" jdbcType="INTEGER" property="shipMarkQty" />
+    <result column="assign_date" jdbcType="TIMESTAMP" property="assignDate" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="buyer_name" jdbcType="VARCHAR" property="buyerName" />
+    <result column="customer_email" jdbcType="VARCHAR" property="customerEmail" />
+    <result column="country_id" jdbcType="INTEGER" property="countryId" />
+    <result column="country_code" jdbcType="VARCHAR" property="countryCode" />
+    <result column="country_name" jdbcType="VARCHAR" property="countryName" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="zip_code" jdbcType="VARCHAR" property="zipCode" />
+    <result column="address1" jdbcType="VARCHAR" property="address1" />
+    <result column="address2" jdbcType="VARCHAR" property="address2" />
+    <result column="address3" jdbcType="VARCHAR" property="address3" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="logist_company_id" jdbcType="INTEGER" property="logistCompanyId" />
+    <result column="logist_company_code" jdbcType="VARCHAR" property="logistCompanyCode" />
+    <result column="logist_company_name" jdbcType="VARCHAR" property="logistCompanyName" />
+    <result column="warehouse_id" jdbcType="INTEGER" property="warehouseId" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName" />
+    <result column="track_number" jdbcType="VARCHAR" property="trackNumber" />
+    <result column="track_time" jdbcType="TIMESTAMP" property="trackTime" />
+    <result column="currency_code" jdbcType="VARCHAR" property="currencyCode" />
+    <result column="weight" jdbcType="DECIMAL" property="weight" />
+    <result column="remark1" jdbcType="VARCHAR" property="remark1" />
+    <result column="remark2" jdbcType="VARCHAR" property="remark2" />
+    <result column="reinvoice_mny" jdbcType="DECIMAL" property="reinvoiceMny" />
+    <result column="shipping_way" jdbcType="VARCHAR" property="shippingWay" />
+    <result column="shipping_fee" jdbcType="DECIMAL" property="shippingFee" />
+    <result column="payment_method" jdbcType="VARCHAR" property="paymentMethod" />
+    <result column="assign_time" jdbcType="TIMESTAMP" property="assignTime" />
+    <result column="is_reserve_stock" jdbcType="BIT" property="isReserveStock" />
+    <result column="is_occupy" jdbcType="BIT" property="isOccupy" />
+    <result column="status" jdbcType="BIT" property="status" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.binger.goods.domain.SaleOrdersMain">
+    <result column="ship_mark_fail_reason" jdbcType="LONGVARCHAR" property="shipMarkFailReason" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_sale_code, order_code, order_time, pay_time, exchange_rate, order_ori_mny, 
+    store_id, order_loc_mny, order_status, order_cate, ship_mark, ship_mark_time, ship_mark_qty, 
+    assign_date, customer_name, buyer_name, customer_email, country_id, country_code, 
+    country_name, state, city, zip_code, address1, address2, address3, phone_number, 
+    logist_company_id, logist_company_code, logist_company_name, warehouse_id, warehouse_code, 
+    warehouse_name, track_number, track_time, currency_code, weight, remark1, remark2, 
+    reinvoice_mny, shipping_way, shipping_fee, payment_method, assign_time, is_reserve_stock, 
+    is_occupy, status, creator, modifier, create_time, modify_time
+  </sql>
+  <sql id="Blob_Column_List">
+    ship_mark_fail_reason
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.binger.goods.domain.SaleOrdersMainExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sale_orders_main
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.binger.goods.domain.SaleOrdersMainExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sale_orders_main
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sale_orders_main
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sale_orders_main
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.binger.goods.domain.SaleOrdersMainExample">
+    delete from sale_orders_main
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.binger.goods.domain.SaleOrdersMain">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sale_orders_main (order_sale_code, order_code, order_time, 
+      pay_time, exchange_rate, order_ori_mny, 
+      store_id, order_loc_mny, order_status, 
+      order_cate, ship_mark, ship_mark_time, 
+      ship_mark_qty, assign_date, customer_name, 
+      buyer_name, customer_email, country_id, 
+      country_code, country_name, state, 
+      city, zip_code, address1, 
+      address2, address3, phone_number, 
+      logist_company_id, logist_company_code, logist_company_name, 
+      warehouse_id, warehouse_code, warehouse_name, 
+      track_number, track_time, currency_code, 
+      weight, remark1, remark2, 
+      reinvoice_mny, shipping_way, shipping_fee, 
+      payment_method, assign_time, is_reserve_stock, 
+      is_occupy, status, creator, 
+      modifier, create_time, modify_time, 
+      ship_mark_fail_reason)
+    values (#{orderSaleCode,jdbcType=VARCHAR}, #{orderCode,jdbcType=VARCHAR}, #{orderTime,jdbcType=TIMESTAMP}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{exchangeRate,jdbcType=DECIMAL}, #{orderOriMny,jdbcType=DECIMAL}, 
+      #{storeId,jdbcType=INTEGER}, #{orderLocMny,jdbcType=DECIMAL}, #{orderStatus,jdbcType=INTEGER}, 
+      #{orderCate,jdbcType=INTEGER}, #{shipMark,jdbcType=INTEGER}, #{shipMarkTime,jdbcType=TIMESTAMP}, 
+      #{shipMarkQty,jdbcType=INTEGER}, #{assignDate,jdbcType=TIMESTAMP}, #{customerName,jdbcType=VARCHAR}, 
+      #{buyerName,jdbcType=VARCHAR}, #{customerEmail,jdbcType=VARCHAR}, #{countryId,jdbcType=INTEGER}, 
+      #{countryCode,jdbcType=VARCHAR}, #{countryName,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{zipCode,jdbcType=VARCHAR}, #{address1,jdbcType=VARCHAR}, 
+      #{address2,jdbcType=VARCHAR}, #{address3,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, 
+      #{logistCompanyId,jdbcType=INTEGER}, #{logistCompanyCode,jdbcType=VARCHAR}, #{logistCompanyName,jdbcType=VARCHAR}, 
+      #{warehouseId,jdbcType=INTEGER}, #{warehouseCode,jdbcType=VARCHAR}, #{warehouseName,jdbcType=VARCHAR}, 
+      #{trackNumber,jdbcType=VARCHAR}, #{trackTime,jdbcType=TIMESTAMP}, #{currencyCode,jdbcType=VARCHAR}, 
+      #{weight,jdbcType=DECIMAL}, #{remark1,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR}, 
+      #{reinvoiceMny,jdbcType=DECIMAL}, #{shippingWay,jdbcType=VARCHAR}, #{shippingFee,jdbcType=DECIMAL}, 
+      #{paymentMethod,jdbcType=VARCHAR}, #{assignTime,jdbcType=TIMESTAMP}, #{isReserveStock,jdbcType=BIT}, 
+      #{isOccupy,jdbcType=BIT}, #{status,jdbcType=BIT}, #{creator,jdbcType=VARCHAR}, 
+      #{modifier,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{shipMarkFailReason,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.binger.goods.domain.SaleOrdersMain">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sale_orders_main
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderSaleCode != null">
+        order_sale_code,
+      </if>
+      <if test="orderCode != null">
+        order_code,
+      </if>
+      <if test="orderTime != null">
+        order_time,
+      </if>
+      <if test="payTime != null">
+        pay_time,
+      </if>
+      <if test="exchangeRate != null">
+        exchange_rate,
+      </if>
+      <if test="orderOriMny != null">
+        order_ori_mny,
+      </if>
+      <if test="storeId != null">
+        store_id,
+      </if>
+      <if test="orderLocMny != null">
+        order_loc_mny,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="orderCate != null">
+        order_cate,
+      </if>
+      <if test="shipMark != null">
+        ship_mark,
+      </if>
+      <if test="shipMarkTime != null">
+        ship_mark_time,
+      </if>
+      <if test="shipMarkQty != null">
+        ship_mark_qty,
+      </if>
+      <if test="assignDate != null">
+        assign_date,
+      </if>
+      <if test="customerName != null">
+        customer_name,
+      </if>
+      <if test="buyerName != null">
+        buyer_name,
+      </if>
+      <if test="customerEmail != null">
+        customer_email,
+      </if>
+      <if test="countryId != null">
+        country_id,
+      </if>
+      <if test="countryCode != null">
+        country_code,
+      </if>
+      <if test="countryName != null">
+        country_name,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="zipCode != null">
+        zip_code,
+      </if>
+      <if test="address1 != null">
+        address1,
+      </if>
+      <if test="address2 != null">
+        address2,
+      </if>
+      <if test="address3 != null">
+        address3,
+      </if>
+      <if test="phoneNumber != null">
+        phone_number,
+      </if>
+      <if test="logistCompanyId != null">
+        logist_company_id,
+      </if>
+      <if test="logistCompanyCode != null">
+        logist_company_code,
+      </if>
+      <if test="logistCompanyName != null">
+        logist_company_name,
+      </if>
+      <if test="warehouseId != null">
+        warehouse_id,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="warehouseName != null">
+        warehouse_name,
+      </if>
+      <if test="trackNumber != null">
+        track_number,
+      </if>
+      <if test="trackTime != null">
+        track_time,
+      </if>
+      <if test="currencyCode != null">
+        currency_code,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="remark1 != null">
+        remark1,
+      </if>
+      <if test="remark2 != null">
+        remark2,
+      </if>
+      <if test="reinvoiceMny != null">
+        reinvoice_mny,
+      </if>
+      <if test="shippingWay != null">
+        shipping_way,
+      </if>
+      <if test="shippingFee != null">
+        shipping_fee,
+      </if>
+      <if test="paymentMethod != null">
+        payment_method,
+      </if>
+      <if test="assignTime != null">
+        assign_time,
+      </if>
+      <if test="isReserveStock != null">
+        is_reserve_stock,
+      </if>
+      <if test="isOccupy != null">
+        is_occupy,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="shipMarkFailReason != null">
+        ship_mark_fail_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderSaleCode != null">
+        #{orderSaleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCode != null">
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null">
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null">
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exchangeRate != null">
+        #{exchangeRate,jdbcType=DECIMAL},
+      </if>
+      <if test="orderOriMny != null">
+        #{orderOriMny,jdbcType=DECIMAL},
+      </if>
+      <if test="storeId != null">
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="orderLocMny != null">
+        #{orderLocMny,jdbcType=DECIMAL},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderCate != null">
+        #{orderCate,jdbcType=INTEGER},
+      </if>
+      <if test="shipMark != null">
+        #{shipMark,jdbcType=INTEGER},
+      </if>
+      <if test="shipMarkTime != null">
+        #{shipMarkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shipMarkQty != null">
+        #{shipMarkQty,jdbcType=INTEGER},
+      </if>
+      <if test="assignDate != null">
+        #{assignDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerName != null">
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerName != null">
+        #{buyerName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerEmail != null">
+        #{customerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="countryId != null">
+        #{countryId,jdbcType=INTEGER},
+      </if>
+      <if test="countryCode != null">
+        #{countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countryName != null">
+        #{countryName,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="zipCode != null">
+        #{zipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="address1 != null">
+        #{address1,jdbcType=VARCHAR},
+      </if>
+      <if test="address2 != null">
+        #{address2,jdbcType=VARCHAR},
+      </if>
+      <if test="address3 != null">
+        #{address3,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null">
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="logistCompanyId != null">
+        #{logistCompanyId,jdbcType=INTEGER},
+      </if>
+      <if test="logistCompanyCode != null">
+        #{logistCompanyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="logistCompanyName != null">
+        #{logistCompanyName,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseId != null">
+        #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseName != null">
+        #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="trackNumber != null">
+        #{trackNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="trackTime != null">
+        #{trackTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currencyCode != null">
+        #{currencyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="remark1 != null">
+        #{remark1,jdbcType=VARCHAR},
+      </if>
+      <if test="remark2 != null">
+        #{remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="reinvoiceMny != null">
+        #{reinvoiceMny,jdbcType=DECIMAL},
+      </if>
+      <if test="shippingWay != null">
+        #{shippingWay,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingFee != null">
+        #{shippingFee,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentMethod != null">
+        #{paymentMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="assignTime != null">
+        #{assignTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isReserveStock != null">
+        #{isReserveStock,jdbcType=BIT},
+      </if>
+      <if test="isOccupy != null">
+        #{isOccupy,jdbcType=BIT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shipMarkFailReason != null">
+        #{shipMarkFailReason,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.binger.goods.domain.SaleOrdersMainExample" resultType="java.lang.Long">
+    select count(*) from sale_orders_main
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sale_orders_main
+    <set>
+      <if test="record.orderSaleCode != null">
+        <if test="record.orderSaleCode == 'erpsetnull'">
+          order_sale_code= null,
+        </if>
+        <if test="record.orderSaleCode != 'erpsetnull'">
+          order_sale_code= #{record.orderSaleCode,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.orderCode != null">
+        <if test="record.orderCode == 'erpsetnull'">
+          order_code= null,
+        </if>
+        <if test="record.orderCode != 'erpsetnull'">
+          order_code= #{record.orderCode,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.customerName != null">
+        <if test="record.customerName == 'erpsetnull'">
+          customer_name= null,
+        </if>
+        <if test="record.customerName != 'erpsetnull'">
+          customer_name= #{record.customerName,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.buyerName != null">
+        <if test="record.buyerName == 'erpsetnull'">
+          buyer_name= null,
+        </if>
+        <if test="record.buyerName != 'erpsetnull'">
+          buyer_name= #{record.buyerName,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.customerEmail != null">
+        <if test="record.customerEmail == 'erpsetnull'">
+          customer_email= null,
+        </if>
+        <if test="record.customerEmail != 'erpsetnull'">
+          customer_email= #{record.customerEmail,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.countryCode != null">
+        <if test="record.countryCode == 'erpsetnull'">
+          country_code= null,
+        </if>
+        <if test="record.countryCode != 'erpsetnull'">
+          country_code= #{record.countryCode,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.countryName != null">
+        <if test="record.countryName == 'erpsetnull'">
+          country_name= null,
+        </if>
+        <if test="record.countryName != 'erpsetnull'">
+          country_name= #{record.countryName,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.state != null">
+        <if test="record.state == 'erpsetnull'">
+          state= null,
+        </if>
+        <if test="record.state != 'erpsetnull'">
+          state= #{record.state,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.city != null">
+        <if test="record.city == 'erpsetnull'">
+          city= null,
+        </if>
+        <if test="record.city != 'erpsetnull'">
+          city= #{record.city,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.zipCode != null">
+        <if test="record.zipCode == 'erpsetnull'">
+          zip_code= null,
+        </if>
+        <if test="record.zipCode != 'erpsetnull'">
+          zip_code= #{record.zipCode,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.address1 != null">
+        <if test="record.address1 == 'erpsetnull'">
+          address1= null,
+        </if>
+        <if test="record.address1 != 'erpsetnull'">
+          address1= #{record.address1,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.address2 != null">
+        <if test="record.address2 == 'erpsetnull'">
+          address2= null,
+        </if>
+        <if test="record.address2 != 'erpsetnull'">
+          address2= #{record.address2,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.address3 != null">
+        <if test="record.address3 == 'erpsetnull'">
+          address3= null,
+        </if>
+        <if test="record.address3 != 'erpsetnull'">
+          address3= #{record.address3,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.phoneNumber != null">
+        <if test="record.phoneNumber == 'erpsetnull'">
+          phone_number= null,
+        </if>
+        <if test="record.phoneNumber != 'erpsetnull'">
+          phone_number= #{record.phoneNumber,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.logistCompanyCode != null">
+        <if test="record.logistCompanyCode == 'erpsetnull'">
+          logist_company_code= null,
+        </if>
+        <if test="record.logistCompanyCode != 'erpsetnull'">
+          logist_company_code= #{record.logistCompanyCode,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.logistCompanyName != null">
+        <if test="record.logistCompanyName == 'erpsetnull'">
+          logist_company_name= null,
+        </if>
+        <if test="record.logistCompanyName != 'erpsetnull'">
+          logist_company_name= #{record.logistCompanyName,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.warehouseCode != null">
+        <if test="record.warehouseCode == 'erpsetnull'">
+          warehouse_code= null,
+        </if>
+        <if test="record.warehouseCode != 'erpsetnull'">
+          warehouse_code= #{record.warehouseCode,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.warehouseName != null">
+        <if test="record.warehouseName == 'erpsetnull'">
+          warehouse_name= null,
+        </if>
+        <if test="record.warehouseName != 'erpsetnull'">
+          warehouse_name= #{record.warehouseName,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.trackNumber != null">
+        <if test="record.trackNumber == 'erpsetnull'">
+          track_number= null,
+        </if>
+        <if test="record.trackNumber != 'erpsetnull'">
+          track_number= #{record.trackNumber,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.currencyCode != null">
+        <if test="record.currencyCode == 'erpsetnull'">
+          currency_code= null,
+        </if>
+        <if test="record.currencyCode != 'erpsetnull'">
+          currency_code= #{record.currencyCode,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.remark1 != null">
+        <if test="record.remark1 == 'erpsetnull'">
+          remark1= null,
+        </if>
+        <if test="record.remark1 != 'erpsetnull'">
+          remark1= #{record.remark1,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.remark2 != null">
+        <if test="record.remark2 == 'erpsetnull'">
+          remark2= null,
+        </if>
+        <if test="record.remark2 != 'erpsetnull'">
+          remark2= #{record.remark2,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.shippingWay != null">
+        <if test="record.shippingWay == 'erpsetnull'">
+          shipping_way= null,
+        </if>
+        <if test="record.shippingWay != 'erpsetnull'">
+          shipping_way= #{record.shippingWay,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.paymentMethod != null">
+        <if test="record.paymentMethod == 'erpsetnull'">
+          payment_method= null,
+        </if>
+        <if test="record.paymentMethod != 'erpsetnull'">
+          payment_method= #{record.paymentMethod,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.creator != null">
+        <if test="record.creator == 'erpsetnull'">
+          creator= null,
+        </if>
+        <if test="record.creator != 'erpsetnull'">
+          creator= #{record.creator,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.modifier != null">
+        <if test="record.modifier == 'erpsetnull'">
+          modifier= null,
+        </if>
+        <if test="record.modifier != 'erpsetnull'">
+          modifier= #{record.modifier,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="record.shipMarkFailReason != null">
+        <if test="record.shipMarkFailReason == 'erpsetnull'">
+          ship_mark_fail_reason= null,
+        </if>
+        <if test="record.shipMarkFailReason != 'erpsetnull'">
+          ship_mark_fail_reason= #{record.shipMarkFailReason,jdbcType=LONGVARCHAR},
+        </if>
+      </if>
+      <if test="record.orderTime != null">
+        <if test="record.orderTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          order_time= null,
+        </if>
+        <if test="record.orderTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          order_time= #{record.orderTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="record.payTime != null">
+        <if test="record.payTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          pay_time= null,
+        </if>
+        <if test="record.payTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          pay_time= #{record.payTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="record.shipMarkTime != null">
+        <if test="record.shipMarkTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          ship_mark_time= null,
+        </if>
+        <if test="record.shipMarkTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          ship_mark_time= #{record.shipMarkTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="record.assignDate != null">
+        <if test="record.assignDate.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          assign_date= null,
+        </if>
+        <if test="record.assignDate.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          assign_date= #{record.assignDate,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="record.trackTime != null">
+        <if test="record.trackTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          track_time= null,
+        </if>
+        <if test="record.trackTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          track_time= #{record.trackTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="record.assignTime != null">
+        <if test="record.assignTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          assign_time= null,
+        </if>
+        <if test="record.assignTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          assign_time= #{record.assignTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="record.createTime != null">
+        <if test="record.createTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          create_time= null,
+        </if>
+        <if test="record.createTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          create_time= #{record.createTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="record.modifyTime != null">
+        <if test="record.modifyTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          modify_time= null,
+        </if>
+        <if test="record.modifyTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          modify_time= #{record.modifyTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="record.exchangeRate != null">
+        <if test="record.exchangeRate == -99999">
+          exchange_rate= null,
+        </if>
+        <if test="record.exchangeRate != -99999">
+          exchange_rate= #{record.exchangeRate,jdbcType=DECIMAL},
+        </if>
+      </if>
+      <if test="record.orderOriMny != null">
+        <if test="record.orderOriMny == -99999">
+          order_ori_mny= null,
+        </if>
+        <if test="record.orderOriMny != -99999">
+          order_ori_mny= #{record.orderOriMny,jdbcType=DECIMAL},
+        </if>
+      </if>
+      <if test="record.storeId != null">
+        <if test="record.storeId == -99999">
+          store_id= null,
+        </if>
+        <if test="record.storeId != -99999">
+          store_id= #{record.storeId,jdbcType=INTEGER},
+        </if>
+      </if>
+      <if test="record.orderLocMny != null">
+        <if test="record.orderLocMny == -99999">
+          order_loc_mny= null,
+        </if>
+        <if test="record.orderLocMny != -99999">
+          order_loc_mny= #{record.orderLocMny,jdbcType=DECIMAL},
+        </if>
+      </if>
+      <if test="record.orderStatus != null">
+        <if test="record.orderStatus == -99999">
+          order_status= null,
+        </if>
+        <if test="record.orderStatus != -99999">
+          order_status= #{record.orderStatus,jdbcType=INTEGER},
+        </if>
+      </if>
+      <if test="record.orderCate != null">
+        <if test="record.orderCate == -99999">
+          order_cate= null,
+        </if>
+        <if test="record.orderCate != -99999">
+          order_cate= #{record.orderCate,jdbcType=INTEGER},
+        </if>
+      </if>
+      <if test="record.shipMark != null">
+        <if test="record.shipMark == -99999">
+          ship_mark= null,
+        </if>
+        <if test="record.shipMark != -99999">
+          ship_mark= #{record.shipMark,jdbcType=INTEGER},
+        </if>
+      </if>
+      <if test="record.shipMarkQty != null">
+        <if test="record.shipMarkQty == -99999">
+          ship_mark_qty= null,
+        </if>
+        <if test="record.shipMarkQty != -99999">
+          ship_mark_qty= #{record.shipMarkQty,jdbcType=INTEGER},
+        </if>
+      </if>
+      <if test="record.countryId != null">
+        <if test="record.countryId == -99999">
+          country_id= null,
+        </if>
+        <if test="record.countryId != -99999">
+          country_id= #{record.countryId,jdbcType=INTEGER},
+        </if>
+      </if>
+      <if test="record.logistCompanyId != null">
+        <if test="record.logistCompanyId == -99999">
+          logist_company_id= null,
+        </if>
+        <if test="record.logistCompanyId != -99999">
+          logist_company_id= #{record.logistCompanyId,jdbcType=INTEGER},
+        </if>
+      </if>
+      <if test="record.warehouseId != null">
+        <if test="record.warehouseId == -99999">
+          warehouse_id= null,
+        </if>
+        <if test="record.warehouseId != -99999">
+          warehouse_id= #{record.warehouseId,jdbcType=INTEGER},
+        </if>
+      </if>
+      <if test="record.weight != null">
+        <if test="record.weight == -99999">
+          weight= null,
+        </if>
+        <if test="record.weight != -99999">
+          weight= #{record.weight,jdbcType=DECIMAL},
+        </if>
+      </if>
+      <if test="record.reinvoiceMny != null">
+        <if test="record.reinvoiceMny == -99999">
+          reinvoice_mny= null,
+        </if>
+        <if test="record.reinvoiceMny != -99999">
+          reinvoice_mny= #{record.reinvoiceMny,jdbcType=DECIMAL},
+        </if>
+      </if>
+      <if test="record.shippingFee != null">
+        <if test="record.shippingFee == -99999">
+          shipping_fee= null,
+        </if>
+        <if test="record.shippingFee != -99999">
+          shipping_fee= #{record.shippingFee,jdbcType=DECIMAL},
+        </if>
+      </if>
+      <if test="record.isReserveStock != null">
+        is_reserve_stock= #{record.isReserveStock,jdbcType=BIT},
+      </if>
+      <if test="record.isOccupy != null">
+        is_occupy= #{record.isOccupy,jdbcType=BIT},
+      </if>
+      <if test="record.status != null">
+        status= #{record.status,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update sale_orders_main
+    set id = #{record.id,jdbcType=INTEGER},
+      order_sale_code = #{record.orderSaleCode,jdbcType=VARCHAR},
+      order_code = #{record.orderCode,jdbcType=VARCHAR},
+      order_time = #{record.orderTime,jdbcType=TIMESTAMP},
+      pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      exchange_rate = #{record.exchangeRate,jdbcType=DECIMAL},
+      order_ori_mny = #{record.orderOriMny,jdbcType=DECIMAL},
+      store_id = #{record.storeId,jdbcType=INTEGER},
+      order_loc_mny = #{record.orderLocMny,jdbcType=DECIMAL},
+      order_status = #{record.orderStatus,jdbcType=INTEGER},
+      order_cate = #{record.orderCate,jdbcType=INTEGER},
+      ship_mark = #{record.shipMark,jdbcType=INTEGER},
+      ship_mark_time = #{record.shipMarkTime,jdbcType=TIMESTAMP},
+      ship_mark_qty = #{record.shipMarkQty,jdbcType=INTEGER},
+      assign_date = #{record.assignDate,jdbcType=TIMESTAMP},
+      customer_name = #{record.customerName,jdbcType=VARCHAR},
+      buyer_name = #{record.buyerName,jdbcType=VARCHAR},
+      customer_email = #{record.customerEmail,jdbcType=VARCHAR},
+      country_id = #{record.countryId,jdbcType=INTEGER},
+      country_code = #{record.countryCode,jdbcType=VARCHAR},
+      country_name = #{record.countryName,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      zip_code = #{record.zipCode,jdbcType=VARCHAR},
+      address1 = #{record.address1,jdbcType=VARCHAR},
+      address2 = #{record.address2,jdbcType=VARCHAR},
+      address3 = #{record.address3,jdbcType=VARCHAR},
+      phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
+      logist_company_id = #{record.logistCompanyId,jdbcType=INTEGER},
+      logist_company_code = #{record.logistCompanyCode,jdbcType=VARCHAR},
+      logist_company_name = #{record.logistCompanyName,jdbcType=VARCHAR},
+      warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      warehouse_name = #{record.warehouseName,jdbcType=VARCHAR},
+      track_number = #{record.trackNumber,jdbcType=VARCHAR},
+      track_time = #{record.trackTime,jdbcType=TIMESTAMP},
+      currency_code = #{record.currencyCode,jdbcType=VARCHAR},
+      weight = #{record.weight,jdbcType=DECIMAL},
+      remark1 = #{record.remark1,jdbcType=VARCHAR},
+      remark2 = #{record.remark2,jdbcType=VARCHAR},
+      reinvoice_mny = #{record.reinvoiceMny,jdbcType=DECIMAL},
+      shipping_way = #{record.shippingWay,jdbcType=VARCHAR},
+      shipping_fee = #{record.shippingFee,jdbcType=DECIMAL},
+      payment_method = #{record.paymentMethod,jdbcType=VARCHAR},
+      assign_time = #{record.assignTime,jdbcType=TIMESTAMP},
+      is_reserve_stock = #{record.isReserveStock,jdbcType=BIT},
+      is_occupy = #{record.isOccupy,jdbcType=BIT},
+      status = #{record.status,jdbcType=BIT},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      modifier = #{record.modifier,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      ship_mark_fail_reason = #{record.shipMarkFailReason,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sale_orders_main
+    set id = #{record.id,jdbcType=INTEGER},
+      order_sale_code = #{record.orderSaleCode,jdbcType=VARCHAR},
+      order_code = #{record.orderCode,jdbcType=VARCHAR},
+      order_time = #{record.orderTime,jdbcType=TIMESTAMP},
+      pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      exchange_rate = #{record.exchangeRate,jdbcType=DECIMAL},
+      order_ori_mny = #{record.orderOriMny,jdbcType=DECIMAL},
+      store_id = #{record.storeId,jdbcType=INTEGER},
+      order_loc_mny = #{record.orderLocMny,jdbcType=DECIMAL},
+      order_status = #{record.orderStatus,jdbcType=INTEGER},
+      order_cate = #{record.orderCate,jdbcType=INTEGER},
+      ship_mark = #{record.shipMark,jdbcType=INTEGER},
+      ship_mark_time = #{record.shipMarkTime,jdbcType=TIMESTAMP},
+      ship_mark_qty = #{record.shipMarkQty,jdbcType=INTEGER},
+      assign_date = #{record.assignDate,jdbcType=TIMESTAMP},
+      customer_name = #{record.customerName,jdbcType=VARCHAR},
+      buyer_name = #{record.buyerName,jdbcType=VARCHAR},
+      customer_email = #{record.customerEmail,jdbcType=VARCHAR},
+      country_id = #{record.countryId,jdbcType=INTEGER},
+      country_code = #{record.countryCode,jdbcType=VARCHAR},
+      country_name = #{record.countryName,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      zip_code = #{record.zipCode,jdbcType=VARCHAR},
+      address1 = #{record.address1,jdbcType=VARCHAR},
+      address2 = #{record.address2,jdbcType=VARCHAR},
+      address3 = #{record.address3,jdbcType=VARCHAR},
+      phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
+      logist_company_id = #{record.logistCompanyId,jdbcType=INTEGER},
+      logist_company_code = #{record.logistCompanyCode,jdbcType=VARCHAR},
+      logist_company_name = #{record.logistCompanyName,jdbcType=VARCHAR},
+      warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      warehouse_name = #{record.warehouseName,jdbcType=VARCHAR},
+      track_number = #{record.trackNumber,jdbcType=VARCHAR},
+      track_time = #{record.trackTime,jdbcType=TIMESTAMP},
+      currency_code = #{record.currencyCode,jdbcType=VARCHAR},
+      weight = #{record.weight,jdbcType=DECIMAL},
+      remark1 = #{record.remark1,jdbcType=VARCHAR},
+      remark2 = #{record.remark2,jdbcType=VARCHAR},
+      reinvoice_mny = #{record.reinvoiceMny,jdbcType=DECIMAL},
+      shipping_way = #{record.shippingWay,jdbcType=VARCHAR},
+      shipping_fee = #{record.shippingFee,jdbcType=DECIMAL},
+      payment_method = #{record.paymentMethod,jdbcType=VARCHAR},
+      assign_time = #{record.assignTime,jdbcType=TIMESTAMP},
+      is_reserve_stock = #{record.isReserveStock,jdbcType=BIT},
+      is_occupy = #{record.isOccupy,jdbcType=BIT},
+      status = #{record.status,jdbcType=BIT},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      modifier = #{record.modifier,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.binger.goods.domain.SaleOrdersMain">
+    update sale_orders_main
+    <set>
+      <if test="orderSaleCode != null">
+        <if test="orderSaleCode == 'erpsetnull'">
+          order_sale_code= null,
+        </if>
+        <if test="orderSaleCode != 'erpsetnull'">
+          order_sale_code= #{orderSaleCode,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="orderCode != null">
+        <if test="orderCode == 'erpsetnull'">
+          order_code= null,
+        </if>
+        <if test="orderCode != 'erpsetnull'">
+          order_code= #{orderCode,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="customerName != null">
+        <if test="customerName == 'erpsetnull'">
+          customer_name= null,
+        </if>
+        <if test="customerName != 'erpsetnull'">
+          customer_name= #{customerName,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="buyerName != null">
+        <if test="buyerName == 'erpsetnull'">
+          buyer_name= null,
+        </if>
+        <if test="buyerName != 'erpsetnull'">
+          buyer_name= #{buyerName,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="customerEmail != null">
+        <if test="customerEmail == 'erpsetnull'">
+          customer_email= null,
+        </if>
+        <if test="customerEmail != 'erpsetnull'">
+          customer_email= #{customerEmail,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="countryCode != null">
+        <if test="countryCode == 'erpsetnull'">
+          country_code= null,
+        </if>
+        <if test="countryCode != 'erpsetnull'">
+          country_code= #{countryCode,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="countryName != null">
+        <if test="countryName == 'erpsetnull'">
+          country_name= null,
+        </if>
+        <if test="countryName != 'erpsetnull'">
+          country_name= #{countryName,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="state != null">
+        <if test="state == 'erpsetnull'">
+          state= null,
+        </if>
+        <if test="state != 'erpsetnull'">
+          state= #{state,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="city != null">
+        <if test="city == 'erpsetnull'">
+          city= null,
+        </if>
+        <if test="city != 'erpsetnull'">
+          city= #{city,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="zipCode != null">
+        <if test="zipCode == 'erpsetnull'">
+          zip_code= null,
+        </if>
+        <if test="zipCode != 'erpsetnull'">
+          zip_code= #{zipCode,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="address1 != null">
+        <if test="address1 == 'erpsetnull'">
+          address1= null,
+        </if>
+        <if test="address1 != 'erpsetnull'">
+          address1= #{address1,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="address2 != null">
+        <if test="address2 == 'erpsetnull'">
+          address2= null,
+        </if>
+        <if test="address2 != 'erpsetnull'">
+          address2= #{address2,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="address3 != null">
+        <if test="address3 == 'erpsetnull'">
+          address3= null,
+        </if>
+        <if test="address3 != 'erpsetnull'">
+          address3= #{address3,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="phoneNumber != null">
+        <if test="phoneNumber == 'erpsetnull'">
+          phone_number= null,
+        </if>
+        <if test="phoneNumber != 'erpsetnull'">
+          phone_number= #{phoneNumber,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="logistCompanyCode != null">
+        <if test="logistCompanyCode == 'erpsetnull'">
+          logist_company_code= null,
+        </if>
+        <if test="logistCompanyCode != 'erpsetnull'">
+          logist_company_code= #{logistCompanyCode,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="logistCompanyName != null">
+        <if test="logistCompanyName == 'erpsetnull'">
+          logist_company_name= null,
+        </if>
+        <if test="logistCompanyName != 'erpsetnull'">
+          logist_company_name= #{logistCompanyName,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="warehouseCode != null">
+        <if test="warehouseCode == 'erpsetnull'">
+          warehouse_code= null,
+        </if>
+        <if test="warehouseCode != 'erpsetnull'">
+          warehouse_code= #{warehouseCode,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="warehouseName != null">
+        <if test="warehouseName == 'erpsetnull'">
+          warehouse_name= null,
+        </if>
+        <if test="warehouseName != 'erpsetnull'">
+          warehouse_name= #{warehouseName,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="trackNumber != null">
+        <if test="trackNumber == 'erpsetnull'">
+          track_number= null,
+        </if>
+        <if test="trackNumber != 'erpsetnull'">
+          track_number= #{trackNumber,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="currencyCode != null">
+        <if test="currencyCode == 'erpsetnull'">
+          currency_code= null,
+        </if>
+        <if test="currencyCode != 'erpsetnull'">
+          currency_code= #{currencyCode,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="remark1 != null">
+        <if test="remark1 == 'erpsetnull'">
+          remark1= null,
+        </if>
+        <if test="remark1 != 'erpsetnull'">
+          remark1= #{remark1,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="remark2 != null">
+        <if test="remark2 == 'erpsetnull'">
+          remark2= null,
+        </if>
+        <if test="remark2 != 'erpsetnull'">
+          remark2= #{remark2,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="shippingWay != null">
+        <if test="shippingWay == 'erpsetnull'">
+          shipping_way= null,
+        </if>
+        <if test="shippingWay != 'erpsetnull'">
+          shipping_way= #{shippingWay,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="paymentMethod != null">
+        <if test="paymentMethod == 'erpsetnull'">
+          payment_method= null,
+        </if>
+        <if test="paymentMethod != 'erpsetnull'">
+          payment_method= #{paymentMethod,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="creator != null">
+        <if test="creator == 'erpsetnull'">
+          creator= null,
+        </if>
+        <if test="creator != 'erpsetnull'">
+          creator= #{creator,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="modifier != null">
+        <if test="modifier == 'erpsetnull'">
+          modifier= null,
+        </if>
+        <if test="modifier != 'erpsetnull'">
+          modifier= #{modifier,jdbcType=VARCHAR},
+        </if>
+      </if>
+      <if test="shipMarkFailReason != null">
+        <if test="shipMarkFailReason == 'erpsetnull'">
+          ship_mark_fail_reason= null,
+        </if>
+        <if test="shipMarkFailReason != 'erpsetnull'">
+          ship_mark_fail_reason= #{shipMarkFailReason,jdbcType=LONGVARCHAR},
+        </if>
+      </if>
+      <if test="orderTime != null">
+        <if test="orderTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          order_time= null,
+        </if>
+        <if test="orderTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          order_time= #{orderTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="payTime != null">
+        <if test="payTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          pay_time= null,
+        </if>
+        <if test="payTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          pay_time= #{payTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="shipMarkTime != null">
+        <if test="shipMarkTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          ship_mark_time= null,
+        </if>
+        <if test="shipMarkTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          ship_mark_time= #{shipMarkTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="assignDate != null">
+        <if test="assignDate.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          assign_date= null,
+        </if>
+        <if test="assignDate.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          assign_date= #{assignDate,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="trackTime != null">
+        <if test="trackTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          track_time= null,
+        </if>
+        <if test="trackTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          track_time= #{trackTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="assignTime != null">
+        <if test="assignTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          assign_time= null,
+        </if>
+        <if test="assignTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          assign_time= #{assignTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="createTime != null">
+        <if test="createTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          create_time= null,
+        </if>
+        <if test="createTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          create_time= #{createTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="modifyTime != null">
+        <if test="modifyTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          modify_time= null,
+        </if>
+        <if test="modifyTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          modify_time= #{modifyTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="exchangeRate != null">
+        <if test="exchangeRate == -99999">
+          exchange_rate= null,
+        </if>
+        <if test="exchangeRate != -99999">
+          exchange_rate= #{exchangeRate,jdbcType=DECIMAL},
+        </if>
+      </if>
+      <if test="orderOriMny != null">
+        <if test="orderOriMny == -99999">
+          order_ori_mny= null,
+        </if>
+        <if test="orderOriMny != -99999">
+          order_ori_mny= #{orderOriMny,jdbcType=DECIMAL},
+        </if>
+      </if>
+      <if test="storeId != null">
+        <if test="storeId == -99999">
+          store_id= null,
+        </if>
+        <if test="storeId != -99999">
+          store_id= #{storeId,jdbcType=INTEGER},
+        </if>
+      </if>
+      <if test="orderLocMny != null">
+        <if test="orderLocMny == -99999">
+          order_loc_mny= null,
+        </if>
+        <if test="orderLocMny != -99999">
+          order_loc_mny= #{orderLocMny,jdbcType=DECIMAL},
+        </if>
+      </if>
+      <if test="orderStatus != null">
+        <if test="orderStatus == -99999">
+          order_status= null,
+        </if>
+        <if test="orderStatus != -99999">
+          order_status= #{orderStatus,jdbcType=INTEGER},
+        </if>
+      </if>
+      <if test="orderCate != null">
+        <if test="orderCate == -99999">
+          order_cate= null,
+        </if>
+        <if test="orderCate != -99999">
+          order_cate= #{orderCate,jdbcType=INTEGER},
+        </if>
+      </if>
+      <if test="shipMark != null">
+        <if test="shipMark == -99999">
+          ship_mark= null,
+        </if>
+        <if test="shipMark != -99999">
+          ship_mark= #{shipMark,jdbcType=INTEGER},
+        </if>
+      </if>
+      <if test="shipMarkQty != null">
+        <if test="shipMarkQty == -99999">
+          ship_mark_qty= null,
+        </if>
+        <if test="shipMarkQty != -99999">
+          ship_mark_qty= #{shipMarkQty,jdbcType=INTEGER},
+        </if>
+      </if>
+      <if test="countryId != null">
+        <if test="countryId == -99999">
+          country_id= null,
+        </if>
+        <if test="countryId != -99999">
+          country_id= #{countryId,jdbcType=INTEGER},
+        </if>
+      </if>
+      <if test="logistCompanyId != null">
+        <if test="logistCompanyId == -99999">
+          logist_company_id= null,
+        </if>
+        <if test="logistCompanyId != -99999">
+          logist_company_id= #{logistCompanyId,jdbcType=INTEGER},
+        </if>
+      </if>
+      <if test="warehouseId != null">
+        <if test="warehouseId == -99999">
+          warehouse_id= null,
+        </if>
+        <if test="warehouseId != -99999">
+          warehouse_id= #{warehouseId,jdbcType=INTEGER},
+        </if>
+      </if>
+      <if test="weight != null">
+        <if test="weight == -99999">
+          weight= null,
+        </if>
+        <if test="weight != -99999">
+          weight= #{weight,jdbcType=DECIMAL},
+        </if>
+      </if>
+      <if test="reinvoiceMny != null">
+        <if test="reinvoiceMny == -99999">
+          reinvoice_mny= null,
+        </if>
+        <if test="reinvoiceMny != -99999">
+          reinvoice_mny= #{reinvoiceMny,jdbcType=DECIMAL},
+        </if>
+      </if>
+      <if test="shippingFee != null">
+        <if test="shippingFee == -99999">
+          shipping_fee= null,
+        </if>
+        <if test="shippingFee != -99999">
+          shipping_fee= #{shippingFee,jdbcType=DECIMAL},
+        </if>
+      </if>
+      <if test="isReserveStock != null">
+        is_reserve_stock= #{isReserveStock,jdbcType=BIT},
+      </if>
+      <if test="isOccupy != null">
+        is_occupy= #{isOccupy,jdbcType=BIT},
+      </if>
+      <if test="status != null">
+        status= #{status,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.binger.goods.domain.SaleOrdersMain">
+    update sale_orders_main
+    set order_sale_code = #{orderSaleCode,jdbcType=VARCHAR},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      order_time = #{orderTime,jdbcType=TIMESTAMP},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      exchange_rate = #{exchangeRate,jdbcType=DECIMAL},
+      order_ori_mny = #{orderOriMny,jdbcType=DECIMAL},
+      store_id = #{storeId,jdbcType=INTEGER},
+      order_loc_mny = #{orderLocMny,jdbcType=DECIMAL},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      order_cate = #{orderCate,jdbcType=INTEGER},
+      ship_mark = #{shipMark,jdbcType=INTEGER},
+      ship_mark_time = #{shipMarkTime,jdbcType=TIMESTAMP},
+      ship_mark_qty = #{shipMarkQty,jdbcType=INTEGER},
+      assign_date = #{assignDate,jdbcType=TIMESTAMP},
+      customer_name = #{customerName,jdbcType=VARCHAR},
+      buyer_name = #{buyerName,jdbcType=VARCHAR},
+      customer_email = #{customerEmail,jdbcType=VARCHAR},
+      country_id = #{countryId,jdbcType=INTEGER},
+      country_code = #{countryCode,jdbcType=VARCHAR},
+      country_name = #{countryName,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      zip_code = #{zipCode,jdbcType=VARCHAR},
+      address1 = #{address1,jdbcType=VARCHAR},
+      address2 = #{address2,jdbcType=VARCHAR},
+      address3 = #{address3,jdbcType=VARCHAR},
+      phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      logist_company_id = #{logistCompanyId,jdbcType=INTEGER},
+      logist_company_code = #{logistCompanyCode,jdbcType=VARCHAR},
+      logist_company_name = #{logistCompanyName,jdbcType=VARCHAR},
+      warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      warehouse_name = #{warehouseName,jdbcType=VARCHAR},
+      track_number = #{trackNumber,jdbcType=VARCHAR},
+      track_time = #{trackTime,jdbcType=TIMESTAMP},
+      currency_code = #{currencyCode,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=DECIMAL},
+      remark1 = #{remark1,jdbcType=VARCHAR},
+      remark2 = #{remark2,jdbcType=VARCHAR},
+      reinvoice_mny = #{reinvoiceMny,jdbcType=DECIMAL},
+      shipping_way = #{shippingWay,jdbcType=VARCHAR},
+      shipping_fee = #{shippingFee,jdbcType=DECIMAL},
+      payment_method = #{paymentMethod,jdbcType=VARCHAR},
+      assign_time = #{assignTime,jdbcType=TIMESTAMP},
+      is_reserve_stock = #{isReserveStock,jdbcType=BIT},
+      is_occupy = #{isOccupy,jdbcType=BIT},
+      status = #{status,jdbcType=BIT},
+      creator = #{creator,jdbcType=VARCHAR},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      ship_mark_fail_reason = #{shipMarkFailReason,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.binger.goods.domain.SaleOrdersMain">
+    update sale_orders_main
+    set order_sale_code = #{orderSaleCode,jdbcType=VARCHAR},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      order_time = #{orderTime,jdbcType=TIMESTAMP},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      exchange_rate = #{exchangeRate,jdbcType=DECIMAL},
+      order_ori_mny = #{orderOriMny,jdbcType=DECIMAL},
+      store_id = #{storeId,jdbcType=INTEGER},
+      order_loc_mny = #{orderLocMny,jdbcType=DECIMAL},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      order_cate = #{orderCate,jdbcType=INTEGER},
+      ship_mark = #{shipMark,jdbcType=INTEGER},
+      ship_mark_time = #{shipMarkTime,jdbcType=TIMESTAMP},
+      ship_mark_qty = #{shipMarkQty,jdbcType=INTEGER},
+      assign_date = #{assignDate,jdbcType=TIMESTAMP},
+      customer_name = #{customerName,jdbcType=VARCHAR},
+      buyer_name = #{buyerName,jdbcType=VARCHAR},
+      customer_email = #{customerEmail,jdbcType=VARCHAR},
+      country_id = #{countryId,jdbcType=INTEGER},
+      country_code = #{countryCode,jdbcType=VARCHAR},
+      country_name = #{countryName,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      zip_code = #{zipCode,jdbcType=VARCHAR},
+      address1 = #{address1,jdbcType=VARCHAR},
+      address2 = #{address2,jdbcType=VARCHAR},
+      address3 = #{address3,jdbcType=VARCHAR},
+      phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      logist_company_id = #{logistCompanyId,jdbcType=INTEGER},
+      logist_company_code = #{logistCompanyCode,jdbcType=VARCHAR},
+      logist_company_name = #{logistCompanyName,jdbcType=VARCHAR},
+      warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      warehouse_name = #{warehouseName,jdbcType=VARCHAR},
+      track_number = #{trackNumber,jdbcType=VARCHAR},
+      track_time = #{trackTime,jdbcType=TIMESTAMP},
+      currency_code = #{currencyCode,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=DECIMAL},
+      remark1 = #{remark1,jdbcType=VARCHAR},
+      remark2 = #{remark2,jdbcType=VARCHAR},
+      reinvoice_mny = #{reinvoiceMny,jdbcType=DECIMAL},
+      shipping_way = #{shippingWay,jdbcType=VARCHAR},
+      shipping_fee = #{shippingFee,jdbcType=DECIMAL},
+      payment_method = #{paymentMethod,jdbcType=VARCHAR},
+      assign_time = #{assignTime,jdbcType=TIMESTAMP},
+      is_reserve_stock = #{isReserveStock,jdbcType=BIT},
+      is_occupy = #{isOccupy,jdbcType=BIT},
+      status = #{status,jdbcType=BIT},
+      creator = #{creator,jdbcType=VARCHAR},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithColSelected" parameterType="com.binger.goods.domain.SaleOrdersMainExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    ${selectiveField.toString()} 
+    from sale_orders_main
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKeyWithColSelected" resultMap="ResultMapWithBLOBs">
+    select 
+    ${selectiveField.toString()} 
+    ,
+    <include refid="Blob_Column_List" />
+    from sale_orders_main
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+</mapper>

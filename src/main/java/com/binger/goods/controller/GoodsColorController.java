@@ -13,9 +13,7 @@ import com.binger.goods.vo.GoodsColorDetailVo;
 import com.binger.goods.vo.GoodsColorVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +37,7 @@ public class GoodsColorController {
 
     @ApiOperation(value = "颜色列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ServerResponse<List<GoodsColorVo>> listColors(@RequestBody GoodsColorQuery goodsColorQuery,
+    public ServerResponse<List<GoodsColorVo>> listColors(@RequestBody(required = false) GoodsColorQuery goodsColorQuery,
                                                         @RequestParam(value = "pageNo", required = false) Integer pageNo,
                                                         @RequestParam(value = "pageSize", required = false) Integer pageSize){
         GoodsColorExample goodsColorExample = new GoodsColorExample();
@@ -68,11 +66,7 @@ public class GoodsColorController {
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public ServerResponse<GoodsColorDetailVo> findColorById(@PathVariable Integer id){
         GoodsColorDetailVo goodsColorDetailVo = goodsColorService.findColorById(id);
-        if (goodsColorDetailVo != null){
-            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsColorDetailVo);
-        }else {
-            return ServerResponse.createByError("没有该id的颜色");
-        }
+        return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsColorDetailVo);
     }
 
     @ApiOperation(value = "修改颜色")

@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setUserPassword(DigestUtils.md5DigestAsHex(user.getUserPassword().getBytes()));
         checkUserUnique(user, id);
-        long count = userMapper.updateByPrimaryKey(user);
+        long count = userMapper.updateByPrimaryKeySelective(user);
         if (count > 0) {
             return DozerUtils.convert(userMapper.selectByPrimaryKey(id), UserVo.class);
         } else {

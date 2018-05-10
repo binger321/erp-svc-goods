@@ -38,7 +38,7 @@ public class SupplierController {
     private SupplierService supplierService;
     @ApiOperation(value = "供应商列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ServerResponse<List<SupplierVo>> list(@RequestBody SupplierQuery supplierQuery,
+    public ServerResponse<List<SupplierVo>> list(@RequestBody(required = false) SupplierQuery supplierQuery,
                                                  @RequestParam(value = "pageNo", required = false) Integer pageNo,
                                                  @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         SupplierExample example = new SupplierExample();

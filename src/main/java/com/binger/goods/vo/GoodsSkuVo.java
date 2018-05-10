@@ -15,8 +15,8 @@ import java.math.BigDecimal;
  * Description:
  */
 @Data
-@ApiModel("SkuCode")
-public class GoodsSkuDetailVo {
+@ApiModel("GoodsCodeAndSkuVo")
+public class GoodsSkuVo {
     /**
      * ID
      */

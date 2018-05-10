@@ -49,7 +49,11 @@ public class GoodsServiceImpl implements GoodsService{
     @Override
     public GoodsDetailVo findGoodsDetailById(Integer id) {
         Goods goods=goodsMapper.selectByPrimaryKey(id);
-        return DozerUtils.convert(goods,GoodsDetailVo.class);
+        if (goods != null) {
+            return DozerUtils.convert(goods,GoodsDetailVo.class);
+        } else {
+            return null;
+        }
     }
 
     @Override

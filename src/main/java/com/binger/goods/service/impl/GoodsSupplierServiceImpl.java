@@ -41,7 +41,7 @@ public class GoodsSupplierServiceImpl implements GoodsSupplierService{
         if (count > 0) {
             if (checkUnique(goodsSupplier, id)) {
                 goodsSupplier.setId(id);
-                int result = goodsSupplierMapper.updateByPrimaryKey(goodsSupplier);
+                int result = goodsSupplierMapper.updateByPrimaryKeySelective(goodsSupplier);
                 if (result > 0) {
                     return DozerUtils.convert(goodsSupplierMapper.selectByPrimaryKey(id), SupplierSimpleVo.class);
                 } else {

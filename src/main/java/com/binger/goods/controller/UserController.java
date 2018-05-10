@@ -37,9 +37,6 @@ public class UserController {
         UserExample.Criteria criteria = userExample.createCriteria();
 
         if(null != userQuery) {
-            if (null != userQuery.getId()) {
-                criteria.andIdEqualTo(userQuery.getId());
-            }
             if (StringUtils.isNotBlank(userQuery.getUserCode())) {
                 criteria.andUserCodeLike(userQuery.getUserCode());
             }
@@ -47,7 +44,6 @@ public class UserController {
                 criteria.andUserNameLike(userQuery.getUserName());
             }
         }
-
         if (pageNo != null) {
             long total = userService.count(userExample);
             Page page = new Page(pageNo, pageSize, total);

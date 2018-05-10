@@ -90,10 +90,7 @@ public class GoodsController {
     @RequestMapping(value = "/detail/{id}",method = RequestMethod.POST)
     public ServerResponse<GoodsDetailVo> findGoodsById(@PathVariable Integer id){
         GoodsDetailVo goodsDetailVo=goodsService.findGoodsDetailById(id);
-        if (goodsDetailVo!=null){
-            return ServerResponse.createBySuccess(Const.SUCCESS_MSG,goodsDetailVo);
-        }
-        return null;
+        return ServerResponse.createBySuccess(Const.SUCCESS_MSG,goodsDetailVo);
     }
 
     /**
@@ -108,10 +105,7 @@ public class GoodsController {
     public ServerResponse<GoodsDetailVo> updateGoods(@PathVariable Integer id,
                                                      @RequestBody GoodsForm goodsForm){
         GoodsDetailVo goodsDetailVo = goodsService.updateGoods(id,goodsForm);
-        if (goodsDetailVo!=null){
-            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsDetailVo);
-        }
-        return null;
+        return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsDetailVo);
     }
 
     /**
@@ -124,7 +118,7 @@ public class GoodsController {
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public ServerResponse<GoodsDetailVo> insertGoods(@RequestBody GoodsForm goodsForm){
         GoodsDetailVo goodsDetailVo = goodsService.insertGoods(goodsForm);
-        if (goodsDetailVo!=null){
+        if (goodsDetailVo != null){
             return ServerResponse.createBySuccess(Const.SUCCESS_MSG,goodsDetailVo);
         }
         return null;

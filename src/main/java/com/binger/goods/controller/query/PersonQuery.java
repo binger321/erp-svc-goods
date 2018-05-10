@@ -1,14 +1,8 @@
 package com.binger.goods.controller.query;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Date;
 
 /**
  * 人员
@@ -70,39 +64,4 @@ public class PersonQuery {
     @ApiModelProperty(value="0离职, 1在职",required = false)
     private Integer status;
 
-    /**
-     * 离职时间
-     */
-    @ApiModelProperty(value="离职时间",required = false)
-    private Date blockTime;
-
-    /**
-     * 入职时间
-     */
-    @ApiModelProperty(value="入职时间",required = false)
-    private Date entryTime;
-
-    /**
-     * 创建人
-     */
-    @ApiModelProperty(value="创建人",required = false)
-    private String creator;
-
-    /**
-     * 创建时间
-     */
-    @ApiModelProperty(value="创建时间",required = false)
-    private Date createTime;
-
-    /**
-     * 修改人
-     */
-    @ApiModelProperty(value="修改人",required = false)
-    private String modifier;
-
-    /**
-     * 修改时间
-     */
-    @ApiModelProperty(value="修改时间",required = false)
-    private Date modifyTime;
 }

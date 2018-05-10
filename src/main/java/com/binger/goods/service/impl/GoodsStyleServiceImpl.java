@@ -48,7 +48,7 @@ public class GoodsStyleServiceImpl implements GoodsStyleService{
             throw BusinessException.create("该款式不存在");
         } else {
             goodsStyle.setId(id);
-            int result = goodsStyleMapper.updateByPrimaryKey(goodsStyle);
+            int result = goodsStyleMapper.updateByPrimaryKeySelective(goodsStyle);
             if (result > 0) {
                 return DozerUtils.convert(goodsStyleMapper.selectByPrimaryKey(id), GoodsStyleDetailVo.class);
             } else {

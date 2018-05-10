@@ -47,7 +47,7 @@ public class SupplierServiceImpl implements SupplierService {
             throw BusinessException.create("无法找到该供应商，可能重复操作");
         }
         supplier.setId(id);
-        long count = supplierMapper.updateByPrimaryKey(supplier);
+        long count = supplierMapper.updateByPrimaryKeySelective(supplier);
         if (count > 0) {
             return DozerUtils.convert(supplierMapper.selectByPrimaryKey(id), SupplierDetailVo.class);
         } else {
@@ -59,8 +59,9 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     public SupplierDetailVo add(Supplier supplier) {
         int count = supplierMapper.insert(supplier);
-        if (count > 0) {
-            return DozerUtils.convert(supplierMapper.selectByPrimaryKey(supplier.getId()), SupplierDetailVo.class);
+        Supplier supplier1 = supplierMapper.selectByPrimaryKey(supplier.getId());
+        if (supplier1 != null) {
+            return DozerUtils.convert(supplier1, SupplierDetailVo.class);
         } else {
             throw BusinessException.create("新增失败！");
         }

@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,9 +25,9 @@ public class GoodsSkuForm {
     private Integer goodsId;
 
     /**
-     *
+     * skuCode
      */
-    @ApiModelProperty(value="",required = false)
+    @ApiModelProperty(value="skuCode",required = false)
     private String skuCode;
 
     /**
@@ -54,12 +53,6 @@ public class GoodsSkuForm {
      */
     @ApiModelProperty(value="尺寸ID",required = false)
     private Integer sizeId;
-
-    /**
-     * 尺码
-     */
-    @ApiModelProperty(value="尺码",required = false)
-    private String size;
 
     /**
      *
@@ -90,36 +83,6 @@ public class GoodsSkuForm {
      */
     @ApiModelProperty(value="0禁用, 1启用",required = false)
     private Boolean status;
-
-    /**
-     * 停用时间
-     */
-    @ApiModelProperty(value="停用时间",required = false)
-    private Date blockTime;
-
-    /**
-     * 创建人
-     */
-    @ApiModelProperty(value="创建人",required = false)
-    private String creator;
-
-    /**
-     * 创建时间
-     */
-    @ApiModelProperty(value="创建时间",required = false)
-    private Date createTime;
-
-    /**
-     * 修改人
-     */
-    @ApiModelProperty(value="修改人",required = false)
-    private String modifier;
-
-    /**
-     * 修改时间
-     */
-    @ApiModelProperty(value="修改时间",required = false)
-    private Date modifyTime;
 
     /**
      * 备注

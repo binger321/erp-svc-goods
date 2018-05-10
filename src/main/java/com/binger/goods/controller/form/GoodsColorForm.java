@@ -4,8 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * Created with IntelliJ IDEA.
  * User: zhuyubin
@@ -35,17 +33,4 @@ public class GoodsColorForm {
      */
     @ApiModelProperty(value="备注",required = false)
     private String remark;
-
-    /**
-     * 0禁用, 1启用
-     */
-    @ApiModelProperty(value="0禁用, 1启用",required = false)
-    private Boolean status;
-
-    /**
-     * 停用时间
-     */
-    @ApiModelProperty(value="停用时间",required = false)
-    private Date blockTime;
-
 }
