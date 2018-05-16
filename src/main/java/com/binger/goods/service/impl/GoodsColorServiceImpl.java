@@ -57,7 +57,7 @@ public class GoodsColorServiceImpl implements GoodsColorService{
 
     @Override
     public GoodsColorDetailVo addGoodsColor(GoodsColor goodsColor) {
-        long count = goodsColorMapper.insert(goodsColor);
+        long count = goodsColorMapper.insertSelective(goodsColor);
         if (count > 0){
             GoodsColor color = goodsColorMapper.selectByPrimaryKey(goodsColor.getId());
             return DozerUtils.convert(color, GoodsColorDetailVo.class);

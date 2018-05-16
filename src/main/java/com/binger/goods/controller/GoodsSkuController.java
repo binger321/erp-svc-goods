@@ -45,7 +45,7 @@ public class GoodsSkuController {
             queryDto.setOffset(page.getOffset());
             queryDto.setLimit(page.getPageSize());
             List<GoodsSkuVo> goodsSkuVoList = goodsSkuService.listSkuByDto(queryDto);
-            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsSkuVoList);
+            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsSkuVoList, page);
         } else {
             List<GoodsSkuVo> goodsSkuVoList = goodsSkuService.listSkuByDto(queryDto);
             return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsSkuVoList);

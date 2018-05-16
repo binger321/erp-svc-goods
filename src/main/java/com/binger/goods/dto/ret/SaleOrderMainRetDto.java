@@ -1,4 +1,4 @@
-package com.binger.goods.vo;
+package com.binger.goods.dto.ret;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -17,7 +17,7 @@ import java.util.Date;
  */
 @ApiModel("销售主表vo")
 @Data
-public class SaleOrderMainVo {
+public class SaleOrderMainRetDto {
     /**
      * 订单ID,自增
      */
@@ -54,12 +54,23 @@ public class SaleOrderMainVo {
     @ApiModelProperty(value="汇率",required = false)
     private BigDecimal exchangeRate;
 
+    /**
+     * 订单金额（原币）
+     */
+    @ApiModelProperty(value="订单金额（原币）",required = false)
+    private BigDecimal orderOriMny;
+
+    /**
+     * 店铺
+     */
+    @ApiModelProperty(value="店铺",required = false)
+    private Integer storeId;
 
     /**
      * 店铺名称
      */
-    @ApiModelProperty(value="店铺",required = false)
-    private Integer storeName;
+    @ApiModelProperty(value="店铺名称",required = false)
+    private String storeName;
 
     /**
      * 订单金额（本币）,合并订单要将数额加起来
@@ -72,6 +83,12 @@ public class SaleOrderMainVo {
      */
     @ApiModelProperty(value="订单状态,0未付款 100已付款 200缺货 300等待派单 310已派单 400已转仓库 410未拣货 420已拣货未核单 430已核单未包装 500已揽收 900退货 910取消单 920退款 990其他异常",required = false)
     private Integer orderStatus;
+
+    /**
+     * 订单类型,1正常 2信用卡刷单 3预售 不一致不允许合并
+     */
+    @ApiModelProperty(value="订单类型,1正常 2信用卡刷单 3预售 不一致不允许合并",required = false)
+    private Integer orderCate;
 
     /**
      * 标记发货状态，0未标记发货，1处理中，2标记成功，-1标记失败
@@ -114,6 +131,18 @@ public class SaleOrderMainVo {
      */
     @ApiModelProperty(value="客户邮件",required = false)
     private String customerEmail;
+
+    /**
+     * 国家ID
+     */
+    @ApiModelProperty(value="国家ID",required = false)
+    private Integer countryId;
+
+    /**
+     * 国家编码
+     */
+    @ApiModelProperty(value="国家编码",required = false)
+    private String countryCode;
 
     /**
      * 国家,不一致不允许合并
@@ -164,10 +193,34 @@ public class SaleOrderMainVo {
     private String phoneNumber;
 
     /**
+     * 物流公司ID
+     */
+    @ApiModelProperty(value="物流公司ID",required = false)
+    private Integer logistCompanyId;
+
+    /**
+     * 物流公司编号
+     */
+    @ApiModelProperty(value="物流公司编号",required = false)
+    private String logistCompanyCode;
+
+    /**
      * 物流公司名称
      */
     @ApiModelProperty(value="物流公司名称",required = false)
     private String logistCompanyName;
+
+    /**
+     * 仓库id
+     */
+    @ApiModelProperty(value="仓库id",required = false)
+    private Integer warehouseId;
+
+    /**
+     * 仓库编号
+     */
+    @ApiModelProperty(value="仓库编号",required = false)
+    private String warehouseCode;
 
     /**
      * 仓库名称
@@ -188,16 +241,28 @@ public class SaleOrderMainVo {
     private Date trackTime;
 
     /**
+     * 币种
+     */
+    @ApiModelProperty(value="币种",required = false)
+    private String currencyCode;
+
+    /**
      * 包裹重量
      */
     @ApiModelProperty(value="包裹重量",required = false)
     private BigDecimal weight;
 
     /**
-     * 未开票金额
+     * 备注1（基本信息）
      */
-    @ApiModelProperty(value="未开票金额",required = false)
-    private BigDecimal reinvoiceMny;
+    @ApiModelProperty(value="备注1（基本信息）",required = false)
+    private String remark1;
+
+    /**
+     * 备注2（客户信息）
+     */
+    @ApiModelProperty(value="备注2（客户信息）",required = false)
+    private String remark2;
 
     /**
      * 店铺运输方式,不同的方式不允许合并
@@ -210,6 +275,12 @@ public class SaleOrderMainVo {
      */
     @ApiModelProperty(value="运费",required = false)
     private BigDecimal shippingFee;
+
+    /**
+     * 付款方式
+     */
+    @ApiModelProperty(value="付款方式",required = false)
+    private String paymentMethod;
 
     /**
      * 派单时间
@@ -228,5 +299,37 @@ public class SaleOrderMainVo {
      */
     @ApiModelProperty(value="是否预占用库存",required = false)
     private Boolean isOccupy;
+
+    /**
+     * 1可用，0删除
+     */
+    @ApiModelProperty(value="1可用，0删除",required = false)
+    private Boolean status;
+
+
+    /**
+     * 创建人
+     */
+    @ApiModelProperty(value="创建人",required = false)
+    private String creator;
+
+    /**
+     * 修改人
+     */
+    @ApiModelProperty(value="修改人",required = false)
+    private String modifier;
+
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty(value="创建时间",required = false)
+    private Date createTime;
+
+    /**
+     * 修改时间
+     */
+    @ApiModelProperty(value="修改时间",required = false)
+    private Date modifyTime;
+
 
 }

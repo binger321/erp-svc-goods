@@ -54,7 +54,7 @@ public class GoodsStyleController {
             example.setOffset(page.getOffset());
             example.setLimit(page.getPageSize());
             List<GoodsStyleVo> goodsStyleVoList = goodsStyleService.list(example);
-            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsStyleVoList);
+            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsStyleVoList, page);
         } else {
             List<GoodsStyleVo> goodsStyleVoList = goodsStyleService.list(example);
             return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsStyleVoList);

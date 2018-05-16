@@ -7,7 +7,7 @@ import com.binger.common.util.DozerUtils;
 import com.binger.goods.controller.form.UserForm;
 import com.binger.goods.controller.query.UserQuery;
 import com.binger.goods.domain.User;
-import com.binger.goods.domain.UserExample;
+import com.binger.goods.dto.query.UserQueryDto;
 import com.binger.goods.service.UserService;
 import com.binger.goods.vo.UserVo;
 import io.swagger.annotations.Api;
@@ -33,26 +33,16 @@ public class UserController {
     public ServerResponse<List<UserVo>> list(@RequestBody(required = false) UserQuery userQuery,
                                              @RequestParam(value = "pageNo", required = false) Integer pageNo,
                                              @RequestParam(value = "pageSize", required = false) Integer pageSize){
-        UserExample userExample =new UserExample();
-        UserExample.Criteria criteria = userExample.createCriteria();
-
-        if(null != userQuery) {
-            if (StringUtils.isNotBlank(userQuery.getUserCode())) {
-                criteria.andUserCodeLike(userQuery.getUserCode());
-            }
-            if (StringUtils.isNotBlank(userQuery.getUserName())) {
-                criteria.andUserNameLike(userQuery.getUserName());
-            }
-        }
+        UserQueryDto userQueryDto = DozerUtils.convert(userQuery, UserQueryDto.class);
         if (pageNo != null) {
-            long total = userService.count(userExample);
+            long total = userService.countByQuery(userQueryDto);
             Page page = new Page(pageNo, pageSize, total);
-            userExample.setOffset(page.getOffset());
-            userExample.setLimit(page.getPageSize());
-            List<UserVo> userVoList = userService.listByExample(userExample);
-            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, userVoList);
+            userQueryDto.setOffset(page.getOffset());
+            userQueryDto.setLimit(page.getPageSize());
+            List<UserVo> userVoList = userService.listByQuery(userQueryDto);
+            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, userVoList, page);
         }else {
-            List<UserVo> userVoList = userService.listByExample(userExample);
+            List<UserVo> userVoList = userService.listByQuery(userQueryDto);
             return ServerResponse.createBySuccess(Const.SUCCESS_MSG, userVoList);
         }
     }

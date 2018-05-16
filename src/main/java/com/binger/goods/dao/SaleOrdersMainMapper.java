@@ -2,8 +2,11 @@ package com.binger.goods.dao;
 
 import com.binger.goods.domain.SaleOrdersMain;
 import com.binger.goods.domain.SaleOrdersMainExample;
-import java.util.List;
+import com.binger.goods.dto.query.SaleOrderQueryDto;
+import com.binger.goods.dto.ret.SaleOrderMainRetDto;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface SaleOrdersMainMapper {
     long countByExample(SaleOrdersMainExample example);
@@ -37,4 +40,11 @@ public interface SaleOrdersMainMapper {
     int updateByPrimaryKeyWithBLOBs(SaleOrdersMain record);
 
     int updateByPrimaryKey(SaleOrdersMain record);
+
+    /**
+     * 根据条件查询主表
+     * @param saleOrderQueryDto
+     * @return
+     */
+    List<SaleOrderMainRetDto> listByQuery(@Param("queryDto") SaleOrderQueryDto saleOrderQueryDto);
 }

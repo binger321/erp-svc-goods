@@ -52,7 +52,7 @@ public class GoodsSizeController {
             goodsSizeExample.setOffset(page.getOffset());
             goodsSizeExample.setLimit(page.getPageSize());
             List<GoodsSizeVo> goodsSizeVoList = goodsSizeService.listSizeByExample(goodsSizeExample);
-            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsSizeVoList);
+            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsSizeVoList, page);
         }else {
             List<GoodsSizeVo> goodsSizeVoList = goodsSizeService.listSizeByExample(goodsSizeExample);
             return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsSizeVoList);
@@ -65,6 +65,8 @@ public class GoodsSizeController {
         GoodsSizeDetailVo goodsSizeDetailVo = goodsSizeService.selectSizeByPrimaryId(id);
         return ServerResponse.createBySuccess(Const.SUCCESS_MSG,goodsSizeDetailVo);
     }
+
+//    @Api
 
     @ApiOperation(value = "修改尺寸")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)

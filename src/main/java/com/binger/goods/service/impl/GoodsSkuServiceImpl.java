@@ -86,7 +86,7 @@ public class GoodsSkuServiceImpl implements GoodsSkuService {
     public GoodsSkuDetailVo add(GoodsSku goodsSku) {
         checkGoodsColorSize(goodsSku);
         checkSkuUnique(goodsSku, null);
-        long count = goodsSkuMapper.insert(goodsSku);
+        long count = goodsSkuMapper.insertSelective(goodsSku);
         if (count > 0) {
             GoodsSku sku = goodsSkuMapper.selectByPrimaryKey(goodsSku.getId());
             if (sku != null) {

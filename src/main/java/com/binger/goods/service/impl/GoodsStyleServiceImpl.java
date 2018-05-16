@@ -59,7 +59,7 @@ public class GoodsStyleServiceImpl implements GoodsStyleService{
 
     @Override
     public GoodsStyleDetailVo insert(GoodsStyle goodsStyle) {
-        int result = goodsStyleMapper.insert(goodsStyle);
+        int result = goodsStyleMapper.insertSelective(goodsStyle);
         if (result > 0) {
             return DozerUtils.convert(goodsStyleMapper.selectByPrimaryKey(goodsStyle.getId()),GoodsStyleDetailVo.class);
         }else {

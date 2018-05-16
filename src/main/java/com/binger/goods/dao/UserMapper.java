@@ -2,8 +2,11 @@ package com.binger.goods.dao;
 
 import com.binger.goods.domain.User;
 import com.binger.goods.domain.UserExample;
-import java.util.List;
+import com.binger.goods.dto.query.UserQueryDto;
+import com.binger.goods.vo.UserVo;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UserMapper {
     long countByExample(UserExample example);
@@ -31,4 +34,8 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    long countByQuery(@Param("query") UserQueryDto userQueryDto);
+
+    List<UserVo> listByQuery(@Param("query") UserQueryDto userQueryDto);
 }

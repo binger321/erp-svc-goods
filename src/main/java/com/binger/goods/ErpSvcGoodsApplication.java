@@ -12,7 +12,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -37,6 +39,8 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.*;
@@ -57,20 +61,27 @@ public class ErpSvcGoodsApplication {
         SpringApplication.run(ErpSvcGoodsApplication.class, args);
     }
 
+    @Order(-2)
     @EnableWebSecurity
     @EnableGlobalMethodSecurity(prePostEnabled = true)
     public static class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         final static String[] IGNORE_RESOURCE_URL = new String[]{"/v2/api-docs", "/configuration/ui", "/swagger-resources.*",
-                "/configuration/security", "/swagger-ui.html", "/webjars/.*", "/auth/login.*", "/erp-svc-goods/goodsSku/detail/*"
+                "/configuration/security", "/swagger-ui.html", "/webjars/.*", "/auth/login.*", "/erp-svc-goods/goodsSku/detail/*",
+                "/webjars/.*","/druid/.*"
+//                , "/erp-svc-goods/user/list"
+
         };
 
         @Override
         public void configure(HttpSecurity http) throws Exception {
             http.sessionManagement().disable()
-                    .authorizeRequests().regexMatchers(IGNORE_RESOURCE_URL).permitAll().and()
-                    .authorizeRequests().anyRequest().authenticated().and()
-                    .csrf().disable().exceptionHandling().accessDeniedHandler(
+//                    .authorizeRequests().regexMatchers(IGNORE_RESOURCE_URL).permitAll()
+//                    .and()
+//                    .authorizeRequests().anyRequest().authenticated()
+                    .authorizeRequests()
+                    .antMatchers(HttpMethod.OPTIONS).permitAll()
+                    .and().csrf().disable().exceptionHandling().accessDeniedHandler(
                     new AccessDeniedHandler() {
                         @Override
                         public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
@@ -156,6 +167,13 @@ public class ErpSvcGoodsApplication {
                 }
                 for (Pattern pattern : ignoreUrlPatternList) {
                     if (pattern.matcher(((HttpServletRequest) req).getRequestURI()).matches()) {
+                        chain.doFilter(req, res);
+                        return;
+                    }
+                }
+                if (req instanceof HttpServletRequest) {
+                    HttpServletRequest httpServletRequest = (HttpServletRequest) req;
+                    if (RequestMethod.OPTIONS.name().equalsIgnoreCase(httpServletRequest.getMethod())) {
                         chain.doFilter(req, res);
                         return;
                     }

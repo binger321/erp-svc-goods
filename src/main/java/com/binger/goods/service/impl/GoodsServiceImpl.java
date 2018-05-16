@@ -68,7 +68,7 @@ public class GoodsServiceImpl implements GoodsService{
     @Override
     public GoodsDetailVo insertGoods(GoodsForm goodsForm) {
         Goods goods=DozerUtils.convert(goodsForm,Goods.class);
-        Integer id=goodsMapper.insert(goods);
+        Integer id=goodsMapper.insertSelective(goods);
         Goods newGoods=goodsMapper.selectByPrimaryKey(id);
         return DozerUtils.convert(newGoods,GoodsDetailVo.class);
 

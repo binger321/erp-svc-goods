@@ -64,7 +64,7 @@ public class SupplierController {
             example.setOffset(page.getOffset());
             example.setLimit(page.getPageSize());
             List<SupplierVo> supplierVoList = supplierService.listByExample(example);
-            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, supplierVoList);
+            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, supplierVoList, page);
         } else {
             List<SupplierVo> supplierVoList = supplierService.listByExample(example);
             return ServerResponse.createBySuccess(Const.SUCCESS_MSG, supplierVoList);

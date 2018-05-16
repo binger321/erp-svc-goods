@@ -79,7 +79,7 @@ public class StoreServiceImpl implements StoreService {
             throw BusinessException.create("商店编号不能为空");
         }
         checkStoreUnique(store, null);
-        storeMapper.insert(store);
+        storeMapper.insertSelective(store);
         Store store1 = storeMapper.selectByPrimaryKey(store.getId());
         if (store1 != null) {
             return DozerUtils.convert(store1, StoreVo.class);

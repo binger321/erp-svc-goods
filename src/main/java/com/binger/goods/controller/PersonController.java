@@ -61,7 +61,7 @@ public class PersonController {
             personExample.setOffset(page.getOffset());
             personExample.setLimit(page.getPageSize());
             List<PersonVo> personVoList = personService.listByExample(personExample);
-            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, personVoList);
+            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, personVoList, page);
         }else {
             List<PersonVo> personVoList = personService.listByExample(personExample);
             return ServerResponse.createBySuccess(Const.SUCCESS_MSG, personVoList);

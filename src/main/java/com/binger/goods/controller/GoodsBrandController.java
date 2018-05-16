@@ -70,7 +70,7 @@ public class GoodsBrandController {
             goodsBrandExample.setOffset(page.getOffset());
             goodsBrandExample.setLimit(page.getPageSize());
             List<GoodsBrandVo> goodsBrandVoList = goodsBrandService.listGoodsBrand(goodsBrandExample);
-            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsBrandVoList);
+            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsBrandVoList, page);
         }else {
             List<GoodsBrandVo> goodsBrandVoList = goodsBrandService.listGoodsBrand(goodsBrandExample);
             return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsBrandVoList);

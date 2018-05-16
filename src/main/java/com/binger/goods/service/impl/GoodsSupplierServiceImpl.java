@@ -58,7 +58,7 @@ public class GoodsSupplierServiceImpl implements GoodsSupplierService{
     @Override
     public SupplierSimpleVo insertGoodsSupplier(GoodsSupplier goodsSupplier) {
         if (checkUnique(goodsSupplier, null)) {
-            long count = goodsSupplierMapper.insert(goodsSupplier);
+            long count = goodsSupplierMapper.insertSelective(goodsSupplier);
             if (count > 0) {
                 return DozerUtils.convert(goodsSupplierMapper.selectByPrimaryKey(goodsSupplier.getId()), SupplierSimpleVo.class);
             } else {

@@ -58,7 +58,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public SupplierDetailVo add(Supplier supplier) {
-        int count = supplierMapper.insert(supplier);
+        int count = supplierMapper.insertSelective(supplier);
         Supplier supplier1 = supplierMapper.selectByPrimaryKey(supplier.getId());
         if (supplier1 != null) {
             return DozerUtils.convert(supplier1, SupplierDetailVo.class);

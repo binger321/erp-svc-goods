@@ -87,7 +87,7 @@ public class PersonServiceImpl implements PersonService {
             throw BusinessException.create("人员编号不能为空");
         }
         checkPersonUnique(person, null);
-        personMapper.insert(person);
+        personMapper.insertSelective(person);
         Person person1 = personMapper.selectByPrimaryKey(person.getId());
         if (person1 != null) {
             return DozerUtils.convert(person1, PersonVo.class);

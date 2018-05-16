@@ -1,5 +1,6 @@
-package com.binger.goods.controller.query;
+package com.binger.goods.dto.query;
 
+import com.binger.common.QueryDtoBase;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -14,7 +15,7 @@ import lombok.Data;
  */
 @ApiModel("销售查询")
 @Data
-public class SaleOrderQuery {
+public class SaleOrderQueryDto extends QueryDtoBase{
 
     /**
      * 销售订单编码

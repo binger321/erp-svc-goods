@@ -73,7 +73,7 @@ public class GoodsController {
             goodsIndexListQueryDto.setOffset(page.getOffset());
             goodsIndexListQueryDto.setLimit(page.getPageSize());
             List<GoodsVo> goodsVoList=goodsService.listGoodsVo(goodsIndexListQueryDto);
-            return ServerResponse.createBySuccess(Const.SUCCESS_MSG,goodsVoList);
+            return ServerResponse.createBySuccess(Const.SUCCESS_MSG,goodsVoList, page);
         }else {
             List<GoodsVo> goodsVoList=goodsService.listGoodsVo(goodsIndexListQueryDto);
             return ServerResponse.createBySuccess(Const.SUCCESS_MSG,goodsVoList);

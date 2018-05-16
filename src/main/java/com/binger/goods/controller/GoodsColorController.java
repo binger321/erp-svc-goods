@@ -54,7 +54,7 @@ public class GoodsColorController {
             goodsColorExample.setLimit(page.getPageSize());
             goodsColorExample.setOffset(page.getOffset());
             List<GoodsColorVo> goodsColorVoList = goodsColorService.listGoodsColor(goodsColorExample);
-            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsColorVoList);
+            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsColorVoList, page);
         }else {
             List<GoodsColorVo> goodsColorVoList = goodsColorService.listGoodsColor(goodsColorExample);
             return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsColorVoList);

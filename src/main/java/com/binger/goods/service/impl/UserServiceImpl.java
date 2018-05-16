@@ -5,11 +5,13 @@ import com.binger.common.util.DozerUtils;
 import com.binger.goods.dao.UserMapper;
 import com.binger.goods.domain.User;
 import com.binger.goods.domain.UserExample;
+import com.binger.goods.dto.query.UserQueryDto;
 import com.binger.goods.service.UserService;
 import com.binger.goods.vo.UserVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 
 import java.util.List;
@@ -65,7 +67,7 @@ public class UserServiceImpl implements UserService {
     public UserVo add(User user) {
         checkUserUnique(user, null);
         user.setUserPassword(DigestUtils.md5DigestAsHex(user.getUserPassword().getBytes()));
-        long result = userMapper.insert(user);
+        long result = userMapper.insertSelective(user);
         if (result > 0) {
             return DozerUtils.convert(userMapper.selectByPrimaryKey(user.getId()), UserVo.class);
         } else {
@@ -121,6 +123,21 @@ public class UserServiceImpl implements UserService {
             return count;
         } else {
             throw BusinessException.create("删除失败");
+        }
+    }
+
+    @Override
+    public long countByQuery(UserQueryDto userQueryDto) {
+        return userMapper.countByQuery(userQueryDto);
+    }
+
+    @Override
+    public List<UserVo> listByQuery(UserQueryDto userQueryDto) {
+        List<UserVo> userVoList = userMapper.listByQuery(userQueryDto);
+        if (CollectionUtils.isEmpty(userVoList)) {
+            return null;
+        } else {
+            return userVoList;
         }
     }
 }

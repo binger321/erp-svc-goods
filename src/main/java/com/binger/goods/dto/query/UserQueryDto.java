@@ -1,12 +1,13 @@
-package com.binger.goods.controller.form;
+package com.binger.goods.dto.query;
 
+import com.binger.common.QueryDtoBase;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@ApiModel("用户form")
+@ApiModel("人员列表query")
 @Data
-public class UserForm {
+public class UserQueryDto extends QueryDtoBase{
     /**
      * 用户代码
      */
@@ -20,16 +21,18 @@ public class UserForm {
     private String userName;
 
     /**
-     * 用户密码
-     */
-    @ApiModelProperty(value="用户密码",required = true)
-    private String userPassword;
-
-    /**
      * 人员表id
      */
     @ApiModelProperty(value="人员表id",required = false)
     private Integer personId;
+
+
+    /**
+     * 人员表name
+     */
+    @ApiModelProperty(value="人员表名称",required = false)
+    private String personName;
+
 
     /**
      * 0禁用, 1启用, 2锁定

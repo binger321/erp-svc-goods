@@ -5,16 +5,13 @@ import com.binger.common.Page;
 import com.binger.common.ServerResponse;
 import com.binger.common.util.DozerUtils;
 import com.binger.goods.controller.form.StoreForm;
-import com.binger.goods.controller.form.UserForm;
 import com.binger.goods.controller.query.StoreQuery;
 import com.binger.goods.domain.Store;
 import com.binger.goods.domain.StoreExample;
 import com.binger.goods.service.StoreService;
 import com.binger.goods.vo.StoreVo;
-import com.binger.goods.vo.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.catalina.User;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -58,7 +55,7 @@ public class StoreController {
             storeExample.setOffset(page.getOffset());
             storeExample.setLimit(page.getPageSize());
             List<StoreVo> storeVoList = storeService.listByExample(storeExample);
-            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, storeVoList);
+            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, storeVoList, page);
         }else {
             List<StoreVo> storeVoList = storeService.listByExample(storeExample);
             return ServerResponse.createBySuccess(Const.SUCCESS_MSG, storeVoList);

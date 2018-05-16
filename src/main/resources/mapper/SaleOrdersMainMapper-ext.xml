@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.binger.goods.dao.SaleOrdersMainMapper">
+    <resultMap id="SaleOrderMainRet" type="com.binger.goods.dto.ret.SaleOrderMainRetDto">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="order_sale_code" jdbcType="VARCHAR" property="orderSaleCode" />
+        <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+        <result column="order_time" jdbcType="TIMESTAMP" property="orderTime" />
+        <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+        <result column="exchange_rate" jdbcType="DECIMAL" property="exchangeRate" />
+        <result column="order_ori_mny" jdbcType="DECIMAL" property="orderOriMny" />
+        <result column="store_id" jdbcType="INTEGER" property="storeId" />
+        <result column="store_name" jdbcType="VARCHAR" property="storeName"/>
+        <result column="order_loc_mny" jdbcType="DECIMAL" property="orderLocMny" />
+        <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+        <result column="order_cate" jdbcType="INTEGER" property="orderCate" />
+        <result column="ship_mark" jdbcType="INTEGER" property="shipMark" />
+        <result column="ship_mark_time" jdbcType="TIMESTAMP" property="shipMarkTime" />
+        <result column="ship_mark_qty" jdbcType="INTEGER" property="shipMarkQty" />
+        <result column="assign_date" jdbcType="TIMESTAMP" property="assignDate" />
+        <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+        <result column="buyer_name" jdbcType="VARCHAR" property="buyerName" />
+        <result column="customer_email" jdbcType="VARCHAR" property="customerEmail" />
+        <result column="country_id" jdbcType="INTEGER" property="countryId" />
+        <result column="country_code" jdbcType="VARCHAR" property="countryCode" />
+        <result column="country_name" jdbcType="VARCHAR" property="countryName" />
+        <result column="state" jdbcType="VARCHAR" property="state" />
+        <result column="city" jdbcType="VARCHAR" property="city" />
+        <result column="zip_code" jdbcType="VARCHAR" property="zipCode" />
+        <result column="address1" jdbcType="VARCHAR" property="address1" />
+        <result column="address2" jdbcType="VARCHAR" property="address2" />
+        <result column="address3" jdbcType="VARCHAR" property="address3" />
+        <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+        <result column="logist_company_id" jdbcType="INTEGER" property="logistCompanyId" />
+        <result column="logist_company_code" jdbcType="VARCHAR" property="logistCompanyCode" />
+        <result column="logist_company_name" jdbcType="VARCHAR" property="logistCompanyName" />
+        <result column="warehouse_id" jdbcType="INTEGER" property="warehouseId" />
+        <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+        <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName" />
+        <result column="track_number" jdbcType="VARCHAR" property="trackNumber" />
+        <result column="track_time" jdbcType="TIMESTAMP" property="trackTime" />
+        <result column="currency_code" jdbcType="VARCHAR" property="currencyCode" />
+        <result column="weight" jdbcType="DECIMAL" property="weight" />
+        <result column="remark1" jdbcType="VARCHAR" property="remark1" />
+        <result column="remark2" jdbcType="VARCHAR" property="remark2" />
+        <result column="reinvoice_mny" jdbcType="DECIMAL" property="reinvoiceMny" />
+        <result column="shipping_way" jdbcType="VARCHAR" property="shippingWay" />
+        <result column="shipping_fee" jdbcType="DECIMAL" property="shippingFee" />
+        <result column="payment_method" jdbcType="VARCHAR" property="paymentMethod" />
+        <result column="assign_time" jdbcType="TIMESTAMP" property="assignTime" />
+        <result column="is_reserve_stock" jdbcType="BIT" property="isReserveStock" />
+        <result column="is_occupy" jdbcType="BIT" property="isOccupy" />
+        <result column="status" jdbcType="BIT" property="status" />
+        <result column="creator" jdbcType="VARCHAR" property="creator" />
+        <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    </resultMap>
+    <select id="listByQuery" resultMap="SaleOrderMainRet">
+        SELECT
+        main.id,
+        main.order_sale_code,
+        main.ordder_code,
+        main.order_time,
+        main.pay_time,
+        main.exchange_rate,
+        main.order_ori_mny,
+        main.store_id,
+        store.store_name,
+        main.order_loc_mny,
+        main.order_status,
+        main.order_cate,
+        main.ship_mark,
+        main.ship_mark_time,
+        main.ship_mark_qty,
+        main.assign_date,
+        main.customer_name,
+        main.buyer_name,
+        main.custormer_email,
+        main.country_id,
+        main.country_code,
+        main.country_name,
+        main.state,
+        main.city,
+        main.zip_code,
+        main.address1,
+        main.address2,
+        main.address3,
+        main.phone_number,
+        main.logist_company_id,
+        main.logist_company_name,
+        main.logist_company_code,
+        main.warehouse_id,
+        main.warehouse_code,
+        main.warehouse_name,
+        main.track_time,
+        main.currency_code,
+        main.weight,
+        main.remark1,
+        main.remark2,
+        main.shipping_way,
+        main.shipping_fee,
+        main.payment_method,
+        main.assign_time,
+        main.is_reserve_stock,
+        main.is_occupy,
+        main.status,
+        main.creator,
+        main.modifier,
+        main.create_time,
+        main.modify_time
+        FROM sale_orders_main main
+        LEFT JOIN store store on main.store_id = store.id
+        <include refid="Sale_Order_Main_Where_Clause"/>
+        ORDER BY main.create_time DESC
+        <if test="queryDto.limit != null">
+            <if test="queryDto.offset != null">
+                limit #{queryDto.offset},#{queryDto.limit}
+            </if>
+            <if test="queryDto.offset == null">
+                limit #{queryDto.limit}
+            </if>
+        </if>
+
+    </select>
+
+    <sql id="Sale_Order_Main_Where_Clause">
+
+    </sql>
+
+</mapper>
