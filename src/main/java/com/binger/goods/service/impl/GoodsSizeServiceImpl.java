@@ -50,9 +50,23 @@ public class GoodsSizeServiceImpl implements GoodsSizeService{
         if (result == null){
             throw BusinessException.create("没有找到该尺寸。");
         }
+        checkUnique(goodsSize, id);
         goodsSize.setId(id);
         goodsSizeMapper.updateByPrimaryKeySelective(goodsSize);
         return DozerUtils.convert(goodsSizeMapper.selectByPrimaryKey(id),GoodsSizeDetailVo.class);
+    }
+
+    private void checkUnique(GoodsSize goodsSize, Integer id) {
+        GoodsSizeExample example = new GoodsSizeExample();
+        GoodsSizeExample.Criteria criteria = example.createCriteria();
+        criteria.andSizeCodeEqualTo(goodsSize.getSizeCode());
+        if (id != null) {
+            criteria.andIdNotEqualTo(id);
+        }
+        long count = goodsSizeMapper.countByExample(example);
+        if (count > 0) {
+            throw BusinessException.create("[" + goodsSize.getSizeCode() + "]已存在！");
+        }
     }
 
     @Override
@@ -62,6 +76,18 @@ public class GoodsSizeServiceImpl implements GoodsSizeService{
             return true;
         } else {
             return false;
+        }
+    }
+
+    @Override
+    public GoodsSizeDetailVo insert(GoodsSize goodsSize) {
+        checkUnique(goodsSize, null);
+        goodsSizeMapper.insertSelective(goodsSize);
+        GoodsSize size = goodsSizeMapper.selectByPrimaryKey(goodsSize.getId());
+        if (size != null) {
+            return DozerUtils.convert(size, GoodsSizeDetailVo.class);
+        } else {
+            return null;
         }
     }
 }

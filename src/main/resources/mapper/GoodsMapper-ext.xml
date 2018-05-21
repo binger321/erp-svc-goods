@@ -58,7 +58,7 @@
                 AND g.brand_id = ${queryDto.brandId}
             </if>
             <if test="queryDto.supplierId != null">
-                AND s.supplier_id = ${queryDto.supplierId}
+                AND gs.supplier_id = ${queryDto.supplierId}
             </if>
             <if test="queryDto.isProduction != null">
                 AND g.is_production = ${queryDto.isProduction}
@@ -83,7 +83,7 @@
         g.brand_id ,
         brand.brand_name ,
         g.weight ,
-        s.supplier_id ,
+        s.id ,
         s.supplier_name ,
         g.cost_price ,
         g.is_production

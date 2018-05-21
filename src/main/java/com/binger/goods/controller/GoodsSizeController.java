@@ -66,8 +66,13 @@ public class GoodsSizeController {
         return ServerResponse.createBySuccess(Const.SUCCESS_MSG,goodsSizeDetailVo);
     }
 
-//    @Api
-
+    @ApiOperation(value = "增加尺寸")
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    public ServerResponse<GoodsSizeDetailVo> insert(@RequestBody GoodsSizeForm goodsSizeForm) {
+        GoodsSize goodsSize = DozerUtils.convert(goodsSizeForm, GoodsSize.class);
+        GoodsSizeDetailVo goodsSizeDetailVo = goodsSizeService.insert(goodsSize);
+        return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsSizeDetailVo);
+    }
     @ApiOperation(value = "修改尺寸")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     public ServerResponse<GoodsSizeDetailVo> updateSizeById(@Validated Integer id,

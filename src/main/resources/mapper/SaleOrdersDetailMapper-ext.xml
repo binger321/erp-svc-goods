@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.binger.goods.dao.SaleOrdersDetailMapper">
+    <resultMap id="SaleOrdersDetailDto" type="com.binger.goods.dto.ret.SaleOrderDetailDto">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="order_sale_id" jdbcType="INTEGER" property="orderSaleId" />
+        <result column="order_sale_code" jdbcType="VARCHAR" property="orderSaleCode" />
+        <result column="orders_sale_detail_code" jdbcType="VARCHAR" property="ordersSaleDetailCode" />
+        <result column="seller_sku" jdbcType="VARCHAR" property="sellerSku" />
+        <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+        <result column="goods_code" jdbcType="VARCHAR" property="goodsCode"/>
+        <result column="sku_id" jdbcType="INTEGER" property="skuId" />
+        <result column="sku_code" jdbcType="VARCHAR" property="skuCode"/>
+        <result column="color_code" jdbcType="VARCHAR" property="colorCode"/>
+        <result column="size_code" jdbcType="VARCHAR" property="sizeCode"/>
+        <result column="goods_img_id" jdbcType="INTEGER" property="goodsImgId" />
+        <result column="quantity" jdbcType="INTEGER" property="quantity" />
+        <result column="weight" jdbcType="DECIMAL" property="weight" />
+        <result column="local_price" jdbcType="DECIMAL" property="localPrice" />
+        <result column="local_amount" jdbcType="DECIMAL" property="localAmount" />
+        <result column="expense" jdbcType="DECIMAL" property="expense" />
+        <result column="is_gift" jdbcType="BIT" property="isGift" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="cost_price" jdbcType="DECIMAL" property="costPrice" />
+        <result column="is_out_of_stock" jdbcType="BIT" property="isOutOfStock" />
+        <result column="status" jdbcType="BIT" property="status" />
+        <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <select id="selectByOrderMainId" parameterType="integer" resultMap="SaleOrdersDetailDto">
+        SELECT
+          d.id,
+          d.order_sale_id,
+          d.order_sale_code,
+          d.seller_sku,
+          d.goods_id,
+          g.goods_code,
+          d.sku_id,
+          sku.sku_code,
+          color.color_code,
+          size.size_code,
+          d.goods_img_id,
+          d.quantity,
+          d.weight,
+          d.local_price,
+          d.local_amount,
+          d.expense,
+          d.is_gift,
+          d.remark,
+          d.cost_price,
+          d.is_out_of_stock,
+          d.status,
+          d.insert_time,
+          d.update_time
+          FROM sale_orders_detail d
+          LEFT JOIN goods g ON d.goods_id = g.id
+          LEFT JOIN goods_sku sku ON d.sku_id = sku.id
+          LEFT JOIN goods_color color ON sku.color_id = color.id
+          LEFT JOIN goods_size size ON sku.size_id = size.id
+          WHERE d.order_sale_id = #{orderMainId}
+    </select>
+</mapper>

@@ -123,7 +123,7 @@ public class LoginController extends AbstractBaseController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             OAuth2Authentication oAuth2Authentication = (OAuth2Authentication)authentication;
             for(GrantedAuthority grantedAuthority : oAuth2Authentication.getUserAuthentication().getAuthorities()){
-                if(grantedAuthority.getAuthority().startsWith("ZbyPrincipal")){
+                if(grantedAuthority.getAuthority().startsWith("ErpPrincipal")){
                     int idx = grantedAuthority.getAuthority().indexOf(':');
                     String compositePrincipalJson = new String(Base64.decodeBase64(grantedAuthority.getAuthority().substring(idx+1)));
                     CompositePrincipal compositePrincipal = MyEasyJsonUtil.string2json(compositePrincipalJson, CompositePrincipal.class);

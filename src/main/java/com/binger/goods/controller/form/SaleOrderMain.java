@@ -1,4 +1,4 @@
-package com.binger.goods.vo;
+package com.binger.goods.controller.form;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,18 +10,18 @@ import java.util.Date;
 /**
  * Created with IntelliJ IDEA.
  * User: zhuyubin
- * Date: 2018/5/10
- * Time: 下午7:51
+ * Date: 2018/5/16
+ * Time: 下午2:29
  * To change this template use File | Settings | File Templates.
  * Description:
  */
-@ApiModel("销售主表vo")
 @Data
-public class SaleOrderMainVo {
+@ApiModel("订单主表")
+public class SaleOrderMain {
     /**
-     * 订单ID,自增
+     * 订单ID
      */
-    @ApiModelProperty(value="订单ID,自增",required = true)
+    @ApiModelProperty(value="订单ID",required = true)
     private Integer id;
 
     /**
@@ -37,29 +37,22 @@ public class SaleOrderMainVo {
     private String orderCode;
 
     /**
-     * 下单日期,取最早时间
-     */
-    @ApiModelProperty(value="下单日期,取最早时间",required = false)
-    private Date orderTime;
-
-    /**
-     * 付款日期,合并订单取最早时间
-     */
-    @ApiModelProperty(value="付款日期,合并订单取最早时间",required = false)
-    private Date payTime;
-
-    /**
      * 汇率
      */
     @ApiModelProperty(value="汇率",required = false)
     private BigDecimal exchangeRate;
 
+    /**
+     * 订单金额（原币）
+     */
+    @ApiModelProperty(value="订单金额（原币）",required = false)
+    private BigDecimal orderOriMny;
 
     /**
-     * 店铺名称
+     * 店铺
      */
     @ApiModelProperty(value="店铺",required = false)
-    private Integer storeName;
+    private Integer storeId;
 
     /**
      * 订单金额（本币）,合并订单要将数额加起来
@@ -72,36 +65,6 @@ public class SaleOrderMainVo {
      */
     @ApiModelProperty(value="订单状态,0未付款 100已付款 200缺货 300等待派单 310已派单 400已转仓库 410未拣货 420已拣货未核单 430已核单未包装 500已揽收 900退货 910取消单 920退款 990其他异常",required = false)
     private Integer orderStatus;
-
-    /**
-     * 订单状态
-     */
-    @ApiModelProperty(value = "订单状态名称")
-    private String orderStatusStr;
-
-    /**
-     * 标记发货状态，0未标记发货，1处理中，2标记成功，-1标记失败
-     */
-    @ApiModelProperty(value="标记发货状态，0未标记发货，1处理中，2标记成功，-1标记失败",required = false)
-    private Integer shipMark;
-
-    /**
-     * 标记发货时间
-     */
-    @ApiModelProperty(value="标记发货时间",required = false)
-    private Date shipMarkTime;
-
-    /**
-     * 标记次数
-     */
-    @ApiModelProperty(value="标记次数",required = true)
-    private Integer shipMarkQty;
-
-    /**
-     * 派单日期
-     */
-    @ApiModelProperty(value="派单日期",required = false)
-    private Date assignDate;
 
     /**
      * 收件人
@@ -120,6 +83,12 @@ public class SaleOrderMainVo {
      */
     @ApiModelProperty(value="客户邮件",required = false)
     private String customerEmail;
+
+    /**
+     * 国家编码
+     */
+    @ApiModelProperty(value="国家编码",required = false)
+    private String countryCode;
 
     /**
      * 国家,不一致不允许合并
@@ -176,6 +145,18 @@ public class SaleOrderMainVo {
     private String logistCompanyName;
 
     /**
+     * 仓库id
+     */
+    @ApiModelProperty(value="仓库id",required = false)
+    private Integer warehouseId;
+
+    /**
+     * 仓库编号
+     */
+    @ApiModelProperty(value="仓库编号",required = false)
+    private String warehouseCode;
+
+    /**
      * 仓库名称
      */
     @ApiModelProperty(value="仓库名称",required = false)
@@ -194,34 +175,34 @@ public class SaleOrderMainVo {
     private Date trackTime;
 
     /**
+     * 币种
+     */
+    @ApiModelProperty(value="币种",required = false)
+    private String currencyCode;
+
+    /**
      * 包裹重量
      */
     @ApiModelProperty(value="包裹重量",required = false)
     private BigDecimal weight;
 
     /**
-     * 未开票金额
+     * 备注1（基本信息）
      */
-    @ApiModelProperty(value="未开票金额",required = false)
-    private BigDecimal reinvoiceMny;
+    @ApiModelProperty(value="备注1（基本信息）",required = false)
+    private String remark1;
 
     /**
-     * 店铺运输方式,不同的方式不允许合并
+     * 备注2（客户信息）
      */
-    @ApiModelProperty(value="店铺运输方式,不同的方式不允许合并",required = false)
-    private String shippingWay;
+    @ApiModelProperty(value="备注2（客户信息）",required = false)
+    private String remark2;
 
     /**
      * 运费
      */
     @ApiModelProperty(value="运费",required = false)
     private BigDecimal shippingFee;
-
-    /**
-     * 派单时间
-     */
-    @ApiModelProperty(value="派单时间",required = false)
-    private Date assignTime;
 
     /**
      * 是否占用库存

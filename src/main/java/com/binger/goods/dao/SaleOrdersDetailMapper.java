@@ -2,6 +2,7 @@ package com.binger.goods.dao;
 
 import com.binger.goods.domain.SaleOrdersDetail;
 import com.binger.goods.domain.SaleOrdersDetailExample;
+import com.binger.goods.dto.ret.SaleOrderDetailDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -32,4 +33,11 @@ public interface SaleOrdersDetailMapper {
     int updateByPrimaryKeySelective(SaleOrdersDetail record);
 
     int updateByPrimaryKey(SaleOrdersDetail record);
+
+    /**
+     * 根据订单主表id查询详情
+     * @param id
+     * @return
+     */
+    List<SaleOrderDetailDto> selectByOrderMainId(@Param("orderMainId") Integer id);
 }

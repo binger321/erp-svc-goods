@@ -2,7 +2,6 @@ package com.binger.goods.service;
 
 import com.binger.goods.domain.GoodsSize;
 import com.binger.goods.domain.GoodsSizeExample;
-import com.binger.goods.vo.GoodsDetailVo;
 import com.binger.goods.vo.GoodsSizeDetailVo;
 import com.binger.goods.vo.GoodsSizeVo;
 
@@ -52,4 +51,11 @@ public interface GoodsSizeService {
      * @return
      */
     Boolean deleteSizeById(Integer id);
+
+    /**
+     * 新增尺寸
+     * @param goodsSize
+     * @return
+     */
+    GoodsSizeDetailVo insert(GoodsSize goodsSize);
 }

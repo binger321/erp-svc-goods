@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
@@ -39,7 +40,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -55,6 +55,7 @@ import java.util.regex.Pattern;
 @SpringBootApplication(scanBasePackages = "com.binger")
 @MapperScan("com.binger.goods.dao")
 @EnableDiscoveryClient
+@EnableFeignClients
 public class ErpSvcGoodsApplication {
 
     public static void main(String[] args) {
@@ -206,7 +207,7 @@ public class ErpSvcGoodsApplication {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                     OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) authentication;
                     for (GrantedAuthority grantedAuthority : oAuth2Authentication.getUserAuthentication().getAuthorities()) {
-                        if (grantedAuthority.getAuthority().startsWith("ZbyPrincipal")) {
+                        if (grantedAuthority.getAuthority().startsWith("ErpPrincipal")) {
                             int idx = grantedAuthority.getAuthority().indexOf(':');
                             String compositePrincipalJson = new String(Base64.decodeBase64(grantedAuthority.getAuthority().substring(idx + 1)));
                             CompositePrincipal compositePrincipal = MyEasyJsonUtil.string2json(compositePrincipalJson, CompositePrincipal.class);

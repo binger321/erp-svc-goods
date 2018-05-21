@@ -1,4 +1,4 @@
-package com.binger.goods.common;
+package com.binger.goods.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

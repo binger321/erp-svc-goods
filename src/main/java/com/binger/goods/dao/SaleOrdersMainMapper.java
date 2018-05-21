@@ -47,4 +47,11 @@ public interface SaleOrdersMainMapper {
      * @return
      */
     List<SaleOrderMainRetDto> listByQuery(@Param("queryDto") SaleOrderQueryDto saleOrderQueryDto);
+
+    /**
+     * 根据条件计数
+     * @param saleOrderQueryDto
+     * @return
+     */
+    long countByQuery(@Param("queryDto") SaleOrderQueryDto saleOrderQueryDto);
 }
