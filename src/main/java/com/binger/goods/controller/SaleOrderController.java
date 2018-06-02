@@ -84,7 +84,7 @@ public class SaleOrderController {
 
     /**
      * 将订单状态为缺货状态的 置为 待派单 300
-     * 若仍是缺货状态，前段展示需要创建生成订单
+     * 若仍是缺货状态，前段展示需要创建生产订单
      * @return
      */
     // TODO

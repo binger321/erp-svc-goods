@@ -23,7 +23,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class BillCodeServiceImpl implements BillCodeService {
 
-    @Value("${spring.application.name:erp-svc-goods}")
+//    @Value("${spring.application.name:erp-svc-goods}")
+    @Value("erp-svc-goods")
     private String application;
 
     @Autowired
