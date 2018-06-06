@@ -40,19 +40,16 @@ public class PersonController {
                 criteria.andIdEqualTo(personQuery.getId());
             }
             if (StringUtils.isNotBlank(personQuery.getPersonCode())) {
-                criteria.andPersonCodeLike(personQuery.getPersonCode());
+                criteria.andPersonCodeLike("%"+personQuery.getPersonCode()+"%");
             }
             if (StringUtils.isNotBlank(personQuery.getPersonName())) {
-                criteria.andPersonNameLike(personQuery.getPersonName());
+                criteria.andPersonNameLike("%"+personQuery.getPersonName()+"%");
             }
             if (StringUtils.isNotBlank(personQuery.getIdCardNo())) {
-                criteria.andIdCardNoLike(personQuery.getIdCardNo());
+                criteria.andIdCardNoLike("%"+personQuery.getIdCardNo()+"%");
             }
             if (StringUtils.isNotBlank(personQuery.getPhone())) {
-                criteria.andPhoneLike(personQuery.getPhone());
-            }
-            if (StringUtils.isNotBlank(personQuery.getIdCardNo())) {
-                criteria.andIdCardNoLike(personQuery.getIdCardNo());
+                criteria.andPhoneLike("%"+personQuery.getPhone()+"%");
             }
         }
         if (pageNo != null) {
@@ -70,7 +67,7 @@ public class PersonController {
     }
 
     @ApiOperation(value = "根据ID查找人员信息")
-    @RequestMapping(value = "/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}",method = RequestMethod.POST)
     public ServerResponse<PersonVo> findById(@PathVariable Integer id){
         PersonVo personVo = personService.findById(id);
         return ServerResponse.createBySuccess(Const.SUCCESS_MSG,personVo);

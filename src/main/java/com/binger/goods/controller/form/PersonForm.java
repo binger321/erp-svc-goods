@@ -46,7 +46,7 @@ public class PersonForm {
     /**
      * 人员类型(常量字典编码)
      */
-    @ApiModelProperty(value="人员类型(常量字典编码)",required = true)
+    @ApiModelProperty(value="人员类型(常量字典编码)",required = false)
     private String category;
 
     /**

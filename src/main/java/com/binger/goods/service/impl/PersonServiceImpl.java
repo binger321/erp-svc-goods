@@ -87,6 +87,7 @@ public class PersonServiceImpl implements PersonService {
             throw BusinessException.create("人员编号不能为空");
         }
         checkPersonUnique(person, null);
+        person.setCategory("普通员工");
         personMapper.insertSelective(person);
         Person person1 = personMapper.selectByPrimaryKey(person.getId());
         if (person1 != null) {

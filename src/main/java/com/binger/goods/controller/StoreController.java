@@ -30,7 +30,7 @@ public class StoreController {
 
     @ApiOperation(value = "商店列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ServerResponse<List> list(@RequestBody(required = false) StoreQuery storeQuery,
+    public ServerResponse<List<StoreVo>> list(@RequestBody(required = false) StoreQuery storeQuery,
                                      @RequestParam(value = "pageNo", required = false) Integer pageNo,
                                      @RequestParam(value = "pageSize", required = false) Integer pageSize){
 
@@ -42,10 +42,13 @@ public class StoreController {
                 criteria.andIdEqualTo(storeQuery.getId());
             }
             if (StringUtils.isNotBlank(storeQuery.getStoreCode())) {
-                criteria.andStoreCodeLike(storeQuery.getStoreCode());
+                criteria.andStoreCodeLike("%"+storeQuery.getStoreCode()+"%");
             }
             if (StringUtils.isNotBlank(storeQuery.getStoreName())) {
-                criteria.andStoreNameLike(storeQuery.getStoreName());
+                criteria.andStoreNameLike("%"+storeQuery.getStoreName()+"%");
+            }
+            if (StringUtils.isNotBlank(storeQuery.getPhoneNumber())) {
+                criteria.andPhoneNumberLike("%"+storeQuery.getPhoneNumber()+"%");
             }
         }
 
@@ -64,7 +67,7 @@ public class StoreController {
     }
 
     @ApiOperation(value = "根据ID查找商店信息")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public ServerResponse<StoreVo> findById(@PathVariable Integer id){
         StoreVo storeVo = storeService.findById(id);
         return ServerResponse.createBySuccess(Const.SUCCESS_MSG, storeVo);

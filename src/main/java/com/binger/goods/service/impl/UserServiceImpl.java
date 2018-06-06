@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setUserPassword(DigestUtils.md5DigestAsHex(user.getUserPassword().getBytes()));
         checkUserUnique(user, id);
+        user.setId(id);
         long count = userMapper.updateByPrimaryKeySelective(user);
         if (count > 0) {
             return DozerUtils.convert(userMapper.selectByPrimaryKey(id), UserVo.class);
@@ -92,7 +93,7 @@ public class UserServiceImpl implements UserService {
         UserExample.Criteria criteria1 = example.createCriteria();
         criteria1.andUserNameEqualTo(user.getUserName());
         if (id != null) {
-            criteria.andIdNotEqualTo(id);
+            criteria1.andIdNotEqualTo(id);
         }
         count = userMapper.countByExample(example);
         if (count > 0) {
@@ -103,7 +104,7 @@ public class UserServiceImpl implements UserService {
         UserExample.Criteria criteria2 = example.createCriteria();
         criteria2.andPersonIdEqualTo(user.getPersonId());
         if (id != null) {
-            criteria.andIdNotEqualTo(id);
+            criteria2.andIdNotEqualTo(id);
         }
         count = userMapper.countByExample(example);
         if (count > 0) {

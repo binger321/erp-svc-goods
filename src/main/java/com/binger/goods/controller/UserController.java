@@ -30,6 +30,7 @@ public class UserController {
 
     @ApiOperation(value = "用户列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
+
     public ServerResponse<List<UserVo>> list(@RequestBody(required = false) UserQuery userQuery,
                                              @RequestParam(value = "pageNo", required = false) Integer pageNo,
                                              @RequestParam(value = "pageSize", required = false) Integer pageSize){
@@ -48,7 +49,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "根据ID查找用户信息")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public ServerResponse<UserVo> findById(@PathVariable Integer id){
         UserVo userVo = userService.findById(id);
         return ServerResponse.createBySuccess(Const.SUCCESS_MSG, userVo);
