@@ -11,6 +11,7 @@ import com.binger.goods.service.GoodsCategoryService;
 import com.binger.goods.vo.GoodsCategoryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -73,6 +74,16 @@ public class GoodsCategoryServiceImpl implements GoodsCategoryService{
     @Override
     public long deleteById(Integer id) {
         return goodsCategoryMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public List<GoodsCategoryVo> listByExample(GoodsCategoryExample example) {
+        List<GoodsCategory> goodsCategoryList = goodsCategoryMapper.selectByExample(example);
+        if (!CollectionUtils.isEmpty(goodsCategoryList)) {
+            return DozerUtils.convertList(goodsCategoryList, GoodsCategoryVo.class);
+        } else {
+            return null;
+        }
     }
 
     private void checkCategoryUnique(GoodsCategory goodsCategory, Integer id) {

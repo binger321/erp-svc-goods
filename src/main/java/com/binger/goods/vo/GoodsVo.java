@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -95,5 +96,12 @@ public class GoodsVo {
      */
     @ApiModelProperty(value="0禁用, 1启用")
     private Boolean status;
+
+
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty(value="创建时间",required = false)
+    private Date createTime;
 
 }

@@ -9,7 +9,6 @@
     <result column="img_id" jdbcType="INTEGER" property="imgId" />
     <result column="color_id" jdbcType="INTEGER" property="colorId" />
     <result column="size_id" jdbcType="INTEGER" property="sizeId" />
-    <result column="size" jdbcType="VARCHAR" property="size" />
     <result column="weight" jdbcType="DECIMAL" property="weight" />
     <result column="stock_alarm_num" jdbcType="INTEGER" property="stockAlarmNum" />
     <result column="is_production" jdbcType="INTEGER" property="isProduction" />
@@ -81,7 +80,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, goods_id, sku_code, sku_name, img_id, color_id, size_id, size, weight, stock_alarm_num, 
+    id, goods_id, sku_code, sku_name, img_id, color_id, size_id, weight, stock_alarm_num, 
     is_production, cost_price, status, block_time, creator, create_time, modifier, modify_time, 
     comments
   </sql>
@@ -130,18 +129,16 @@
     </selectKey>
     insert into goods_sku (goods_id, sku_code, sku_name, 
       img_id, color_id, size_id, 
-      size, weight, stock_alarm_num, 
-      is_production, cost_price, status, 
-      block_time, creator, create_time, 
-      modifier, modify_time, comments
-      )
+      weight, stock_alarm_num, is_production, 
+      cost_price, status, block_time, 
+      creator, create_time, modifier, 
+      modify_time, comments)
     values (#{goodsId,jdbcType=INTEGER}, #{skuCode,jdbcType=VARCHAR}, #{skuName,jdbcType=VARCHAR}, 
       #{imgId,jdbcType=INTEGER}, #{colorId,jdbcType=INTEGER}, #{sizeId,jdbcType=INTEGER}, 
-      #{size,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL}, #{stockAlarmNum,jdbcType=INTEGER}, 
-      #{isProduction,jdbcType=INTEGER}, #{costPrice,jdbcType=DECIMAL}, #{status,jdbcType=BIT}, 
-      #{blockTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{modifier,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, #{comments,jdbcType=VARCHAR}
-      )
+      #{weight,jdbcType=DECIMAL}, #{stockAlarmNum,jdbcType=INTEGER}, #{isProduction,jdbcType=INTEGER}, 
+      #{costPrice,jdbcType=DECIMAL}, #{status,jdbcType=BIT}, #{blockTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{comments,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.binger.goods.domain.GoodsSku">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -166,9 +163,6 @@
       </if>
       <if test="sizeId != null">
         size_id,
-      </if>
-      <if test="size != null">
-        size,
       </if>
       <if test="weight != null">
         weight,
@@ -223,9 +217,6 @@
       <if test="sizeId != null">
         #{sizeId,jdbcType=INTEGER},
       </if>
-      <if test="size != null">
-        #{size,jdbcType=VARCHAR},
-      </if>
       <if test="weight != null">
         #{weight,jdbcType=DECIMAL},
       </if>
@@ -270,6 +261,30 @@
   <update id="updateByExampleSelective" parameterType="map">
     update goods_sku
     <set>
+      <if test="record.blockTime != null">
+        <if test="record.blockTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          block_time= null,
+        </if>
+        <if test="record.blockTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          block_time= #{record.blockTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="record.createTime != null">
+        <if test="record.createTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          create_time= null,
+        </if>
+        <if test="record.createTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          create_time= #{record.createTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="record.modifyTime != null">
+        <if test="record.modifyTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          modify_time= null,
+        </if>
+        <if test="record.modifyTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          modify_time= #{record.modifyTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
       <if test="record.goodsId != null">
         <if test="record.goodsId == -99999">
           goods_id= null,
@@ -350,14 +365,6 @@
           sku_name= #{record.skuName,jdbcType=VARCHAR},
         </if>
       </if>
-      <if test="record.size != null">
-        <if test="record.size == 'erpsetnull'">
-          size= null,
-        </if>
-        <if test="record.size != 'erpsetnull'">
-          size= #{record.size,jdbcType=VARCHAR},
-        </if>
-      </if>
       <if test="record.creator != null">
         <if test="record.creator == 'erpsetnull'">
           creator= null,
@@ -382,30 +389,6 @@
           comments= #{record.comments,jdbcType=VARCHAR},
         </if>
       </if>
-      <if test="record.blockTime != null">
-        <if test="record.blockTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
-          block_time= null,
-        </if>
-        <if test="record.blockTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
-          block_time= #{record.blockTime,jdbcType=TIMESTAMP},
-        </if>
-      </if>
-      <if test="record.createTime != null">
-        <if test="record.createTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
-          create_time= null,
-        </if>
-        <if test="record.createTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
-          create_time= #{record.createTime,jdbcType=TIMESTAMP},
-        </if>
-      </if>
-      <if test="record.modifyTime != null">
-        <if test="record.modifyTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
-          modify_time= null,
-        </if>
-        <if test="record.modifyTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
-          modify_time= #{record.modifyTime,jdbcType=TIMESTAMP},
-        </if>
-      </if>
       <if test="record.status != null">
         status= #{record.status,jdbcType=BIT},
       </if>
@@ -423,7 +406,6 @@
       img_id = #{record.imgId,jdbcType=INTEGER},
       color_id = #{record.colorId,jdbcType=INTEGER},
       size_id = #{record.sizeId,jdbcType=INTEGER},
-      size = #{record.size,jdbcType=VARCHAR},
       weight = #{record.weight,jdbcType=DECIMAL},
       stock_alarm_num = #{record.stockAlarmNum,jdbcType=INTEGER},
       is_production = #{record.isProduction,jdbcType=INTEGER},
@@ -442,6 +424,30 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.binger.goods.domain.GoodsSku">
     update goods_sku
     <set>
+      <if test="blockTime != null">
+        <if test="blockTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          block_time= null,
+        </if>
+        <if test="blockTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          block_time= #{blockTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="createTime != null">
+        <if test="createTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          create_time= null,
+        </if>
+        <if test="createTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          create_time= #{createTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
+      <if test="modifyTime != null">
+        <if test="modifyTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
+          modify_time= null,
+        </if>
+        <if test="modifyTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
+          modify_time= #{modifyTime,jdbcType=TIMESTAMP},
+        </if>
+      </if>
       <if test="goodsId != null">
         <if test="goodsId == -99999">
           goods_id= null,
@@ -522,14 +528,6 @@
           sku_name= #{skuName,jdbcType=VARCHAR},
         </if>
       </if>
-      <if test="size != null">
-        <if test="size == 'erpsetnull'">
-          size= null,
-        </if>
-        <if test="size != 'erpsetnull'">
-          size= #{size,jdbcType=VARCHAR},
-        </if>
-      </if>
       <if test="creator != null">
         <if test="creator == 'erpsetnull'">
           creator= null,
@@ -554,30 +552,6 @@
           comments= #{comments,jdbcType=VARCHAR},
         </if>
       </if>
-      <if test="blockTime != null">
-        <if test="blockTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
-          block_time= null,
-        </if>
-        <if test="blockTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
-          block_time= #{blockTime,jdbcType=TIMESTAMP},
-        </if>
-      </if>
-      <if test="createTime != null">
-        <if test="createTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
-          create_time= null,
-        </if>
-        <if test="createTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
-          create_time= #{createTime,jdbcType=TIMESTAMP},
-        </if>
-      </if>
-      <if test="modifyTime != null">
-        <if test="modifyTime.toString() == 'Thu Jan 01 08:00:00 CST 1970'">
-          modify_time= null,
-        </if>
-        <if test="modifyTime.toString() != 'Thu Jan 01 08:00:00 CST 1970'">
-          modify_time= #{modifyTime,jdbcType=TIMESTAMP},
-        </if>
-      </if>
       <if test="status != null">
         status= #{status,jdbcType=BIT},
       </if>
@@ -592,7 +566,6 @@
       img_id = #{imgId,jdbcType=INTEGER},
       color_id = #{colorId,jdbcType=INTEGER},
       size_id = #{sizeId,jdbcType=INTEGER},
-      size = #{size,jdbcType=VARCHAR},
       weight = #{weight,jdbcType=DECIMAL},
       stock_alarm_num = #{stockAlarmNum,jdbcType=INTEGER},
       is_production = #{isProduction,jdbcType=INTEGER},

@@ -2,6 +2,7 @@ package com.binger.goods.service;
 
 import com.binger.common.nodeBuilder.Node;
 import com.binger.goods.domain.GoodsCategory;
+import com.binger.goods.domain.GoodsCategoryExample;
 import com.binger.goods.vo.GoodsCategoryVo;
 
 import java.util.List;
@@ -41,4 +42,6 @@ public interface GoodsCategoryService {
      * @return
      */
     long deleteById(Integer id);
+
+    List<GoodsCategoryVo> listByExample(GoodsCategoryExample example);
 }

@@ -38,6 +38,14 @@ public class GoodsSupplierController {
         return ServerResponse.createBySuccess(Const.SUCCESS_MSG, supplierSimpleVoList);
     }
 
+    @ApiOperation(value = "查看供应商详情")
+    @RequestMapping(value = "/{id}",method = RequestMethod.POST)
+    public ServerResponse<SupplierSimpleVo> find(@PathVariable Integer id) {
+        SupplierSimpleVo supplierSimpleVo = goodsSupplierService.findById(id);
+        return ServerResponse.createBySuccess(Const.SUCCESS_MSG, supplierSimpleVo);
+    }
+
+
     @ApiOperation(value = "修改商品对应的供应商")
     @RequestMapping(value = "/updateGoodsSupplier/{id}",method = RequestMethod.POST)
     public ServerResponse<SupplierSimpleVo> updateGoodsSupplier(@PathVariable Integer id,
@@ -48,7 +56,7 @@ public class GoodsSupplierController {
     }
 
     @ApiOperation(value = "新增商品对应的供应商")
-    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ServerResponse<SupplierSimpleVo> insert(@RequestBody GoodsSupplierForm form) {
         GoodsSupplier goodsSupplier = DozerUtils.convert(form, GoodsSupplier.class);
         SupplierSimpleVo supplierSimpleVo = goodsSupplierService.insertGoodsSupplier(goodsSupplier);

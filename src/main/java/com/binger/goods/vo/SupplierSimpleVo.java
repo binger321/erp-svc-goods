@@ -25,6 +25,12 @@ public class SupplierSimpleVo {
     private Integer id;
 
     /**
+     * 供应商id
+     */
+    @ApiModelProperty(value="供应商id",required = true)
+    private String supplierId;
+
+    /**
      * 供应商代码
      */
     @ApiModelProperty(value="供应商代码",required = true)
@@ -53,6 +59,12 @@ public class SupplierSimpleVo {
      */
     @ApiModelProperty(value="联系电话",required = false)
     private String phoneNumber;
+
+    /**
+     * 供应商货号
+     */
+    @ApiModelProperty(value = "供应商货号", required = false)
+    private String supplierGoodsCode;
 
     /**
      * 状态（启用、停用）

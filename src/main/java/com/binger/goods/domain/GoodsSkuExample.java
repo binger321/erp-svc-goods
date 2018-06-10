@@ -109,7 +109,7 @@ public class GoodsSkuExample {
     }
 
     /**
-     * goods_sku 2017-12-14
+     * goods_sku 2018-06-11
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -589,76 +589,6 @@ public class GoodsSkuExample {
 
         public Criteria andSizeIdNotBetween(Integer value1, Integer value2) {
             addCriterion("size_id not between", value1, value2, "sizeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSizeIsNull() {
-            addCriterion("size is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSizeIsNotNull() {
-            addCriterion("size is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSizeEqualTo(String value) {
-            addCriterion("size =", value, "size");
-            return (Criteria) this;
-        }
-
-        public Criteria andSizeNotEqualTo(String value) {
-            addCriterion("size <>", value, "size");
-            return (Criteria) this;
-        }
-
-        public Criteria andSizeGreaterThan(String value) {
-            addCriterion("size >", value, "size");
-            return (Criteria) this;
-        }
-
-        public Criteria andSizeGreaterThanOrEqualTo(String value) {
-            addCriterion("size >=", value, "size");
-            return (Criteria) this;
-        }
-
-        public Criteria andSizeLessThan(String value) {
-            addCriterion("size <", value, "size");
-            return (Criteria) this;
-        }
-
-        public Criteria andSizeLessThanOrEqualTo(String value) {
-            addCriterion("size <=", value, "size");
-            return (Criteria) this;
-        }
-
-        public Criteria andSizeLike(String value) {
-            addCriterion("size like", value, "size");
-            return (Criteria) this;
-        }
-
-        public Criteria andSizeNotLike(String value) {
-            addCriterion("size not like", value, "size");
-            return (Criteria) this;
-        }
-
-        public Criteria andSizeIn(List<String> values) {
-            addCriterion("size in", values, "size");
-            return (Criteria) this;
-        }
-
-        public Criteria andSizeNotIn(List<String> values) {
-            addCriterion("size not in", values, "size");
-            return (Criteria) this;
-        }
-
-        public Criteria andSizeBetween(String value1, String value2) {
-            addCriterion("size between", value1, value2, "size");
-            return (Criteria) this;
-        }
-
-        public Criteria andSizeNotBetween(String value1, String value2) {
-            addCriterion("size not between", value1, value2, "size");
             return (Criteria) this;
         }
 
@@ -1364,7 +1294,7 @@ public class GoodsSkuExample {
     }
 
     /**
-     * goods_sku 2017-12-14
+     * goods_sku 2018-06-11
      */
     public static class Criterion {
         private String condition;
@@ -1455,7 +1385,7 @@ public class GoodsSkuExample {
     public static class SelectiveField {
         private Set<String> fields;
 
-        private static String allFields = "id,goods_id,sku_code,sku_name,img_id,color_id,size_id,size,weight,stock_alarm_num,is_production,cost_price,status,block_time,creator,create_time,modifier,modify_time,comments";
+        private static String allFields = "id,goods_id,sku_code,sku_name,img_id,color_id,size_id,weight,stock_alarm_num,is_production,cost_price,status,block_time,creator,create_time,modifier,modify_time,comments";
 
         private SelectiveField() {
             fields = new HashSet<>();
@@ -1497,11 +1427,6 @@ public class GoodsSkuExample {
 
         public SelectiveField sizeId() {
             fields.add("size_id");
-            return this;
-        }
-
-        public SelectiveField size() {
-            fields.add("size");
             return this;
         }
 

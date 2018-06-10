@@ -2,6 +2,7 @@ package com.binger.goods.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -142,6 +143,12 @@ public class GoodsDetailVo {
      */
     @ApiModelProperty(value="款式ID")
     private Integer styleId;
+
+    /**
+     * 款式
+     */
+    @ApiModelProperty(value = "款式")
+    private String styleName;
 
     /**
      * 风格1

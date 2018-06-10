@@ -19,7 +19,7 @@ public class GoodsSkuQuery {
      * 商品code
      */
     @ApiModelProperty(value="商品Code",required = false)
-    private Integer goodsCode;
+    private String goodsCode;
 
     /**
      * sku编码

@@ -43,10 +43,10 @@ public class GoodsColorController {
         GoodsColorExample goodsColorExample = new GoodsColorExample();
         GoodsColorExample.Criteria criteria = goodsColorExample.createCriteria();
         if (StringUtils.isNotBlank(goodsColorQuery.getColorCode())){
-            criteria.andColorCodeLike(goodsColorQuery.getColorCode());
+            criteria.andColorCodeLike("%" + goodsColorQuery.getColorCode() + "%");
         }
         if (StringUtils.isNotBlank(goodsColorQuery.getColorName())){
-            criteria.andColorNameLike(goodsColorQuery.getColorName());
+            criteria.andColorNameLike("%" + goodsColorQuery.getColorName() + "%");
         }
         if (pageNo != null){
             long total = goodsColorService.countGoodsColorByExample(goodsColorExample);

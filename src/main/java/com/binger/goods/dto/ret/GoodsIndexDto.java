@@ -1,8 +1,10 @@
 package com.binger.goods.dto.ret;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -50,18 +52,19 @@ public class GoodsIndexDto {
     private String brandName;
 
     /**
+     * 款式ID
+     */
+    private Integer styleId;
+
+    /**
+     * 款式
+     */
+    private String styleName;
+
+    /**
      * 重量(g)
      */
     private BigDecimal weight;
-    /**
-     * 供应商ID
-     */
-    private Integer supplierId;
-
-    /**
-     * 供应商
-     */
-    private String supplierName;
 
     /**
      * 成本价
@@ -72,4 +75,16 @@ public class GoodsIndexDto {
      * 是否生产款
      */
     private Integer isProduction;
+
+
+    /**
+     * 0禁用, 1启用
+     */
+    private Boolean status;
+
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 }

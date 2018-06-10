@@ -41,7 +41,6 @@ public class GoodsQuery {
     private String skuCode;
 
 
-
     /**
      * 一级分类ID
      */

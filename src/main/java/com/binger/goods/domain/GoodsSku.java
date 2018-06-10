@@ -55,12 +55,6 @@ public class GoodsSku implements Serializable {
     private Integer sizeId;
 
     /**
-     * 尺码
-     */
-    @ApiModelProperty(value="尺码",required = false)
-    private String size;
-
-    /**
      * 
      */
     @ApiModelProperty(value="",required = false)
@@ -241,22 +235,6 @@ public class GoodsSku implements Serializable {
      */
     public void setSizeId(Integer sizeId) {
         this.sizeId = sizeId;
-    }
-
-    /**
-     * 尺码
-     * @return size 尺码
-     */
-    public String getSize() {
-        return size;
-    }
-
-    /**
-     * 尺码
-     * @param size 尺码
-     */
-    public void setSize(String size) {
-        this.size = size == null ? null : size.trim();
     }
 
     /**
@@ -454,7 +432,6 @@ public class GoodsSku implements Serializable {
             && (this.getImgId() == null ? other.getImgId() == null : this.getImgId().equals(other.getImgId()))
             && (this.getColorId() == null ? other.getColorId() == null : this.getColorId().equals(other.getColorId()))
             && (this.getSizeId() == null ? other.getSizeId() == null : this.getSizeId().equals(other.getSizeId()))
-            && (this.getSize() == null ? other.getSize() == null : this.getSize().equals(other.getSize()))
             && (this.getWeight() == null ? other.getWeight() == null : this.getWeight().equals(other.getWeight()))
             && (this.getStockAlarmNum() == null ? other.getStockAlarmNum() == null : this.getStockAlarmNum().equals(other.getStockAlarmNum()))
             && (this.getIsProduction() == null ? other.getIsProduction() == null : this.getIsProduction().equals(other.getIsProduction()))
@@ -479,7 +456,6 @@ public class GoodsSku implements Serializable {
         result = prime * result + ((getImgId() == null) ? 0 : getImgId().hashCode());
         result = prime * result + ((getColorId() == null) ? 0 : getColorId().hashCode());
         result = prime * result + ((getSizeId() == null) ? 0 : getSizeId().hashCode());
-        result = prime * result + ((getSize() == null) ? 0 : getSize().hashCode());
         result = prime * result + ((getWeight() == null) ? 0 : getWeight().hashCode());
         result = prime * result + ((getStockAlarmNum() == null) ? 0 : getStockAlarmNum().hashCode());
         result = prime * result + ((getIsProduction() == null) ? 0 : getIsProduction().hashCode());
@@ -507,7 +483,6 @@ public class GoodsSku implements Serializable {
         sb.append(", imgId=").append(imgId);
         sb.append(", colorId=").append(colorId);
         sb.append(", sizeId=").append(sizeId);
-        sb.append(", size=").append(size);
         sb.append(", weight=").append(weight);
         sb.append(", stockAlarmNum=").append(stockAlarmNum);
         sb.append(", isProduction=").append(isProduction);

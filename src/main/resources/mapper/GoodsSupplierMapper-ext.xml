@@ -3,21 +3,25 @@
 <mapper namespace="com.binger.goods.dao.GoodsSupplierMapper">
     <resultMap id="SupplierSimpleMap" type="com.binger.goods.dto.ret.SupplierSimpleRetDto">
         <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="supplier_id" property="supplierId" jdbcType="INTEGER"/>
         <result column="supplier_code" property="supplierCode" jdbcType="VARCHAR"/>
         <result column="supplier_name" property="supplierName" jdbcType="VARCHAR"/>
         <result column="contact" property="contact" jdbcType="VARCHAR"/>
         <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR"/>
         <result column="import_price" property="importPrice" jdbcType="DECIMAL"/>
+        <result column="supplier_goods_code" property="supplierGoodsCode" jdbcType="VARCHAR"/>
         <result column="status" property="status" jdbcType="BIT"/>
     </resultMap>
     <select id="listSupplierByGoodsId" parameterType="integer" resultMap="SupplierSimpleMap">
         SELECT
         gs.id,
+        s.id supplier_id,
         s.supplier_code,
         s.supplier_name,
         s.contact,
         s.phone_number,
         gs.import_price,
+        gs.supplier_goods_code,
         s.status
         FROM goods_supplier gs
         LEFT JOIN supplier s ON gs.supplier_id = s.id
@@ -25,6 +29,21 @@
         <if test="goodsId != null">
             AND gs.goods_id = #{goodsId}
         </if>
+    </select>
+
+    <select id="findById" parameterType="integer" resultMap="SupplierSimpleMap">
+        SELECT
+        gs.id,
+        s.supplier_code,
+        s.supplier_name,
+        s.contact,
+        s.phone_number,
+        gs.import_price,
+        gs.supplier_goods_code,
+        s.status
+        FROM goods_supplier gs
+        LEFT JOIN supplier s ON gs.supplier_id = s.id
+        WHERE gs.id = #{id}
     </select>
 
 </mapper>

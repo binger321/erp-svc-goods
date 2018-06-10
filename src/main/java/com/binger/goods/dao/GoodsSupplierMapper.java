@@ -40,4 +40,6 @@ public interface GoodsSupplierMapper {
      * @return
      */
     List<SupplierSimpleRetDto> listSupplierByGoodsId(@Param("goodsId") Integer goodsId);
+
+    SupplierSimpleRetDto findById(@Param("id")Integer id);
 }

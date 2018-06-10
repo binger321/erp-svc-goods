@@ -52,7 +52,7 @@ public class GoodsSkuController {
         }
     }
     @ApiOperation("查看详情")
-    @RequestMapping(value = "/detail/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public ServerResponse<GoodsSkuDetailVo> findById(@PathVariable Integer id) {
         GoodsSkuDetailVo goodsSkuDetailVo = goodsSkuService.findById(id);
         return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsSkuDetailVo);
@@ -68,7 +68,7 @@ public class GoodsSkuController {
     }
 
     @ApiOperation("新增sku")
-    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ServerResponse<GoodsSkuDetailVo> add(@RequestBody GoodsSkuForm goodsSkuForm) {
         GoodsSku goodsSku = DozerUtils.convert(goodsSkuForm, GoodsSku.class);
         GoodsSkuDetailVo goodsSkuDetailVo = goodsSkuService.add(goodsSku);

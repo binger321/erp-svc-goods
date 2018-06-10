@@ -38,6 +38,12 @@ public class StoreVo {
      */
     @ApiModelProperty(value="店铺负责人ID",required = false)
     private Integer storeManagerId;
+//
+//    /**
+//     * 店铺负责人
+//     */
+//    @ApiModelProperty("店铺负责人")
+//    private String storeManager;
 
     /**
      * 联系电话

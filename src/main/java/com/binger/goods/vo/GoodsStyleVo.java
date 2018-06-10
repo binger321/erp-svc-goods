@@ -49,8 +49,8 @@ public class GoodsStyleVo {
     private Boolean status;
 
     /**
-     * 停用时间
+     * 创建时间
      */
-    @ApiModelProperty(value="停用时间",required = false)
-    private Date blockTime;
+    @ApiModelProperty(value="创建时间",required = false)
+    private Date createTime;
 }

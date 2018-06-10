@@ -40,9 +40,13 @@ public class GoodsSizeController {
                                                            @RequestParam(required = false) Integer pageNo,
                                                            @RequestParam(required = false) Integer pageSize){
         GoodsSizeExample goodsSizeExample = new GoodsSizeExample();
-        goodsSizeExample.createCriteria()
-                .andSizeCodeLike(goodsSizeQuery.getSizeCode())
-                .andSizeNameLike(goodsSizeQuery.getSizeName());
+        GoodsSizeExample.Criteria criteria = goodsSizeExample.createCriteria();
+        if (goodsSizeQuery.getSizeCode() != null) {
+            criteria.andSizeCodeLike("%" + goodsSizeQuery.getSizeCode() + "%");
+        }
+        if (goodsSizeQuery.getSizeName() != null){
+            criteria.andSizeNameLike("%" + goodsSizeQuery.getSizeName() + "%");
+        }
         long total = goodsSizeService.countSizesByExample(goodsSizeExample);
         if (total <= 0){
             return ServerResponse.createByError("没有相应的尺寸");
@@ -67,12 +71,13 @@ public class GoodsSizeController {
     }
 
     @ApiOperation(value = "增加尺寸")
-    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ServerResponse<GoodsSizeDetailVo> insert(@RequestBody GoodsSizeForm goodsSizeForm) {
         GoodsSize goodsSize = DozerUtils.convert(goodsSizeForm, GoodsSize.class);
         GoodsSizeDetailVo goodsSizeDetailVo = goodsSizeService.insert(goodsSize);
         return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsSizeDetailVo);
     }
+
     @ApiOperation(value = "修改尺寸")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     public ServerResponse<GoodsSizeDetailVo> updateSizeById(@Validated Integer id,

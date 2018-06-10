@@ -133,7 +133,7 @@ public class GoodsSkuServiceImpl implements GoodsSkuService {
         GoodsSkuExample.Criteria criteria = example.createCriteria();
         criteria.andGoodsIdEqualTo(goodsSku.getGoodsId())
                 .andColorIdEqualTo(goodsSku.getColorId())
-                .andSizeEqualTo(goodsSku.getSize());
+                .andSizeIdEqualTo(goodsSku.getSizeId());
         if (id != null) {
             criteria.andIdNotEqualTo(id);
         }

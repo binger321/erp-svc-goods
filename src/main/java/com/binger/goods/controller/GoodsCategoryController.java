@@ -6,10 +6,12 @@ import com.binger.common.nodeBuilder.Node;
 import com.binger.common.util.DozerUtils;
 import com.binger.goods.controller.form.GoodsCategoryForm;
 import com.binger.goods.domain.GoodsCategory;
+import com.binger.goods.domain.GoodsCategoryExample;
 import com.binger.goods.service.GoodsCategoryService;
 import com.binger.goods.vo.GoodsCategoryVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.omg.CORBA.ServerRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +33,6 @@ public class GoodsCategoryController {
     @Autowired
     private GoodsCategoryService goodsCategoryService;
 
-
     @ApiOperation(value = "列出商品类别的树形结构")
     @RequestMapping(value = "/tree", method = RequestMethod.POST)
     public ServerResponse<List<Node>> listTree() {
@@ -39,8 +40,24 @@ public class GoodsCategoryController {
         return ServerResponse.createBySuccess(Const.SUCCESS_MSG, nodeList);
     }
 
+    @ApiOperation(value = "根据分级获取对应的类别列表")
+    @RequestMapping(value = "/listByLevel",method = RequestMethod.POST)
+    public ServerResponse<List<GoodsCategoryVo>> listSimpleByLevel(@RequestParam(value = "level", required = false) Integer level,
+                                                                   @RequestParam(value = "pid", required = false)Integer pid) {
+        GoodsCategoryExample example = new GoodsCategoryExample();
+        GoodsCategoryExample.Criteria criteria = example.createCriteria();
+        if (level != null) {
+            criteria.andLevelEqualTo(level);
+        }
+        if (pid != null) {
+            criteria.andPidEqualTo(pid);
+        }
+        List<GoodsCategoryVo> categoryVoList = goodsCategoryService.listByExample(example);
+        return ServerResponse.createBySuccess(Const.SUCCESS_MSG, categoryVoList);
+    }
+
     @ApiOperation(value = "根据id查询种类")
-    @RequestMapping(value = "/detail/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public ServerResponse<GoodsCategoryVo> findById(@PathVariable Integer id) {
         GoodsCategoryVo goodsCategoryVo = goodsCategoryService.findById(id);
         return ServerResponse.createBySuccess(Const.SUCCESS_MSG, goodsCategoryVo);
@@ -56,7 +73,7 @@ public class GoodsCategoryController {
     }
 
     @ApiOperation(value = "删除种类")
-    @RequestMapping(value = "/delete{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public ServerResponse deleteById(@PathVariable Integer id) {
         long result = goodsCategoryService.deleteById(id);
         if (result > 0) {

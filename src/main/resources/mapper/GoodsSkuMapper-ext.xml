@@ -78,8 +78,8 @@
         color.color_code,
         color.color_name,
         sku.size_id,
-        sku.sku_code,
-        sku.sku_name,
+        size.size_code,
+        size.size_name,
         sku.weight,
         sku.stock_alarm_num,
         sku.is_production,
@@ -97,16 +97,16 @@
         <where>
             sku.status = TRUE
             <if test="queryDto.goodsCode != null">
-                AND goods.goods_code LIKE '%${queryDto.goodsCode}%'
+                AND g.goods_code LIKE '%${queryDto.goodsCode}%'
             </if>
             <if test="queryDto.skuCode != null">
-                AND goods_sku.sku_code LIKE '%${queryDto.skuCode}%'
+                AND sku.sku_code LIKE '%${queryDto.skuCode}%'
             </if>
             <if test="queryDto.colorCode = null">
-                AND goods_color.color_code LIKE '%${queryDto.colorCode}%'
+                AND color.color_code LIKE '%${queryDto.colorCode}%'
             </if>
             <if test="queryDto.sizeCode != null">
-                AND goods_size.size_code LIKE '%${queryDto.sizeCode}%'
+                AND size.size_code LIKE '%${queryDto.sizeCode}%'
             </if>
         </where>
     </sql>

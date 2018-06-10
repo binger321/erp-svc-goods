@@ -1,6 +1,10 @@
 package com.binger.goods.vo;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
+import lombok.Data;
+import org.junit.experimental.theories.DataPoints;
 
 import java.util.Date;
 
@@ -12,6 +16,8 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  * Description:
  */
+@Data
+@ApiModel("款式详情Vo")
 public class GoodsStyleDetailVo {
     /**
      * ID

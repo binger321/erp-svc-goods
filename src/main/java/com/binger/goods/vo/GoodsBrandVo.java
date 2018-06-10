@@ -59,4 +59,10 @@ public class GoodsBrandVo {
     @ApiModelProperty(value="0禁用, 1启用")
     private Boolean status;
 
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty(value="创建时间")
+    private Date createTime;
+
 }

@@ -29,6 +29,7 @@ public class StoreServiceImpl implements StoreService {
     public List<StoreVo> listByExample(StoreExample storeExample) {
         List<Store> storeList = storeMapper.selectByExample(storeExample);
         if (storeList != null) {
+
             return DozerUtils.convertList(storeList, StoreVo.class);
         } else {
             throw BusinessException.create("数据不存在");
@@ -52,6 +53,7 @@ public class StoreServiceImpl implements StoreService {
         if (store1 == null) {
             throw BusinessException.create("无法找到该商店");
         }
+        store.setId(id);
         long count = storeMapper.updateByPrimaryKeySelective(store);
         if (count > 0) {
             return DozerUtils.convert(storeMapper.selectByPrimaryKey(id), StoreVo.class);

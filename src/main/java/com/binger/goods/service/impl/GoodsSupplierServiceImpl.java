@@ -5,8 +5,10 @@ import com.binger.common.util.DozerUtils;
 import com.binger.goods.dao.GoodsSupplierMapper;
 import com.binger.goods.domain.GoodsSupplier;
 import com.binger.goods.domain.GoodsSupplierExample;
+import com.binger.goods.domain.Supplier;
 import com.binger.goods.dto.ret.SupplierSimpleRetDto;
 import com.binger.goods.service.GoodsSupplierService;
+import com.binger.goods.vo.GoodsSupplierDetailVo;
 import com.binger.goods.vo.SupplierSimpleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,6 +77,15 @@ public class GoodsSupplierServiceImpl implements GoodsSupplierService{
         if (count <= 0) {
             throw BusinessException.create("删除失败");
         }
+    }
+
+    @Override
+    public SupplierSimpleVo findById(Integer id) {
+        SupplierSimpleRetDto retDto = goodsSupplierMapper.findById(id);
+        if (retDto != null) {
+            return DozerUtils.convert(retDto, SupplierSimpleVo.class);
+        }
+        return null;
     }
 
     /**

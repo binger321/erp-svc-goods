@@ -21,4 +21,6 @@ public interface GoodsSupplierService {
     SupplierSimpleVo insertGoodsSupplier(GoodsSupplier goodsSupplier);
 
     void deleteGoodsSupplier(Integer id);
+
+    SupplierSimpleVo findById(Integer id);
 }

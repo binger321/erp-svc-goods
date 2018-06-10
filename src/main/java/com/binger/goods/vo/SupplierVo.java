@@ -144,4 +144,11 @@ public class SupplierVo {
      */
     @ApiModelProperty(value="状态（启用、停用）",required = false)
     private Boolean status;
+
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty(value="创建时间",required = false)
+    private Date createTime;
+
 }

@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Api(value = "supplier", description = "供应商接口", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController(value = "供应商API")
-@RequestMapping(value = "/supplier")
+@RequestMapping(value = "/erp-svc-goods/supplier")
 public class SupplierController {
 
     @Autowired
@@ -44,20 +44,21 @@ public class SupplierController {
         SupplierExample example = new SupplierExample();
         SupplierExample.Criteria criteria= example.createCriteria();
         if (StringUtils.isNotBlank(supplierQuery.getSupplierCode())) {
-            criteria.andSupplierCodeLike(supplierQuery.getSupplierCode());
+            criteria.andSupplierCodeLike("%" + supplierQuery.getSupplierCode() + "%");
         }
         if (StringUtils.isNotBlank(supplierQuery.getSupplierName())) {
-            criteria.andSupplierNameLike(supplierQuery.getSupplierName());
+            criteria.andSupplierNameLike("%" + supplierQuery.getSupplierName() + "%");
         }
         if (StringUtils.isNotBlank(supplierQuery.getCountry())) {
-            criteria.andCountryLike(supplierQuery.getCountry());
+            criteria.andCountryLike("%" + supplierQuery.getCountry() + "%");
         }
         if (StringUtils.isNotBlank(supplierQuery.getContact())) {
-            criteria.andContactLike(supplierQuery.getContact());
+            criteria.andContactLike("%" + supplierQuery.getContact() + "%");
         }
         if (StringUtils.isNotBlank(supplierQuery.getState())) {
-            criteria.andStateLike(supplierQuery.getState());
+            criteria.andStateLike("%" + supplierQuery.getState() + "%");
         }
+
         if (pageNo != null) {
             long total = supplierService.count(example);
             Page page = new Page(pageNo, pageSize, total);
@@ -74,7 +75,7 @@ public class SupplierController {
 
 
     @ApiOperation(value = "根据id查询供应商")
-    @RequestMapping(value = "/detail/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public ServerResponse<SupplierDetailVo> findById(@PathVariable Integer id) {
         SupplierDetailVo supplierDetailVo = supplierService.findById(id);
         return ServerResponse.createBySuccess(Const.SUCCESS_MSG, supplierDetailVo);

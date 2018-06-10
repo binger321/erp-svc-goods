@@ -59,11 +59,15 @@ public class GoodsBrandController {
         GoodsBrandExample goodsBrandExample = new GoodsBrandExample();
         GoodsBrandExample.Criteria criteria = goodsBrandExample.createCriteria();
         if (!StringUtils.isBlank(goodsBrandQuery.getBrandCode())){
-            criteria.andBrandCodeLike(goodsBrandQuery.getBrandCode());
+            criteria.andBrandCodeLike("%" + goodsBrandQuery.getBrandCode() + "%");
         }
         if (!StringUtils.isBlank(goodsBrandQuery.getBrandName())){
-            criteria.andBrandNameLike(goodsBrandQuery.getBrandName());
+            criteria.andBrandNameLike("%" + goodsBrandQuery.getBrandName() + "%");
         }
+        if (!StringUtils.isBlank(goodsBrandQuery.getCountryName())){
+            criteria.andCountryNameLike("%" + goodsBrandQuery.getCountryName() + "%");
+        }
+
         if(pageNo !=null){
             long total = goodsBrandService.countGoodsBrand(goodsBrandExample);
             Page page = new Page(pageNo, pageSize,total);
@@ -146,11 +150,8 @@ public class GoodsBrandController {
      * @return
      */
     @ApiOperation(value = "删除品牌")
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ServerResponse deleteGoodsBrandById(@RequestParam Integer id){
-        if (id == null){
-            return ServerResponse.createByError("未传入需要删除的品牌");
-        }
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    public ServerResponse deleteGoodsBrandById(@PathVariable Integer id){
         GoodsExample goodsExample = new GoodsExample();
         GoodsExample.Criteria criteria = goodsExample.createCriteria();
         criteria.andBrandIdEqualTo(id);

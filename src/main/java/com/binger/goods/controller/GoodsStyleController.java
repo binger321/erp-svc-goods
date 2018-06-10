@@ -43,10 +43,10 @@ public class GoodsStyleController {
         GoodsStyleExample example = new GoodsStyleExample();
         GoodsStyleExample.Criteria criteria = example.createCriteria();
         if (query.getStyleName() != null) {
-            criteria.andStyleNameLike(query.getStyleName());
+            criteria.andStyleNameLike("%" + query.getStyleName() + "%");
         }
         if (query.getStyleCode() != null) {
-            criteria.andStyleCodeLike(query.getStyleCode());
+            criteria.andStyleCodeLike("%" + query.getStyleCode() + "%");
         }
         if (pageNo != null) {
             long total = goodsStyleService.countByExample(example);
@@ -62,7 +62,7 @@ public class GoodsStyleController {
     }
 
     @ApiOperation(value = "根据id查询")
-    @RequestMapping(value = "/detail/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public ServerResponse<GoodsStyleDetailVo> findById(@PathVariable Integer id) {
         GoodsStyle goodsStyle = goodsStyleService.findById(id);
         return ServerResponse.createBySuccess(Const.SUCCESS_MSG, DozerUtils.convert(goodsStyle, GoodsStyleDetailVo.class));
@@ -78,7 +78,7 @@ public class GoodsStyleController {
     }
 
     @ApiOperation(value = "新增")
-    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ServerResponse<GoodsStyleDetailVo> insert(@RequestBody(required = false)GoodsStyleForm form) {
         GoodsStyle goodsStyle = DozerUtils.convert(form, GoodsStyle.class);
         GoodsStyleDetailVo goodsStyleDetailVo = goodsStyleService.insert(goodsStyle);

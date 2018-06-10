@@ -83,8 +83,8 @@ public class LoginController extends AbstractBaseController {
         final HttpEntity<String> request = new HttpEntity<String>(headers);
 
         ServiceInstance instance = loadBalancer.choose("erp-svc-uaa");
-        String accessTokenUri = String.format("http://%s:%s/oauth/token", instance.getHost(), instance.getPort());
-//        String accessTokenUri = url;
+//        String accessTokenUri = String.format("http://%s:%s/oauth/token", instance.getHost(), instance.getPort());
+        String accessTokenUri = url;
         String authUrl = accessTokenUri+"?grant_type=password&client_id=erp-cloud&client_secret=erp-cloud&username="+userName+"&password="+password;
         try {
             final ResponseEntity<String> response = restTemplate.exchange(authUrl, HttpMethod.POST, request, String.class);
