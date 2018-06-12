@@ -56,10 +56,16 @@ public class SaleOrderMainVo {
 
 
     /**
+     * 店铺ID
+     */
+    @ApiModelProperty(value="店铺ID",required = false)
+    private String storeId;
+
+    /**
      * 店铺名称
      */
     @ApiModelProperty(value="店铺",required = false)
-    private Integer storeName;
+    private String storeName;
 
     /**
      * 订单金额（本币）,合并订单要将数额加起来
@@ -234,5 +240,11 @@ public class SaleOrderMainVo {
      */
     @ApiModelProperty(value="是否预占用库存",required = false)
     private Boolean isOccupy;
+
+    /**
+     * 备注1（基本信息）
+     */
+    @ApiModelProperty(value="备注1（基本信息）",required = false)
+    private String remark1;
 
 }

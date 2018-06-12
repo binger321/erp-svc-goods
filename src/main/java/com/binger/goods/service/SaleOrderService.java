@@ -1,9 +1,10 @@
 package com.binger.goods.service;
 
-import com.binger.goods.controller.form.SaleOrderForm;
+import com.binger.goods.controller.form.SaleOrderDetail;
+import com.binger.goods.controller.form.SaleOrderMain;
 import com.binger.goods.dto.query.SaleOrderQueryDto;
+import com.binger.goods.vo.SaleOrderDetailVo;
 import com.binger.goods.vo.SaleOrderMainVo;
-import com.binger.goods.vo.SaleOrderVo;
 
 import java.util.List;
 
@@ -35,19 +36,31 @@ public interface SaleOrderService {
      * @param saleOrderForm
      * @return
      */
-    SaleOrderMainVo addOrder(SaleOrderForm saleOrderForm);
+    SaleOrderMainVo addOrder(SaleOrderMain saleOrderForm);
 
     /**
      * 修改订单
      * @param saleOrderForm
      * @return
      */
-    SaleOrderMainVo updateOrder(SaleOrderForm saleOrderForm);
+    SaleOrderMainVo updateOrder(SaleOrderMain saleOrderForm);
 
     /**
      * 根据id查询订单
      * @param id
      * @return
      */
-    SaleOrderVo findMainById(Integer id);
+    SaleOrderMainVo findMainById(Integer id);
+
+    SaleOrderDetailVo updateOrderDetail(SaleOrderDetail saleOrderDetail);
+
+    SaleOrderDetailVo addOrderDetail(SaleOrderDetail saleOrderDetail);
+
+    void deleteOrder(Integer id);
+
+    SaleOrderDetailVo findDetailById(Integer id);
+
+    List<SaleOrderDetailVo> findAllDetailById(Integer id);
+
+    void deleteOrderDetail(Integer id);
 }

@@ -59,7 +59,7 @@
         SELECT
         main.id,
         main.order_sale_code,
-        main.ordder_code,
+        main.order_code,
         main.order_time,
         main.pay_time,
         main.exchange_rate,
@@ -75,7 +75,7 @@
         main.assign_date,
         main.customer_name,
         main.buyer_name,
-        main.custormer_email,
+        main.customer_email,
         main.country_id,
         main.country_code,
         main.country_name,
@@ -111,7 +111,6 @@
         FROM sale_orders_main main
         LEFT JOIN store store on main.store_id = store.id
         <include refid="Sale_Order_Main_Where_Clause"/>
-        ORDER BY main.id DESC
         <if test="queryDto.limit != null">
             <if test="queryDto.offset != null">
                 limit #{queryDto.offset},#{queryDto.limit}
@@ -126,29 +125,29 @@
     <sql id="Sale_Order_Main_Where_Clause">
         <where>
             1 = 1
-            <if test="queryDto.orderSaleCode != null">
+            <if test="queryDto.orderSaleCode != null and queryDto.orderSaleCode != ''">
                 AND main.order_sale_code like '%${queryDto.orderSaleCode}%'
             </if>
-            <if test="queryDto.orderCode != null">
+            <if test="queryDto.orderCode != null and queryDto.orderCode != ''">
                 AND main.order_code like '%${queryDto.orderCode}%'
             </if>
             <if test="queryDto.storeId != null">
                 AND main.store_id = #{queryDto.storeId}
             </if>
-            <if test="queryDto.customerName != null">
+            <if test="queryDto.customerName != null and queryDto.customerName != ''">
                 AND main.customer_name like '%${queryDto.customerName}%'
             </if>
-            <if test="queryDto.buyerName != null">
+            <if test="queryDto.buyerName != null and queryDto.buyerName != ''">
                 AND main.buyer_name like '%${queryDto.buyerName}%'
             </if>
-            <if test="queryDto.countryName != null">
+            <if test="queryDto.countryName != null and queryDto.countryName != ''">
                 AND main.country_name like '%${queryDto.countryName}%'
             </if>
-            <if test="queryDto.state != null">
+            <if test="queryDto.state != null and queryDto.state != ''">
                 AND main.state like '%${queryDto.state}%'
             </if>
-            <if test="queryDto.phoneNumber != null">
-                AND main.phone_number '%${queryDto.phoneNumber}%'
+            <if test="queryDto.phoneNumber != null and queryDto.phoneNumber != ''">
+                AND main.phone_number like '%${queryDto.phoneNumber}%'
             </if>
             <if test="queryDto.warehouseId != null">
                 AND main.warehouse_id = #{queryDto.warehouseId}

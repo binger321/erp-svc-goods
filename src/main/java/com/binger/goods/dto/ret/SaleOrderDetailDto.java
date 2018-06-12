@@ -64,6 +64,7 @@ public class SaleOrderDetailDto {
     @ApiModelProperty(value = "skuCode")
     private String skuCode;
 
+
     /**
      * 颜色编码
      */
@@ -71,10 +72,22 @@ public class SaleOrderDetailDto {
     private String colorCode;
 
     /**
+     * 颜色
+     */
+    @ApiModelProperty(value = "颜色")
+    private String colorName;
+
+    /**
      * 尺寸编码
      */
     @ApiModelProperty(value = "尺寸编码")
     private String sizeCode;
+
+    /**
+     * 尺寸编码
+     */
+    @ApiModelProperty(value = "尺寸")
+    private String sizeName;
 
     /**
      * SKU图片ID

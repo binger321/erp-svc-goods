@@ -55,10 +55,48 @@ public class SaleOrderDetailVo {
     private Integer goodsId;
 
     /**
+     * 商品编号
+     */
+    @ApiModelProperty(value = "商品编号")
+    private String goodsCode;
+
+    /**
      * sku id
      */
     @ApiModelProperty(value="sku id",required = false)
     private Integer skuId;
+
+    /**
+     * sku code
+     */
+    @ApiModelProperty(value = "skuCode")
+    private String skuCode;
+
+    /**
+     * 颜色编码
+     */
+    @ApiModelProperty(value = "颜色编码")
+    private String colorCode;
+
+    /**
+     * 颜色
+     */
+    @ApiModelProperty(value = "颜色")
+    private String colorName;
+
+
+
+    /**
+     * 尺寸编码
+     */
+    @ApiModelProperty(value = "尺寸编码")
+    private String sizeCode;
+
+    /**
+     * 尺寸编码
+     */
+    @ApiModelProperty(value = "尺寸")
+    private String sizeName;
 
     /**
      * SKU图片ID

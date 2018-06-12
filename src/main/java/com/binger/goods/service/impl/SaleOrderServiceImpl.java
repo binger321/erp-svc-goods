@@ -4,10 +4,11 @@ import com.binger.common.enums.BillTypeEnum;
 import com.binger.common.exception.BusinessException;
 import com.binger.common.util.DozerUtils;
 import com.binger.goods.controller.form.SaleOrderDetail;
-import com.binger.goods.controller.form.SaleOrderForm;
+import com.binger.goods.controller.form.SaleOrderMain;
 import com.binger.goods.dao.SaleOrdersDetailMapper;
 import com.binger.goods.dao.SaleOrdersMainMapper;
 import com.binger.goods.domain.SaleOrdersDetail;
+import com.binger.goods.domain.SaleOrdersDetailExample;
 import com.binger.goods.domain.SaleOrdersMain;
 import com.binger.goods.domain.SaleOrdersMainExample;
 import com.binger.goods.dto.query.SaleOrderQueryDto;
@@ -27,6 +28,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import static java.util.stream.Collectors.reducing;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -79,23 +81,14 @@ public class SaleOrderServiceImpl implements SaleOrderService {
 
     @Override
     @Transactional
-    public SaleOrderMainVo addOrder(SaleOrderForm saleOrderForm) {
-        SaleOrdersMain saleOrdersMain = DozerUtils.convert(saleOrderForm.getSaleOrderMain(), SaleOrdersMain.class);
+    public SaleOrderMainVo addOrder(SaleOrderMain saleOrderMain) {
+        SaleOrdersMain saleOrdersMain = DozerUtils.convert(saleOrderMain, SaleOrdersMain.class);
         checkUnique(saleOrdersMain, null);
         //获取销售订单编号
         saleOrdersMain.setOrderSaleCode(billCodeService.generateBill(BillTypeEnum.ORDER_BILL.getBillType()));
         saleOrdersMain.setOrderStatus(OrderStatusEnum.STOCK_OF_OUT.getCode());
         saleOrdersMain.setOrderTime(new Date(System.currentTimeMillis()));
-        List<SaleOrderDetail> saleOrderDetailList = saleOrderForm.getSaleOrderDetailList();
-        List<SaleOrdersDetail> insertDetailList = constructDetail(saleOrdersMain, saleOrderDetailList);
-        constructMain(saleOrdersMain, insertDetailList);
         saleOrdersMainMapper.insertSelective(saleOrdersMain);
-        if (CollectionUtils.isNotEmpty(insertDetailList)) {
-            insertDetailList.forEach(saleOrdersDetail -> {
-                saleOrdersDetail.setOrderSaleId(saleOrdersMain.getId());
-                saleOrdersDetailMapper.insertSelective(saleOrdersDetail);
-            });
-        }
         SaleOrdersMain ordersMain = saleOrdersMainMapper.selectByPrimaryKey(saleOrdersMain.getId());
         if (ordersMain != null) {
             return DozerUtils.convert(ordersMain, SaleOrderMainVo.class);
@@ -105,6 +98,7 @@ public class SaleOrderServiceImpl implements SaleOrderService {
     }
 
     private void constructMain(SaleOrdersMain saleOrdersMain, List<SaleOrdersDetail> insertDetailList) {
+        saleOrdersMain.setId(insertDetailList.get(0).getOrderSaleId());
         BigDecimal tempAmount = new BigDecimal(0);
         BigDecimal totalAmount = new BigDecimal(0);
         BigDecimal tempWeight = new BigDecimal(0);
@@ -135,7 +129,7 @@ public class SaleOrderServiceImpl implements SaleOrderService {
         }
     }
 
-    private List<SaleOrdersDetail> constructDetail(SaleOrdersMain saleOrdersMain, List<SaleOrderDetail> saleOrderDetailList) {
+    private List<SaleOrdersDetail> constructDetail(SaleOrdersMain saleOrdersMain, List<SaleOrdersDetail> saleOrderDetailList) {
         List<SaleOrdersDetail> tempList;
         if (CollectionUtils.isNotEmpty(saleOrderDetailList)) {
             tempList = saleOrderDetailList
@@ -162,18 +156,14 @@ public class SaleOrderServiceImpl implements SaleOrderService {
 
     @Override
     @Transactional
-    public SaleOrderMainVo updateOrder(SaleOrderForm saleOrderForm) {
-        SaleOrdersMain saleOrdersMain = DozerUtils.convert(saleOrderForm.getSaleOrderMain(), SaleOrdersMain.class);
-        Integer orderStatus = saleOrdersMain.getOrderStatus();
+    public SaleOrderMainVo updateOrder(SaleOrderMain saleOrderMain) {
+        SaleOrdersMain saleOrdersMain = DozerUtils.convert(saleOrderMain, SaleOrdersMain.class);
+        SaleOrdersMain main = saleOrdersMainMapper.selectByPrimaryKey(saleOrderMain.getId());
+        Integer orderStatus = main.getOrderStatus();
         if (orderStatus.compareTo(OrderStatusEnum.HAVE_ASSIGN.getCode()) > 0) {
             throw BusinessException.create("订单派单后不能更新！");
         }
         saleOrdersMainMapper.updateByPrimaryKeySelective(saleOrdersMain);
-        List<SaleOrderDetail> saleOrdersDetailList = saleOrderForm.getSaleOrderDetailList();
-        saleOrdersDetailList.forEach(saleOrderDetail -> {
-            SaleOrdersDetail saleOrdersDetail = DozerUtils.convert(saleOrderDetail, SaleOrdersDetail.class);
-            saleOrdersDetailMapper.updateByPrimaryKeySelective(saleOrdersDetail);
-        });
         SaleOrdersMain saleOrdersMain1 = saleOrdersMainMapper.selectByPrimaryKey(saleOrdersMain.getId());
         if (saleOrdersMain1 != null) {
             return DozerUtils.convert(saleOrdersMain1, SaleOrderMainVo.class);
@@ -182,20 +172,95 @@ public class SaleOrderServiceImpl implements SaleOrderService {
     }
 
     @Override
-    public SaleOrderVo findMainById(Integer id) {
-        SaleOrderVo saleOrderVo = new SaleOrderVo();
+    public SaleOrderMainVo findMainById(Integer id) {
         SaleOrdersMain saleOrdersMain = saleOrdersMainMapper.selectByPrimaryKey(id);
         if (saleOrdersMain != null) {
-            saleOrderVo.setSaleOrderMainDetailVo(DozerUtils.convert(saleOrdersMain, SaleOrderMainDetailVo.class));
+            return DozerUtils.convert(saleOrdersMain, SaleOrderMainVo.class);
         }
 
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public SaleOrderDetailVo updateOrderDetail(SaleOrderDetail saleOrderDetail) {
+        SaleOrdersDetail saleOrdersDetail = DozerUtils.convert(saleOrderDetail, SaleOrdersDetail.class);
+        saleOrdersDetail.setLocalAmount(saleOrdersDetail.getLocalPrice().multiply(new BigDecimal(saleOrdersDetail.getQuantity())));
+        saleOrdersDetailMapper.updateByPrimaryKeySelective(saleOrdersDetail);
+        SaleOrdersDetail detail = saleOrdersDetailMapper.selectByPrimaryKey(saleOrdersDetail.getId());
+        SaleOrdersDetailExample example = new SaleOrdersDetailExample();
+        example.createCriteria().andOrderSaleIdEqualTo(detail.getOrderSaleId());
+        List<SaleOrdersDetail> saleOrdersDetails = saleOrdersDetailMapper.selectByExample(example);
+        SaleOrdersMain saleOrdersMain = new SaleOrdersMain();
+        constructMain(saleOrdersMain, saleOrdersDetails);
+        saleOrdersMainMapper.updateByPrimaryKeySelective(saleOrdersMain);
+        if (detail != null) {
+            return DozerUtils.convert(detail, SaleOrderDetailVo.class);
+        }
+        return null;
+
+    }
+
+    @Override
+    @Transactional
+    public SaleOrderDetailVo addOrderDetail(SaleOrderDetail saleOrderDetail) {
+        SaleOrdersDetail saleOrdersDetail = DozerUtils.convert(saleOrderDetail, SaleOrdersDetail.class);
+        saleOrdersDetail.setOrdersSaleDetailCode(billCodeService.generateBill(BillTypeEnum.ORDER_DETAIL_BILL.getBillType()));
+        GoodsSkuDetailVo sku = goodsSkuService.findById((saleOrderDetail.getSkuId()));
+        if (sku == null || sku.getCostPrice() == null || sku.getCostPrice().equals(0)) {
+            throw BusinessException.create("需维护商品的价格!");
+        }
+        saleOrdersDetail.setLocalPrice(sku.getCostPrice());
+        saleOrdersDetail.setLocalAmount(sku.getCostPrice().multiply(new BigDecimal(saleOrdersDetail.getQuantity())));
+        saleOrdersDetail.setWeight(sku.getWeight().multiply(new BigDecimal(saleOrdersDetail.getQuantity())));
+        saleOrdersDetailMapper.insertSelective(saleOrdersDetail);
+        SaleOrdersDetailExample example = new SaleOrdersDetailExample();
+        example.createCriteria().andOrderSaleIdEqualTo(saleOrdersDetail.getOrderSaleId());
+        List<SaleOrdersDetail> saleOrdersDetailList = saleOrdersDetailMapper.selectByExample(example);
+        SaleOrdersMain saleOrdersMain = new SaleOrdersMain();
+        constructMain(saleOrdersMain, saleOrdersDetailList);
+        saleOrdersMainMapper.updateByPrimaryKeySelective(saleOrdersMain);
+        SaleOrdersDetail detail = saleOrdersDetailMapper.selectByPrimaryKey(saleOrdersDetail.getId());
+        if (detail != null) {
+            return DozerUtils.convert(detail, SaleOrderDetailVo.class);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteOrder(Integer id) {
+        SaleOrdersDetailExample example = new SaleOrdersDetailExample();
+        example.createCriteria().andOrderSaleIdEqualTo(id);
+        saleOrdersDetailMapper.deleteByExample(example);
+        saleOrdersMainMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public SaleOrderDetailVo findDetailById(Integer id) {
+        List<SaleOrderDetailDto> saleOrderDetailDtoList =saleOrdersDetailMapper.selectByDetailId(id);
+        if (CollectionUtils.isNotEmpty(saleOrderDetailDtoList)) {
+            return DozerUtils.convertList(saleOrderDetailDtoList, SaleOrderDetailVo.class).get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public List<SaleOrderDetailVo> findAllDetailById(Integer id) {
         List<SaleOrderDetailDto> saleOrderDetailDtoList =saleOrdersDetailMapper.selectByOrderMainId(id);
         if (CollectionUtils.isNotEmpty(saleOrderDetailDtoList)) {
-            List<SaleOrderDetailVo> saleOrderDetailVoList =DozerUtils.convertList(saleOrderDetailDtoList, SaleOrderDetailVo.class);
-            saleOrderVo.setSaleOrderDetailVoList(saleOrderDetailVoList);
+            return DozerUtils.convertList(saleOrderDetailDtoList, SaleOrderDetailVo.class);
         }
-        return saleOrderVo;
+        return null;
+    }
 
+    @Override
+    public void deleteOrderDetail(Integer id) {
+        int count = saleOrdersDetailMapper.deleteByPrimaryKey(id);
+        if (count == 0) {
+            throw BusinessException.create("删除失败!");
+        }
     }
 
 

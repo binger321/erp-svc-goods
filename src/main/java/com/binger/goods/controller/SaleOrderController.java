@@ -4,10 +4,13 @@ import com.binger.common.Const;
 import com.binger.common.Page;
 import com.binger.common.ServerResponse;
 import com.binger.common.util.DozerUtils;
+import com.binger.goods.controller.form.SaleOrderDetail;
 import com.binger.goods.controller.form.SaleOrderForm;
+import com.binger.goods.controller.form.SaleOrderMain;
 import com.binger.goods.controller.query.SaleOrderQuery;
 import com.binger.goods.dto.query.SaleOrderQueryDto;
 import com.binger.goods.service.SaleOrderService;
+import com.binger.goods.vo.SaleOrderDetailVo;
 import com.binger.goods.vo.SaleOrderMainVo;
 import com.binger.goods.vo.SaleOrderVo;
 import io.swagger.annotations.Api;
@@ -16,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Path;
 import java.util.List;
 
 /**
@@ -28,7 +32,7 @@ import java.util.List;
  */
 @Api(value = "saleOrder", description = "销售订单管理接口", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController(value = "saleOrderController")
-@RequestMapping(value = "/goods-svc/saleOrder")
+@RequestMapping(value = "/erp-svc-goods/saleOrder")
 public class SaleOrderController {
 
     @Autowired
@@ -52,10 +56,11 @@ public class SaleOrderController {
         }
     }
 
+
     @ApiOperation(value = "新增订单")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ServerResponse<SaleOrderMainVo> addOrder(@RequestBody SaleOrderForm saleOrderForm) {
-        SaleOrderMainVo saleOrderMainVo = saleOrderService.addOrder(saleOrderForm);
+    public ServerResponse<SaleOrderMainVo> addOrderMain(@RequestBody SaleOrderMain saleOrderMain) {
+        SaleOrderMainVo saleOrderMainVo = saleOrderService.addOrder(saleOrderMain);
         if (saleOrderMainVo != null){
             return ServerResponse.createBySuccess(Const.SUCCESS_MSG, saleOrderMainVo);
         }else {
@@ -63,10 +68,24 @@ public class SaleOrderController {
         }
     }
 
+    @ApiOperation(value = "新增订单详情")
+    @RequestMapping(value = "/addDetail", method = RequestMethod.POST)
+    public ServerResponse<SaleOrderDetailVo> addOrderDetail(@RequestBody SaleOrderDetail saleOrderDetail) {
+        SaleOrderDetailVo saleOrderDetailVo = saleOrderService.addOrderDetail(saleOrderDetail);
+        if (saleOrderDetailVo != null){
+            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, saleOrderDetailVo);
+        }else {
+            return ServerResponse.createByError(Const.FAIL_MSG);
+        }
+    }
+
+
     @ApiOperation(value = "修改订单")
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ServerResponse<SaleOrderMainVo> update(@RequestBody SaleOrderForm saleOrderForm) {
-        SaleOrderMainVo saleOrderMainVo = saleOrderService.updateOrder(saleOrderForm);
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    public ServerResponse<SaleOrderMainVo> update(@PathVariable Integer id,
+                                                  @RequestBody SaleOrderMain saleOrderMain) {
+        saleOrderMain.setId(id);
+        SaleOrderMainVo saleOrderMainVo = saleOrderService.updateOrder(saleOrderMain);
         if (saleOrderMainVo != null) {
             return ServerResponse.createBySuccess(Const.SUCCESS_MSG, saleOrderMainVo);
         } else {
@@ -74,12 +93,58 @@ public class SaleOrderController {
         }
     }
 
+
+    @ApiOperation(value = "修改订单详情")
+    @RequestMapping(value = "/updateDetail/{id}", method = RequestMethod.POST)
+    public ServerResponse<SaleOrderDetailVo> updateDetail(@PathVariable Integer id,
+                                                          @RequestBody SaleOrderDetail saleOrderDetail) {
+        saleOrderDetail.setId(id);
+        SaleOrderDetailVo saleOrderDetailVo = saleOrderService.updateOrderDetail(saleOrderDetail);
+        if (saleOrderDetailVo != null) {
+            return ServerResponse.createBySuccess(Const.SUCCESS_MSG, saleOrderDetailVo);
+        } else {
+            return ServerResponse.createByError(Const.FAIL_MSG);
+        }
+    }
+
+    @ApiOperation(value = "删除")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    public ServerResponse delete(@PathVariable Integer id) {
+        saleOrderService.deleteOrder(id);
+        return ServerResponse.createBySuccess(Const.SUCCESS_MSG, null);
+    }
+
+
+    @ApiOperation(value = "删除")
+    @RequestMapping(value = "/deleteDetail/{id}", method = RequestMethod.POST)
+    public ServerResponse<SaleOrderVo> deleteDetail(@PathVariable Integer id) {
+        saleOrderService.deleteOrderDetail(id);
+        return ServerResponse.createBySuccess(Const.SUCCESS_MSG, null);
+    }
+
+
     @ApiOperation(value = "查询主订单")
     @RequestMapping(value = "/findMain/{id}", method = RequestMethod.POST)
-    public ServerResponse<SaleOrderVo> findMain(@PathVariable Integer id) {
-        SaleOrderVo saleOrderVo = saleOrderService.findMainById(id);
-        return ServerResponse.createBySuccess(Const.SUCCESS_MSG, saleOrderVo);
+    public ServerResponse<SaleOrderMainVo> findMain(@PathVariable Integer id) {
+    SaleOrderMainVo saleOrderMainVo = saleOrderService.findMainById(id);
+        return ServerResponse.createBySuccess(Const.SUCCESS_MSG, saleOrderMainVo);
+}
+
+    @ApiOperation(value = "查询详情单")
+    @RequestMapping(value = "/findAllDetail/{id}", method = RequestMethod.POST)
+    public ServerResponse<List<SaleOrderDetailVo>> findAllDetail(@PathVariable Integer id) {
+        List<SaleOrderDetailVo> saleOrderMainVo = saleOrderService.findAllDetailById(id);
+        return ServerResponse.createBySuccess(Const.SUCCESS_MSG, saleOrderMainVo);
     }
+
+
+    @ApiOperation(value = "查询详情单")
+    @RequestMapping(value = "/findDetail/{id}", method = RequestMethod.POST)
+    public ServerResponse<SaleOrderDetailVo> findDetail(@PathVariable Integer id) {
+        SaleOrderDetailVo saleOrderDetailVo = saleOrderService.findDetailById(id);
+        return ServerResponse.createBySuccess(Const.SUCCESS_MSG, saleOrderDetailVo);
+    }
+
 
 
     /**

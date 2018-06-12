@@ -12,7 +12,9 @@
         <result column="sku_id" jdbcType="INTEGER" property="skuId" />
         <result column="sku_code" jdbcType="VARCHAR" property="skuCode"/>
         <result column="color_code" jdbcType="VARCHAR" property="colorCode"/>
+        <result column="color_name" jdbcType="VARCHAR" property="colorName"/>
         <result column="size_code" jdbcType="VARCHAR" property="sizeCode"/>
+        <result column="size_name" jdbcType="VARCHAR" property="sizeName"/>
         <result column="goods_img_id" jdbcType="INTEGER" property="goodsImgId" />
         <result column="quantity" jdbcType="INTEGER" property="quantity" />
         <result column="weight" jdbcType="DECIMAL" property="weight" />
@@ -31,7 +33,43 @@
         SELECT
           d.id,
           d.order_sale_id,
-          d.order_sale_code,
+          m.order_sale_code,
+          d.seller_sku,
+          d.goods_id,
+          g.goods_code,
+          d.sku_id,
+          sku.sku_code,
+          color.color_code,
+          color.color_name,
+          size.size_code,
+          size.size_name,
+          d.goods_img_id,
+          d.quantity,
+          d.weight,
+          d.local_price,
+          d.local_amount,
+          d.expense,
+          d.is_gift,
+          d.remark,
+          d.cost_price,
+          d.is_out_of_stock,
+          d.status,
+          d.insert_time,
+          d.update_time
+          FROM sale_orders_detail d
+          LEFT JOIN sale_orders_main m ON d.order_sale_id = m.id
+          LEFT JOIN goods g ON d.goods_id = g.id
+          LEFT JOIN goods_sku sku ON d.sku_id = sku.id
+          LEFT JOIN goods_color color ON sku.color_id = color.id
+          LEFT JOIN goods_size size ON sku.size_id = size.id
+          WHERE d.order_sale_id = #{orderMainId}
+    </select>
+
+    <select id="selectByDetailId"  parameterType="integer" resultMap="SaleOrdersDetailDto">
+          SELECT
+          d.id,
+          d.order_sale_id,
+          m.order_sale_code,
           d.seller_sku,
           d.goods_id,
           g.goods_code,
@@ -53,10 +91,11 @@
           d.insert_time,
           d.update_time
           FROM sale_orders_detail d
+          LEFT JOIN sale_orders_main m ON d.order_sale_id = m.id
           LEFT JOIN goods g ON d.goods_id = g.id
           LEFT JOIN goods_sku sku ON d.sku_id = sku.id
           LEFT JOIN goods_color color ON sku.color_id = color.id
           LEFT JOIN goods_size size ON sku.size_id = size.id
-          WHERE d.order_sale_id = #{orderMainId}
+          WHERE d.id = #{orderDetailId}
     </select>
 </mapper>

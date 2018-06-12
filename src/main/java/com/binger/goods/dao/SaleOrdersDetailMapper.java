@@ -40,4 +40,6 @@ public interface SaleOrdersDetailMapper {
      * @return
      */
     List<SaleOrderDetailDto> selectByOrderMainId(@Param("orderMainId") Integer id);
+
+    List<SaleOrderDetailDto> selectByDetailId(@Param("orderDetailId") Integer id);
 }
