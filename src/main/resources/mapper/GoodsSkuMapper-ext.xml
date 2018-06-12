@@ -43,6 +43,8 @@
         color.color_code,
         color.color_name,
         sku.size_id,
+        size.size_code,
+        size.size_name,
         sku.sku_code,
         sku.sku_name,
         sku.weight,
