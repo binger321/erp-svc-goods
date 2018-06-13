@@ -150,7 +150,6 @@ public class SaleOrderController {
 
     @ApiOperation(value = "详情单导出")
     @GetMapping(value = "/download/excel/saleOrderDetail/{id}")
-    @ResponseBody
     public void allDetailToExcell(@PathVariable Integer id) {
         List<SaleOrderDetailVo> saleOrderDetailVos = saleOrderService.findAllDetailById(id);
         List<SaleOrderDetailExcelVo> saleOrderDetailExcelVos = DozerUtils.convertList(saleOrderDetailVos,SaleOrderDetailExcelVo.class);
