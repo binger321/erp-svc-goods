@@ -5,6 +5,7 @@ import com.binger.common.exception.BusinessException;
 import com.binger.common.util.DozerUtils;
 import com.binger.goods.controller.form.SaleOrderDetail;
 import com.binger.goods.controller.form.SaleOrderMain;
+import com.binger.goods.dao.GoodsSkuMapper;
 import com.binger.goods.dao.SaleOrdersDetailMapper;
 import com.binger.goods.dao.SaleOrdersMainMapper;
 import com.binger.goods.domain.SaleOrdersDetail;
@@ -12,8 +13,10 @@ import com.binger.goods.domain.SaleOrdersDetailExample;
 import com.binger.goods.domain.SaleOrdersMain;
 import com.binger.goods.domain.SaleOrdersMainExample;
 import com.binger.goods.dto.query.SaleOrderQueryDto;
+import com.binger.goods.dto.ret.GoodsSkuRetDto;
 import com.binger.goods.dto.ret.SaleOrderDetailDto;
 import com.binger.goods.dto.ret.SaleOrderMainRetDto;
+import com.binger.goods.dto.ret.SaleRetDto;
 import com.binger.goods.enums.OrderStatusEnum;
 import com.binger.goods.service.BillCodeService;
 import com.binger.goods.service.GoodsSkuService;
@@ -25,11 +28,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static java.util.stream.Collectors.reducing;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -54,6 +57,14 @@ public class SaleOrderServiceImpl implements SaleOrderService {
 
     @Autowired
     private GoodsSkuService goodsSkuService;
+
+    @Autowired
+    private GoodsSkuMapper goodsSkuMapper;
+
+    /**
+     * 生产计划基准
+     */
+    private static Integer standard = 2;
 
     @Override
     public List<SaleOrderMainVo> listByQuery(SaleOrderQueryDto saleOrderQueryDto) {
@@ -261,6 +272,41 @@ public class SaleOrderServiceImpl implements SaleOrderService {
         if (count == 0) {
             throw BusinessException.create("删除失败!");
         }
+    }
+
+    @Override
+    public List<AverageSaleVo> calculateAverageSale() {
+        Date now = new Date(System.currentTimeMillis());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        calendar.set(Calendar.DATE, -7);
+        Date sevenBefore = calendar.getTime();
+        List<SaleRetDto> sevenAverageList = saleOrdersDetailMapper.getSevenAverage(sevenBefore, now, standard);
+
+        calendar.set(Calendar.DATE, 4);
+        Date threeBefore = calendar.getTime();
+        List<Integer> skuIdList = sevenAverageList.stream().map(SaleRetDto::getSkuId).collect(toList());
+        List<SaleRetDto> threeAverageList = saleOrdersDetailMapper.getThreeAverage(threeBefore, now, skuIdList);
+
+        Map<Integer, BigDecimal> threeSaleMap = new HashMap<>();
+        threeAverageList.forEach(saleRetDto -> threeSaleMap.put(saleRetDto.getSkuId(), saleRetDto.getAverageSale()));
+
+        List<GoodsSkuRetDto> goodsSkuVoList = goodsSkuMapper.listSkuBySkuId(skuIdList);
+        Map<Integer, GoodsSkuRetDto> skuRetDtoMap = new HashMap<>();
+        goodsSkuVoList.forEach(goodsSkuRetDto -> skuRetDtoMap.put(goodsSkuRetDto.getId(), goodsSkuRetDto));
+        List<AverageSaleVo> averageSaleVoList = new ArrayList<>();
+        sevenAverageList.forEach(saleRetDto -> {
+            AverageSaleVo averageSaleVo = new AverageSaleVo();
+            GoodsSkuRetDto retDto = skuRetDtoMap.get(saleRetDto.getSkuId());
+            if (retDto != null) {
+                averageSaleVo = DozerUtils.convert(retDto, AverageSaleVo.class);
+            }
+            averageSaleVo.setSkuId(saleRetDto.getSkuId());
+            averageSaleVo.setSevenDaysSale(saleRetDto.getAverageSale());
+            averageSaleVo.setThreeDaysSale(threeSaleMap.get(saleRetDto.getSkuId() == null ? 0 : saleRetDto.getSkuId()));
+            averageSaleVoList.add(averageSaleVo);
+        });
+        return averageSaleVoList;
     }
 
 

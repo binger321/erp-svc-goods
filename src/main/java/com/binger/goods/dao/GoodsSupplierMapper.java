@@ -4,9 +4,11 @@ import com.binger.goods.domain.GoodsSupplier;
 import com.binger.goods.domain.GoodsSupplierExample;
 import com.binger.goods.dto.ret.SupplierSimpleRetDto;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface GoodsSupplierMapper {
     long countByExample(GoodsSupplierExample example);
 

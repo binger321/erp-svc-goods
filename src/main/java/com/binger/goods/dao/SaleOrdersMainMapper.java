@@ -5,9 +5,11 @@ import com.binger.goods.domain.SaleOrdersMainExample;
 import com.binger.goods.dto.query.SaleOrderQueryDto;
 import com.binger.goods.dto.ret.SaleOrderMainRetDto;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface SaleOrdersMainMapper {
     long countByExample(SaleOrdersMainExample example);
 

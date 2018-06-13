@@ -3,10 +3,14 @@ package com.binger.goods.dao;
 import com.binger.goods.domain.SaleOrdersDetail;
 import com.binger.goods.domain.SaleOrdersDetailExample;
 import com.binger.goods.dto.ret.SaleOrderDetailDto;
+import com.binger.goods.dto.ret.SaleRetDto;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
+@Repository
 public interface SaleOrdersDetailMapper {
     long countByExample(SaleOrdersDetailExample example);
 
@@ -42,4 +46,20 @@ public interface SaleOrdersDetailMapper {
     List<SaleOrderDetailDto> selectByOrderMainId(@Param("orderMainId") Integer id);
 
     List<SaleOrderDetailDto> selectByDetailId(@Param("orderDetailId") Integer id);
+
+    /**
+     * 获得七天平均销量
+     * @param sevenBefore
+     * @param now
+     */
+    List<SaleRetDto> getSevenAverage(@Param("beginTime")Date sevenBefore, @Param("endTime") Date now, @Param("standard") Integer count);
+
+    /**
+     * 获得三天销量
+     * @param sevenBefore
+     * @param count
+     * @param now
+     * @return
+     */
+    List<SaleRetDto> getThreeAverage(@Param("beginTime")Date threeBefore, @Param("endTime") Date now, @Param("skuList") List<Integer> skuIdList);
 }

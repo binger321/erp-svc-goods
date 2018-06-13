@@ -38,6 +38,13 @@ public class GoodsSupplierController {
         return ServerResponse.createBySuccess(Const.SUCCESS_MSG, supplierSimpleVoList);
     }
 
+    @ApiOperation(value = "显示商品list对应的供应商")
+    @RequestMapping(value = "/listSupplierByGoodsIds", method = RequestMethod.POST)
+    public ServerResponse<List<SupplierSimpleVo>> listSupplierByGoodsIdList(@RequestBody List<Integer> goodsIdList) {
+        List<SupplierSimpleVo> supplierSimpleVoList = goodsSupplierService.listSupplierByGoodsIdList(goodsIdList);
+        return ServerResponse.createBySuccess(Const.SUCCESS_MSG, supplierSimpleVoList);
+    }
+
     @ApiOperation(value = "查看供应商详情")
     @RequestMapping(value = "/{id}",method = RequestMethod.POST)
     public ServerResponse<SupplierSimpleVo> find(@PathVariable Integer id) {

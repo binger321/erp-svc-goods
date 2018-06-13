@@ -10,9 +10,11 @@ import com.binger.goods.dto.ret.SupplierSimpleRetDto;
 import com.binger.goods.service.GoodsSupplierService;
 import com.binger.goods.vo.GoodsSupplierDetailVo;
 import com.binger.goods.vo.SupplierSimpleVo;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -86,6 +88,18 @@ public class GoodsSupplierServiceImpl implements GoodsSupplierService{
             return DozerUtils.convert(retDto, SupplierSimpleVo.class);
         }
         return null;
+    }
+
+    @Override
+    public List<SupplierSimpleVo> listSupplierByGoodsIdList(List<Integer> goodsIdList) {
+        List<SupplierSimpleVo> supplierSimpleVoList = new ArrayList<>();
+        goodsIdList.forEach(goodsId -> {
+            List<SupplierSimpleVo> simpleVoList = listSupplierByGoodsId(goodsId);
+            if (CollectionUtils.isNotEmpty(simpleVoList)) {
+                supplierSimpleVoList.add(simpleVoList.get(0));
+            }
+        });
+        return supplierSimpleVoList;
     }
 
     /**

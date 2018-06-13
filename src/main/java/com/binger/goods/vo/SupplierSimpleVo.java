@@ -25,10 +25,15 @@ public class SupplierSimpleVo {
     private Integer id;
 
     /**
+     * goodsId
+     */
+    private Integer goodsId;
+
+    /**
      * 供应商id
      */
     @ApiModelProperty(value="供应商id",required = true)
-    private String supplierId;
+    private Integer supplierId;
 
     /**
      * 供应商代码

@@ -23,4 +23,6 @@ public interface GoodsSupplierService {
     void deleteGoodsSupplier(Integer id);
 
     SupplierSimpleVo findById(Integer id);
+
+    List<SupplierSimpleVo> listSupplierByGoodsIdList(List<Integer> goodsIdList);
 }

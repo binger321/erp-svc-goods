@@ -3,6 +3,7 @@
 <mapper namespace="com.binger.goods.dao.GoodsSupplierMapper">
     <resultMap id="SupplierSimpleMap" type="com.binger.goods.dto.ret.SupplierSimpleRetDto">
         <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
         <result column="supplier_id" property="supplierId" jdbcType="INTEGER"/>
         <result column="supplier_code" property="supplierCode" jdbcType="VARCHAR"/>
         <result column="supplier_name" property="supplierName" jdbcType="VARCHAR"/>
@@ -15,6 +16,7 @@
     <select id="listSupplierByGoodsId" parameterType="integer" resultMap="SupplierSimpleMap">
         SELECT
         gs.id,
+        gs.goods_id,
         s.id supplier_id,
         s.supplier_code,
         s.supplier_name,

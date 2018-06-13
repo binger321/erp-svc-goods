@@ -10,6 +10,7 @@ import com.binger.goods.controller.form.SaleOrderMain;
 import com.binger.goods.controller.query.SaleOrderQuery;
 import com.binger.goods.dto.query.SaleOrderQueryDto;
 import com.binger.goods.service.SaleOrderService;
+import com.binger.goods.vo.AverageSaleVo;
 import com.binger.goods.vo.SaleOrderDetailExcelVo;
 import com.binger.goods.vo.SaleOrderDetailVo;
 import com.binger.goods.vo.SaleOrderMainVo;
@@ -151,32 +152,25 @@ public class SaleOrderController {
 
     @ApiOperation(value = "详情单导出")
     @GetMapping(value = "/download/excel/saleOrderDetail/{id}")
-    public void allDetailToExcell(@PathVariable Integer id) {
+    public void allDetailToExcel(@PathVariable Integer id) {
         List<SaleOrderDetailVo> saleOrderDetailVos = saleOrderService.findAllDetailById(id);
         List<SaleOrderDetailExcelVo> saleOrderDetailExcelVos = DozerUtils.convertList(saleOrderDetailVos,SaleOrderDetailExcelVo.class);
         for (SaleOrderDetailExcelVo excelVo : saleOrderDetailExcelVos){
             if (excelVo.getCostPrice()== null){
                 excelVo.setCostPrice(new BigDecimal(0));
-
             }
         }
         byte[] excelBytes = ExcelExportUtil.exportToBytes(saleOrderDetailExcelVos);
-
-
         String fileName = "订单详情.xls";
-
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
-
         try {
-
             response.setHeader("Content-Disposition", "attachment;fileName="
                     + URLEncoder.encode(fileName, "UTF-8"));
             OutputStream os = response.getOutputStream();
             os.write(excelBytes);
             // 这里主要关闭。
             os.close();
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -192,7 +186,12 @@ public class SaleOrderController {
         return ServerResponse.createBySuccess(Const.SUCCESS_MSG, saleOrderDetailVo);
     }
 
-
+    @ApiOperation(value = "获取三天和七天平均(供备货计划使用)")
+    @RequestMapping(value = "/getAverageSale", method = RequestMethod.POST)
+    public ServerResponse<List<AverageSaleVo>> getAverageSale() {
+        List<AverageSaleVo> averageSaleVoList = saleOrderService.calculateAverageSale();
+        return ServerResponse.createBySuccess(Const.SUCCESS_MSG, averageSaleVoList);
+    }
 
     /**
      * 将订单状态为缺货状态的 置为 待派单 300

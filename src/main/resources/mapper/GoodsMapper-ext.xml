@@ -86,7 +86,9 @@
         st.style_name ,
         g.weight ,
         g.cost_price ,
-        g.is_production
+        g.is_production,
+        g.status,
+        g.create_time
         FROM goods g
         LEFT JOIN goods_sku sku ON g.id = sku.goods_id
         LEFT JOIN goods_brand brand ON g.brand_id = brand.id

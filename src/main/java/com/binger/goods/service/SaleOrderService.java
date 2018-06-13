@@ -3,6 +3,7 @@ package com.binger.goods.service;
 import com.binger.goods.controller.form.SaleOrderDetail;
 import com.binger.goods.controller.form.SaleOrderMain;
 import com.binger.goods.dto.query.SaleOrderQueryDto;
+import com.binger.goods.vo.AverageSaleVo;
 import com.binger.goods.vo.SaleOrderDetailVo;
 import com.binger.goods.vo.SaleOrderMainVo;
 
@@ -63,4 +64,6 @@ public interface SaleOrderService {
     List<SaleOrderDetailVo> findAllDetailById(Integer id);
 
     void deleteOrderDetail(Integer id);
+
+    List<AverageSaleVo> calculateAverageSale();
 }

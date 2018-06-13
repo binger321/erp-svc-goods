@@ -24,6 +24,11 @@ public class SupplierSimpleRetDto {
     private Integer id;
 
     /**
+     * goodsId
+     */
+    private Integer goodsId;
+
+    /**
      * 供应商id
      */
     @ApiModelProperty(value="供应商id",required = true)

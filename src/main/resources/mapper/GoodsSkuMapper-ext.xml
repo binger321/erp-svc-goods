@@ -68,6 +68,34 @@
         </if>
     </select>
 
+    <select id="listSkuBySkuId" resultMap="GoodsSkuMap">
+        SELECT
+        sku.id,
+        sku.goods_id,
+        g.goods_code,
+        sku.sku_code,
+        sku.sku_name,
+        sku.img_id,
+        sku.color_id,
+        color.color_code,
+        color.color_name,
+        sku.size_id,
+        size.size_code,
+        size.size_name,
+        sku.sku_code,
+        sku.sku_name
+        FROM goods_sku sku
+        LEFT JOIN goods g ON sku.goods_id = g.id
+        LEFT JOIN goods_size size ON sku.size_id = size.id
+        LEFT JOIN goods_color color ON sku.color_id = color.id
+        <if test="skuIdList != null and skuIdList.size() > 0">
+            WHERE sku.id IN
+            <foreach collection="skuIdList" item="skuId" open="(" separator="," close=")">
+                #{skuId}
+            </foreach>
+        </if>
+    </select>
+
     <select id="findSkuById" parameterType="integer" resultMap="GoodsSkuMap">
         SELECT
         sku.id,

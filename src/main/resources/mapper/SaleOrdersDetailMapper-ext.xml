@@ -98,4 +98,54 @@
           LEFT JOIN goods_size size ON sku.size_id = size.id
           WHERE d.id = #{orderDetailId}
     </select>
+
+    <resultMap id="SaleVoMap" type="com.binger.goods.dto.ret.SaleRetDto">
+        <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+        <result column="sku_id" jdbcType="INTEGER" property="skuId" />
+        <result column="average_sale" property="averageSale" jdbcType="DECIMAL"/>
+    </resultMap>
+    <select id="getSevenAverage" resultMap="SaleVoMap">
+        SELECT
+        t.sku_id,
+        t.goods_id,
+        t.sumQ / 7 average_sale
+        FROM
+        ( SELECT
+        d.sku_id,
+        d.goods_id,
+        SUM(IFNULL(d.quantity, 0)) sumQ
+        FROM
+        sale_orders_detail d
+        LEFT JOIN sale_orders_main m ON d.order_sale_id = m.id
+        WHERE
+        m. STATUS = TRUE
+        AND m.create_time > #{beginTime}
+        AND m.create_time &lt; #{endTime}
+        GROUP BY
+        sku_id ) t
+        WHERE
+        t.sumQ > #{standard}
+    </select>
+
+    <select id="getThreeAverage" resultMap="SaleVoMap">
+        SELECT
+        d.sku_id,
+        d.goods_id,
+        SUM(IFNULL(d.quantity, 0))/3 average_sale
+        FROM
+        sale_orders_detail d
+        LEFT JOIN sale_orders_main m ON d.order_sale_id = m.id
+        WHERE
+        m. STATUS = TRUE
+        AND m.create_time > #{beginTime}
+        AND m.create_time &lt; #{endTime}
+        <if test="skuList != null and skuList.size() > 0">
+            AND sku_id IN
+            <foreach collection="skuList" item="skuId" open="(" close=")" separator=",">
+                #{skuId}
+            </foreach>
+        </if>
+        GROUP BY
+        sku_id
+    </select>
 </mapper>

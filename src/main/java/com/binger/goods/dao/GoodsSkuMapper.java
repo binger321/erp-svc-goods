@@ -49,6 +49,8 @@ public interface GoodsSkuMapper {
      */
     List<GoodsSkuRetDto> listSkuByDto(@Param("queryDto") GoodsSkuQueryDto queryDto);
 
+    List<GoodsSkuRetDto> listSkuBySkuId(@Param("skuIdList") List<Integer> skuIdList);
+
     /**
      * 根据id查询sku
      * @param id
