@@ -133,6 +133,12 @@
 			<!--<groupId>org.springframework.boot</groupId>-->
 			<!--<artifactId>spring-boot-starter-log4j2</artifactId>-->
 		<!--</dependency>-->
+		<!-- http://repo1.maven.org/maven2/com/xuxueli/xxl-excel-core/ -->
+		<dependency>
+			<groupId>com.xuxueli</groupId>
+			<artifactId>xxl-excel</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 
     </dependencies>
 

@@ -1,5 +1,6 @@
 package com.binger.goods.controller;
 
+
 import com.binger.common.Const;
 import com.binger.common.Page;
 import com.binger.common.ServerResponse;

@@ -10,16 +10,24 @@ import com.binger.goods.controller.form.SaleOrderMain;
 import com.binger.goods.controller.query.SaleOrderQuery;
 import com.binger.goods.dto.query.SaleOrderQueryDto;
 import com.binger.goods.service.SaleOrderService;
+import com.binger.goods.vo.SaleOrderDetailExcelVo;
 import com.binger.goods.vo.SaleOrderDetailVo;
 import com.binger.goods.vo.SaleOrderMainVo;
 import com.binger.goods.vo.SaleOrderVo;
+import com.xuxueli.poi.excel.ExcelExportUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Path;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -37,6 +45,9 @@ public class SaleOrderController {
 
     @Autowired
     private SaleOrderService saleOrderService;
+
+    @Autowired
+    private HttpServletResponse response;
     @ApiOperation(value = "销售订单列表")
     @RequestMapping(value = "/order/list", method = RequestMethod.POST)
     public ServerResponse<List<SaleOrderMainVo>> list(@RequestBody(required = false)SaleOrderQuery saleOrderQuery,
@@ -135,6 +146,36 @@ public class SaleOrderController {
     public ServerResponse<List<SaleOrderDetailVo>> findAllDetail(@PathVariable Integer id) {
         List<SaleOrderDetailVo> saleOrderMainVo = saleOrderService.findAllDetailById(id);
         return ServerResponse.createBySuccess(Const.SUCCESS_MSG, saleOrderMainVo);
+    }
+
+    @ApiOperation(value = "详情单导出")
+    @GetMapping(value = "/download/excel/saleOrderDetail/{id}")
+    @ResponseBody
+    public void allDetailToExcell(@PathVariable Integer id) {
+        List<SaleOrderDetailVo> saleOrderDetailVos = saleOrderService.findAllDetailById(id);
+        List<SaleOrderDetailExcelVo> saleOrderDetailExcelVos = DozerUtils.convertList(saleOrderDetailVos,SaleOrderDetailExcelVo.class);
+        byte[] excelBytes = ExcelExportUtil.exportToBytes(saleOrderDetailExcelVos);
+
+
+        String fileName = "订单详情.xls";
+
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("multipart/form-data");
+
+        try {
+
+            response.setHeader("Content-Disposition", "attachment;fileName="
+                    + URLEncoder.encode(fileName, "UTF-8"));
+            OutputStream os = response.getOutputStream();
+            os.write(excelBytes);
+            // 这里主要关闭。
+            os.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

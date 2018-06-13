@@ -69,7 +69,7 @@ public class ErpSvcGoodsApplication {
 
         final static String[] IGNORE_RESOURCE_URL = new String[]{"/v2/api-docs", "/configuration/ui", "/swagger-resources.*",
                 "/configuration/security", "/swagger-ui.html", "/webjars/.*", "/auth/login.*", "/erp-svc-goods/goodsSku/detail/*",
-                "/webjars/.*","/druid/.*"
+                "/webjars/.*","/druid/.*","/erp-svc-goods/saleOrder/download/excel/saleOrderDetail/1"
 //                , "/erp-svc-goods/user/list"
 
         };
