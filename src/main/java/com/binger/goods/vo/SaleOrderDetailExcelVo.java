@@ -30,14 +30,9 @@ public class SaleOrderDetailExcelVo {
     /**
      * 订单销售编码
      */
- @ExcelField(name="订单销售编码"   )
+    @ApiModelProperty(value="订单销售编码",required = false)
     private String orderSaleCode;
 
-    /**
-     * 订单详细信息编码
-     */
- @ExcelField(name="订单详细信息编码"   )
-    private String ordersSaleDetailCode;
 
 
     /**
@@ -127,22 +122,6 @@ public class SaleOrderDetailExcelVo {
     private BigDecimal costPrice;
 
 
-    /**
-     * 1可用，0删除
-     */
- @ExcelField(name="1可用，0删除"   )
-    private Boolean status;
 
-    /**
-     * 创建时间
-     */
- @ExcelField(name="创建时间"   )
-    private Date insertTime;
-
-    /**
-     * 修改时间
-     */
- @ExcelField(name="修改时间"   )
-    private Date updateTime;
 
 }

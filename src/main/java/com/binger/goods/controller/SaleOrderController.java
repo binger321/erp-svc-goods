@@ -27,6 +27,7 @@ import javax.ws.rs.Path;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -153,6 +154,12 @@ public class SaleOrderController {
     public void allDetailToExcell(@PathVariable Integer id) {
         List<SaleOrderDetailVo> saleOrderDetailVos = saleOrderService.findAllDetailById(id);
         List<SaleOrderDetailExcelVo> saleOrderDetailExcelVos = DozerUtils.convertList(saleOrderDetailVos,SaleOrderDetailExcelVo.class);
+        for (SaleOrderDetailExcelVo excelVo : saleOrderDetailExcelVos){
+            if (excelVo.getCostPrice()== null){
+                excelVo.setCostPrice(new BigDecimal(0));
+
+            }
+        }
         byte[] excelBytes = ExcelExportUtil.exportToBytes(saleOrderDetailExcelVos);
 
 
